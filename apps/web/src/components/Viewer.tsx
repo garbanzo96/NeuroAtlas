@@ -6,6 +6,7 @@ import { loadGeometry } from '../data/pack-loader';
 import { useSimulationStore } from '../simulation/simulation-store';
 import { useAppStore } from '../state/store';
 import { BlockedScene } from './BlockedScene';
+import { ErrorBoundary } from './ErrorBoundary';
 import { CONTEXT_KIND } from './labels';
 import { TransitionLinks } from './TransitionLinks';
 import { TransitionNotice } from './TransitionNotice';
@@ -155,29 +156,42 @@ export function Viewer() {
             Cargando geometría…
           </div>
         ) : (
-          <Suspense
-            fallback={
-              <div className="na-fallback" role="status">
-                Cargando visor 3D…
+          <ErrorBoundary
+            resetKey={scene.sceneId}
+            fallback={(message) => (
+              <div className="na-fallback" role="alert">
+                <p>
+                  <strong>No se pudo iniciar el visor 3D.</strong> La lista de estructuras, la ficha
+                  científica y los gráficos siguen disponibles.
+                </p>
+                <p className="na-muted">Detalle: {message}</p>
               </div>
-            }
+            )}
           >
-            <LazySchematicScene
-              ariaLabel={`Visor 3D: ${scene.title.es}. ${scene.summary.es} Usa la lista «Estructuras de la escena» como alternativa accesible.`}
-              layers={viewerLayers}
-              legendColors={legendColors}
-              nodeColorOverrides={nodeColorOverrides}
-              selectedEntityIds={selection.selectedEntityIds}
-              hoveredEntityId={hovered}
-              onSelectEntity={selectEntity}
-              onHoverEntity={setHovered}
-              labelFor={labelFor}
-              showLabels={showLabels}
-              reducedMotion={reducedMotion}
-              camera={scene.camera}
-              cameraCommand={cameraCommand}
-            />
-          </Suspense>
+            <Suspense
+              fallback={
+                <div className="na-fallback" role="status">
+                  Cargando visor 3D…
+                </div>
+              }
+            >
+              <LazySchematicScene
+                ariaLabel={`Visor 3D: ${scene.title.es}. ${scene.summary.es} Usa la lista «Estructuras de la escena» como alternativa accesible.`}
+                layers={viewerLayers}
+                legendColors={legendColors}
+                nodeColorOverrides={nodeColorOverrides}
+                selectedEntityIds={selection.selectedEntityIds}
+                hoveredEntityId={hovered}
+                onSelectEntity={selectEntity}
+                onHoverEntity={setHovered}
+                labelFor={labelFor}
+                showLabels={showLabels}
+                reducedMotion={reducedMotion}
+                camera={scene.camera}
+                cameraCommand={cameraCommand}
+              />
+            </Suspense>
+          </ErrorBoundary>
         )}
         {availability !== 'blocked' && webgl2 && (
           <div className="na-camera-controls" role="group" aria-label="Controles de cámara">

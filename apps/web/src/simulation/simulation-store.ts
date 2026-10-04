@@ -80,10 +80,18 @@ export const useSimulationStore = create<SimulationState>((set, get) => ({
     const { adapter, backend } = getAdapter(spec);
     const check = adapter.validate(input);
     if (!check.ok) {
-      set({ status: 'error', error: check.errors.join(' '), input, backend });
+      // Sin resultados obsoletos: las curvas y la exportación nunca mezclan otra entrada con estos errores.
+      set({
+        status: 'error',
+        error: check.errors.join(' '),
+        input,
+        backend,
+        result: null,
+        spikes: [],
+      });
       return;
     }
-    set({ status: 'running', error: null, input, backend });
+    set({ status: 'running', error: null, input, backend, result: null, spikes: [] });
     // Si el Worker falla durante esta ejecución, se cancela y se repite en el hilo principal.
     let workerBroke = false;
     onWorkerFailure =

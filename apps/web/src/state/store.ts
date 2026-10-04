@@ -158,7 +158,8 @@ export const useAppStore = create<AppState>((set, get) => ({
     const visible = selection.visibleLayerIds.includes(layerId)
       ? selection.visibleLayerIds.filter((id) => id !== layerId)
       : [...selection.visibleLayerIds, layerId];
-    set({ selection: { ...selection, visibleLayerIds: visible } });
+    // Ocultar una capa puede dejar sin evento de salida al elemento señalado.
+    set({ selection: { ...selection, visibleLayerIds: visible }, hoveredEntityId: null });
   },
 
   setLayerOpacity(layerId, opacity) {

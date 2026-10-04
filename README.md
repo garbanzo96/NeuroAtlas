@@ -33,6 +33,10 @@ identificadores y selección compartidos.
 `npm run build:artifact` genera además una vista previa autocontenida (`apps/web/dist-artifact/`) para
 publicarla como página de claude.ai; ahí la exportación JSON queda desactivada porque ese marco bloquea descargas.
 
+Al activar Pages, GitHub crea el entorno `github-pages` protegido con la rama por defecto **de ese momento**. Si más
+adelante cambias la rama por defecto (p. ej. a `main`), actualiza _Settings → Environments → github-pages →
+Deployment branches_ o el despliegue fallará.
+
 ## Arranque rápido (local)
 
 Requisitos: Node.js ≥ 22.12 (ver `.nvmrc`) y npm.

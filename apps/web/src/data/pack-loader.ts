@@ -9,7 +9,13 @@ import {
 export const PACKS_BASE = `${import.meta.env.BASE_URL}packs/`;
 
 async function sha256Hex(buffer: ArrayBuffer): Promise<string | null> {
-  if (!globalThis.crypto?.subtle) return null; // contextos no seguros: se omite la comprobación
+  if (!globalThis.crypto?.subtle) {
+    // Contextos no seguros (http fuera de localhost): el navegador no ofrece SHA-256.
+    console.warn(
+      'NeuroAtlas: sin crypto.subtle; no se verifica la integridad SHA-256 de los paquetes.',
+    );
+    return null;
+  }
   const digest = await crypto.subtle.digest('SHA-256', buffer);
   return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
 }

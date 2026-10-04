@@ -22,5 +22,7 @@ describe('toArtifactPage', () => {
     expect(page).toContain('src="./assets/index-abc.js"');
     expect(page).toContain('href="./assets/index-abc.css"');
     expect(page).toContain('<div id="root"></div>');
+    // La configuración de Zod va antes del módulo de la app.
+    expect(page.indexOf('__zod_globalConfig')).toBeLessThan(page.indexOf('index-abc.js'));
   });
 });

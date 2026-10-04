@@ -318,6 +318,14 @@ export default function SchematicScene(props: SchematicSceneProps) {
   const selected = useMemo(() => new Set(selectedEntityIds), [selectedEntityIds]);
   const labelElements = useRef(new Map<string, HTMLSpanElement>());
 
+  // R3F no llama a onPointerOut si un objeto señalado desaparece: restablecer al desmontar el visor.
+  useEffect(
+    () => () => {
+      document.body.style.cursor = '';
+    },
+    [],
+  );
+
   // Rótulos: nodos con rótulo propio (según labelMode) y trazos con rótulo propio bajo foco.
   const labels = useMemo<LabelSpec[]>(() => {
     if (!showLabels) return [];

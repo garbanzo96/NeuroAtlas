@@ -1,7 +1,7 @@
 {
   "name": "NeuroAtlas",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
-  "postCreateCommand": "npm ci",
+  "updateContentCommand": "npm ci",
   "postAttachCommand": {
     "app": "npm run dev"
   },

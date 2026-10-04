@@ -11,6 +11,10 @@ export default defineConfig({
     sourcemap: true,
     chunkSizeWarningLimit: 1200,
   },
-  server: { port: 5173 },
+  server: {
+    port: 5173,
+    // En GitHub Codespaces el puerto se reenvía con un dominio *.app.github.dev.
+    allowedHosts: process.env.CODESPACES ? ['.app.github.dev'] : [],
+  },
   preview: { port: 4173 },
 });

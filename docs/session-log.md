@@ -5,6 +5,34 @@ resultados), qué quedó pendiente y cuál es el siguiente paso recomendado. Es 
 
 ---
 
+## 2026-10-04 (2) · Claude · Enlaces para ver y ejecutar la app
+
+**Hecho**
+
+- Vista previa privada publicada en claude.ai: https://claude.ai/artifact/6e4xyrNq2scBfTpyZEz8tu (solo la ve
+  el propietario y quien él comparta). Se regenera con `npm run build:artifact` y se republica en la misma URL.
+- GitHub Pages: `.github/workflows/pages.yml` (falta que el propietario active _Settings → Pages → Source:
+  GitHub Actions_; hasta entonces termina en verde con un aviso). URL prevista: https://garbanzo96.github.io/NeuroAtlas/
+- Codespaces: `.devcontainer/devcontainer.json` + insignia en el README.
+- Robustez: límite de errores en el visor 3D, respaldo de la simulación si el Worker falla, aviso estático si el
+  código no carga, `lang="es"`, gráficos sin desborde en móvil. ADR-0010.
+
+**Verificado**
+
+- Flujo de verificación con 9 agentes: clon limpio con la ruta de Pages (pasa), arnés de marco tipo claude.ai
+  (0 errores y 0 violaciones de CSP tras la corrección), revisión de configuración contra la documentación oficial
+  y lectura completa del bundle publicado.
+- `npm run check` (76 pruebas) y 12 e2e en verde; la nueva prueba de desborde falla con el CSS anterior.
+
+**Pendiente**
+
+- Activar Pages (propietario) y comprobar el primer despliegue real.
+- Abrir una vez el Codespace: Vite 8 podría bloquear el host reenviado; se añadió `allowedHosts` para
+  `*.app.github.dev` sin poder probarlo desde aquí.
+- La vista previa de claude.ai se verificó en un marco emulado, no en el real.
+
+---
+
 ## 2026-10-04 · Claude · Arquitectura base y esqueleto funcional
 
 **Hecho**

@@ -24,7 +24,27 @@ test.describe('escritorio', () => {
     await expect(page.locator('canvas')).toHaveCount(1);
     await expect(page.locator('.na-3d-label', { hasText: 'Quiasma óptico' })).toBeVisible();
     await expect(page.locator('.na-disclaimer')).toContainText('Esquema didáctico');
+    expect(await page.evaluate(() => document.documentElement.lang)).toBe('es');
     expect(errors).toEqual([]);
+  });
+
+  test('si el código del visor 3D no carga, la app sigue usable', async ({ page }) => {
+    await page.route('**/SchematicScene-*.js', (route) => route.abort());
+    await page.goto('/');
+    await expect(page.getByRole('alert')).toContainText('No se pudo iniciar el visor 3D');
+    await page
+      .locator('.na-entities')
+      .getByRole('button', { name: /Quiasma óptico/ })
+      .click();
+    await expect(page.locator('.na-info h2')).toContainText('Quiasma óptico');
+  });
+
+  test('si el Worker no carga, la simulación se repite en el hilo principal', async ({ page }) => {
+    await page.route('**/simulation.worker*', (route) => route.abort());
+    await page.goto('/?s=scene.visual.excitability');
+    const status = page.locator('.na-sim__status');
+    await expect(status).toContainText('hilo principal', { timeout: 15_000 });
+    await expect(status).toContainText('6 potencial(es) de acción');
   });
 
   test('búsqueda y selección por teclado abren la ficha con evidencia', async ({ page }) => {
@@ -144,5 +164,15 @@ test.describe('móvil @mobile', () => {
       'true',
     );
     expect(errors).toEqual([]);
+  });
+
+  test('los gráficos del experimento no desbordan horizontalmente', async ({ page }) => {
+    await page.goto('/?s=scene.visual.excitability');
+    await page.getByRole('tab', { name: 'Lección / experimento' }).tap();
+    await expect(page.locator('.na-sim__status')).toContainText('Listo:', { timeout: 15_000 });
+    const overflow = await page
+      .locator('.na-bottom')
+      .evaluate((el) => el.scrollWidth - el.clientWidth);
+    expect(overflow).toBeLessThanOrEqual(0);
   });
 });

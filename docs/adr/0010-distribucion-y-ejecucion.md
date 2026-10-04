@@ -23,6 +23,20 @@ acceso a la query string.
 - Robustez común: si el Worker de simulación no puede cargarse o falla, la simulación se repite en el hilo
   principal; `history.replaceState` se protege para marcos que lo prohíban; la app ocupa `height: 100%`.
 
+## Verificación (2026-10-04)
+
+- Clon limpio: `npm ci`, `npm run check` y build con `NEUROATLAS_BASE=/NeuroAtlas/` servido bajo ese prefijo;
+  carga, selección, enlace profundo y simulación en Worker sin errores ni peticiones fallidas.
+- Vista previa: arnés que reproduce el esqueleto y una CSP como la del marco de claude.ai (iframe con y sin
+  `allow-same-origin`): 0 errores y 0 violaciones de CSP tras fijar `jitless` de Zod antes de cargar la app
+  (su prueba de `new Function` generaba una violación aunque se capturase). Sin `allow-same-origin` y sin CORS el
+  navegador bloquea los módulos: queda visible el aviso estático de `#root`.
+- Bundle publicado leído por completo (sin secretos, telemetría ni cargas de hosts externos).
+- Acciones de GitHub en versiones con runtime Node 24 (Node 20 se retiró de los runners en septiembre de 2026).
+- Correcciones derivadas: límite de errores alrededor del visor 3D, respaldo de la simulación si el Worker falla,
+  `lang="es"` en tiempo de ejecución, gráficos sin desborde en móvil, resultados obsoletos borrados ante una
+  entrada inválida, y comprobación de Pages que solo trata el 404 como "no activado".
+
 ## Alternativas consideradas
 
 - Desplegar una rama `gh-pages` desde la sesión: exige empujar a una rama no autorizada y no evita activar Pages.

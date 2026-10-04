@@ -23,7 +23,10 @@ export function toArtifactPage(html: string): string {
     .replace(/<title>[\s\S]*?<\/title>/gi, '')
     .replace(/<meta[^>]*>/gi, '')
     .trim();
-  return [title, headAssets, body.trim()].filter(Boolean).join('\n') + '\n';
+  // Zod prueba `new Function` al crear esquemas; bajo la CSP del marco (sin 'unsafe-eval') eso genera
+  // una violación aunque se capture. `jitless` evita la prueba; debe fijarse antes de cargar Zod.
+  const zodConfig = '<script>globalThis.__zod_globalConfig = { jitless: true };</script>';
+  return [title, zodConfig, headAssets, body.trim()].filter(Boolean).join('\n') + '\n';
 }
 
 function listFiles(dir: string): string[] {
