@@ -1,0 +1,9 @@
+node_modules
+dist
+coverage
+apps/web/public/packs
+package-lock.json
+test-results
+playwright-report
+docs/plan-original
+packages/schemas/json

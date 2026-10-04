@@ -1,0 +1,60 @@
+# yaml-language-server: $schema=../../packages/schemas/json/representation.file.schema.json
+- id: rep.visual_pathway.structures
+  label: { es: Estructuras de la vía }
+  contextId: ctx.schematic.human_visual_pathway
+  assetId: asset.schematic.visual_pathway
+  groups: [structures]
+  description: { es: 'Ojos, quiasma, NGL y V1 como volúmenes esquemáticos.' }
+- id: rep.visual_pathway.hemiretinas
+  label: { es: Hemirretinas }
+  contextId: ctx.schematic.human_visual_pathway
+  assetId: asset.schematic.visual_pathway
+  groups: [hemiretinas]
+  description: { es: Mitades nasal y temporal de cada retina. }
+- id: rep.visual_pathway.tracts
+  label: { es: 'Nervios, tractos y radiaciones' }
+  contextId: ctx.schematic.human_visual_pathway
+  assetId: asset.schematic.visual_pathway
+  groups: [tracts]
+  description: { es: Haces nombrados como estructuras seleccionables. }
+- id: rep.visual_pathway.fibers
+  label: { es: Fibras por ojo de origen }
+  contextId: ctx.schematic.human_visual_pathway
+  assetId: asset.schematic.visual_pathway
+  groups: [fibers]
+  description:
+    { es: Trayectos esquemáticos coloreados por ojo de origen; ilustran la decusación parcial. }
+- id: rep.atlas.human_cortex_v1
+  label: { es: Superficie cortical humana con V1 }
+  contextId: ctx.atlas.human_reference_pending
+  assetId: asset.atlas.human_cortical_surface
+  description: { es: Pendiente de un atlas autorizado (WP-020). }
+- id: rep.laminar.layers
+  label: { es: Capas corticales }
+  contextId: ctx.schematic.neocortex_laminar_generic
+  assetId: asset.schematic.laminar_circuit
+  groups: [layers]
+  description: { es: Capas como láminas semitransparentes de grosor ilustrativo. }
+- id: rep.laminar.populations
+  label: { es: Poblaciones }
+  contextId: ctx.schematic.neocortex_laminar_generic
+  assetId: asset.schematic.laminar_circuit
+  groups: [populations, extrinsic]
+  description: { es: 'Poblaciones excitadoras, interneuronas, tálamo y destinos subcorticales.' }
+- id: rep.laminar.projections
+  label: { es: Proyecciones principales }
+  contextId: ctx.schematic.neocortex_laminar_generic
+  assetId: asset.schematic.laminar_circuit
+  groups: [projections]
+  description:
+    { es: Flechas del esquema canónico; cada una remite a una relación y a sus afirmaciones. }
+- id: rep.cell.pyramidal_schematic
+  label: { es: Neurona piramidal esquemática }
+  contextId: ctx.schematic.pyramidal_neuron_generic
+  assetId: asset.schematic.pyramidal_neuron
+  description: { es: 'Soma, dendritas y axón rotulados.' }
+- id: rep.excitability.membrane
+  label: { es: Membrana (space clamp) }
+  contextId: ctx.model.hh_squid_axon_1952
+  assetId: asset.schematic.membrane_patch
+  description: { es: Segmento cuyo color sigue el V_m simulado. }

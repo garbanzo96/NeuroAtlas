@@ -1,0 +1,51 @@
+{
+  "name": "neuroatlas",
+  "private": true,
+  "version": "0.1.0",
+  "description": "NeuroAtlas: entorno docente interactivo y multiescala de neurociencia (esqueleto de arquitectura).",
+  "type": "module",
+  "packageManager": "npm@10.9.4",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run packs && npm run dev -w @neuroatlas/web",
+    "build": "npm run packs && npm run build -w @neuroatlas/web",
+    "preview": "npm run preview -w @neuroatlas/web",
+    "packs": "tsx packages/data-pipeline/src/cli.ts build",
+    "validate": "tsx packages/data-pipeline/src/cli.ts validate",
+    "schemas:export": "tsx packages/data-pipeline/src/cli.ts export-schemas",
+    "sources:verify-doi": "tsx packages/data-pipeline/src/cli.ts verify-doi",
+    "boundaries": "tsx tools/check-boundaries.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "npm run build && playwright test",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run boundaries && npm run validate && npm run test && npm run build"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "1.56.1",
+    "@types/node": "^22.20.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.186.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "eslint": "^10.12.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.13.0",
+    "prettier": "^3.9.9",
+    "tsx": "^4.23.15",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.71.0",
+    "vite": "^8.3.2",
+    "vitest": "^5.0.3"
+  }
+}

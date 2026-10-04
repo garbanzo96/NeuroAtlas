@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "modelId": {
+      "type": "string",
+      "pattern": "^model\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+      "description": "Identificador estable de model (prefijo \"model.\")"
+    },
+    "modelVersion": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991
+    },
+    "protocol": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "none"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "current_step"
+            },
+            "amplitude": {
+              "type": "number"
+            },
+            "amplitudeUnits": {
+              "type": "string",
+              "const": "uA/cm^2"
+            },
+            "start": {
+              "type": "number",
+              "minimum": 0
+            },
+            "duration": {
+              "type": "number",
+              "minimum": 0
+            },
+            "timeUnits": {
+              "type": "string",
+              "const": "ms"
+            }
+          },
+          "required": [
+            "kind",
+            "amplitude",
+            "amplitudeUnits",
+            "start",
+            "duration",
+            "timeUnits"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "duration": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "dt": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "timeUnits": {
+      "type": "string",
+      "const": "ms"
+    },
+    "sampleEvery": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 9007199254740991
+    },
+    "solver": {
+      "type": "string",
+      "enum": [
+        "rk4",
+        "euler"
+      ]
+    },
+    "initialConditions": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "rest"
+        },
+        {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "type": "number"
+          }
+        }
+      ]
+    },
+    "parameterOverrides": {
+      "default": {},
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "seed": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "modelId",
+    "modelVersion",
+    "protocol",
+    "duration",
+    "dt",
+    "timeUnits",
+    "sampleEvery",
+    "solver",
+    "initialConditions",
+    "seed"
+  ],
+  "additionalProperties": false,
+  "title": "NeuroAtlas simulation input"
+}

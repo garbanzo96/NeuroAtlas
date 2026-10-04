@@ -1,0 +1,15 @@
+node_modules/
+dist/
+coverage/
+*.log
+.DS_Store
+.vite/
+# Paquetes de datos generados por el pipeline (npm run packs)
+apps/web/public/packs/
+# Playwright
+test-results/
+playwright-report/
+blob-report/
+# Editor
+.idea/
+*.swp

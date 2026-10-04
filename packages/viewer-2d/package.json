@@ -1,0 +1,14 @@
+{
+  "name": "@neuroatlas/viewer-2d",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Gráficos y diagramas 2D (SVG) accesibles.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@neuroatlas/schemas": "0.1.0",
+    "react": "^19.3.0"
+  }
+}

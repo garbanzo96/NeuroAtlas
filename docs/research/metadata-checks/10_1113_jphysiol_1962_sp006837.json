@@ -1,0 +1,16 @@
+{
+  "doi": "10.1113/jphysiol.1962.sp006837",
+  "checkedOn": "2026-10-04",
+  "endpoint": "https://api.crossref.org/works/10.1113%2Fjphysiol.1962.sp006837",
+  "httpStatus": 200,
+  "metadata": {
+    "title": "Receptive fields, binocular interaction and functional architecture in the cat's visual cortex",
+    "authors": ["Hubel, D. H.", "Wiesel, T. N."],
+    "container": "The Journal of Physiology",
+    "year": 1962,
+    "volume": "160",
+    "page": "106-154"
+  },
+  "comparison": [],
+  "scope": "Crossref: título, autores, revista y fecha. No verifica contenido ni licencia."
+}

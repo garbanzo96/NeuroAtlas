@@ -1,0 +1,17 @@
+{
+  "name": "@neuroatlas/data-pipeline",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Pipeline offline: carga de contenido YAML, validación, paquetes versionados y utilidades de fuentes.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@neuroatlas/knowledge": "0.1.0",
+    "@neuroatlas/schemas": "0.1.0",
+    "@neuroatlas/simulation": "0.1.0",
+    "yaml": "^2.9.1",
+    "zod": "^4.6.5"
+  }
+}

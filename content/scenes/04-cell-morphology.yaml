@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=../../packages/schemas/json/scene.file.schema.json
+# Las reconstrucciones reales (p. ej. NeuroMorpho.Org) irán en una escena propia con marco físico
+# en µm (WP-021): el validador impide mezclarlas con este esquema.
+schemaVersion: '1'
+sceneId: scene.visual.cell_morphology
+title: { es: Neurona piramidal (esquema rotulado), en: Pyramidal neuron (labelled schematic) }
+summary:
+  es: >-
+    Compartimentos de una neurona piramidal: soma, dendritas basales, dendrita apical y axón. Esquema
+    rotulado; no es una reconstrucción.
+contextId: ctx.schematic.pyramidal_neuron_generic
+semanticScale: cell
+coordinateFrame:
+  kind: schematic
+  id: frame.schematic.pyramidal_neuron
+  units: arbitrary
+  axes: 'y: hacia la pía (+)'
+camera: { position: [0, 0.4, 9], target: [0, 0.2, 0] }
+layers:
+  - id: cell
+    label: { es: Compartimentos }
+    kind: schematic
+    representationId: rep.cell.pyramidal_schematic
+    entityIds:
+      - ent.generic.pyramidal_soma
+      - ent.generic.pyramidal_apical_dendrite
+      - ent.generic.pyramidal_basal_dendrites
+      - ent.generic.pyramidal_axon
+    evidenceClaimIds: [claim.cell.pyramidal_compartments, claim.cell.morphology_not_type]
+    defaultVisible: true
+legend:
+  - { colorGroup: soma, color: '#ffd166', label: { es: Soma } }
+  - { colorGroup: dendrite, color: '#06d6a0', label: { es: Dendritas } }
+  - { colorGroup: axon, color: '#ef476f', label: { es: Axón } }
+entryEntityIds: [ent.generic.pyramidal_soma]
+transitions:
+  - targetSceneId: scene.visual.excitability
+    label: { es: Experimentar con un potencial de acción (modelo HH) }
+    bridgeClaimId: claim.bridge.cell_to_excitability
+    correspondence: conceptual
+    contextChanges: [species, abstraction, modality]

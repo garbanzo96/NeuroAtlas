@@ -1,0 +1,132 @@
+# yaml-language-server: $schema=../../packages/schemas/json/claim.file.schema.json
+# Puentes didácticos: afirmaciones sobre la REPRESENTACIÓN, no sobre biología. La interfaz los
+# muestra antes y después de cada transición entre escenas de contextos distintos.
+- id: claim.bridge.pathway_to_v1_location
+  version: 1
+  proposition:
+    es: >-
+      Pasas de un diagrama esquemático a una escena que localizará V1 sobre la anatomía de un atlas
+      humano. El diagrama no está registrado en coordenadas del atlas: la correspondencia es
+      conceptual (misma estructura nombrada), no espacial.
+  kind: didactic_bridge
+  subjectIds: [scene.visual.pathway, scene.visual.v1_location]
+  predicate: conceptual_bridge_to
+  object: { type: entity, id: scene.visual.v1_location }
+  contextId: ctx.schematic.human_visual_pathway
+  measurement: not_applicable
+  modelId: null
+  evidence: []
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: no_aplica
+    competingExplanations: no_aplica
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Texto didáctico exigido por el contrato de transiciones.
+  display: { label: educational_schematic }
+- id: claim.bridge.pathway_to_laminar
+  version: 1
+  proposition:
+    es: >-
+      Pasas de la vía visual humana a un esquema laminar genérico de neocorteza. La especie del
+      circuito está pendiente de decisión y el esquema no describe un área ni un individuo concretos:
+      no es un acercamiento continuo a la V1 del diagrama anterior.
+  kind: didactic_bridge
+  subjectIds: [scene.visual.pathway, scene.visual.v1_laminar_circuit]
+  predicate: conceptual_bridge_to
+  object: { type: entity, id: scene.visual.v1_laminar_circuit }
+  contextId: ctx.schematic.human_visual_pathway
+  measurement: not_applicable
+  modelId: null
+  evidence: []
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: no_aplica
+    competingExplanations: no_aplica
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Texto didáctico exigido por el contrato de transiciones.
+  display: { label: educational_schematic }
+- id: claim.bridge.v1_location_to_laminar
+  version: 1
+  proposition:
+    es: >-
+      Pasas de la anatomía humana de un atlas a un esquema laminar genérico, de especie pendiente.
+      No hay registro espacial entre ambas escenas.
+  kind: didactic_bridge
+  subjectIds: [scene.visual.v1_location, scene.visual.v1_laminar_circuit]
+  predicate: conceptual_bridge_to
+  object: { type: entity, id: scene.visual.v1_laminar_circuit }
+  contextId: ctx.atlas.human_reference_pending
+  measurement: not_applicable
+  modelId: null
+  evidence: []
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: no_aplica
+    competingExplanations: no_aplica
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Texto didáctico exigido por el contrato de transiciones.
+  display: { label: educational_schematic }
+- id: claim.bridge.laminar_to_cell
+  version: 1
+  proposition:
+    es: >-
+      La siguiente escena muestra una neurona piramidal como esquema rotulado de mamífero en general.
+      No es una reconstrucción ni una célula concreta del circuito anterior.
+  kind: didactic_bridge
+  subjectIds: [scene.visual.v1_laminar_circuit, scene.visual.cell_morphology]
+  predicate: conceptual_bridge_to
+  object: { type: entity, id: scene.visual.cell_morphology }
+  contextId: ctx.schematic.neocortex_laminar_generic
+  measurement: not_applicable
+  modelId: null
+  evidence: []
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: no_aplica
+    competingExplanations: no_aplica
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Texto didáctico exigido por el contrato de transiciones.
+  display: { label: educational_schematic }
+- id: claim.bridge.cell_to_excitability
+  version: 1
+  proposition:
+    es: >-
+      Cambias de especie y de tipo de representación: la escena siguiente ejecuta el modelo
+      matemático de Hodgkin y Huxley, formulado para el axón gigante de calamar. Ilustra cómo
+      corrientes dependientes del voltaje generan un potencial de acción; no está parametrizado
+      para la neurona piramidal anterior.
+  kind: didactic_bridge
+  subjectIds: [scene.visual.cell_morphology, scene.visual.excitability]
+  predicate: conceptual_bridge_to
+  object: { type: entity, id: scene.visual.excitability }
+  contextId: ctx.schematic.pyramidal_neuron_generic
+  measurement: not_applicable
+  modelId: null
+  evidence: []
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: no_aplica
+    competingExplanations: no_aplica
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Texto didáctico exigido por el contrato de transiciones.
+  display: { label: educational_schematic }

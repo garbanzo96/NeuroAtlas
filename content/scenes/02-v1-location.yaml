@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=../../packages/schemas/json/scene.file.schema.json
+# Escena BLOQUEADA a propósito: necesita una geometría anatómica autorizada (WP-020, DEC-005).
+# Se mantiene para que el contrato, la navegación y el estado bloqueado sean visibles y probables.
+schemaVersion: '1'
+sceneId: scene.visual.v1_location
+title: { es: V1 en la anatomía humana, en: V1 in human anatomy }
+summary:
+  es: >-
+    Localización de la corteza visual primaria sobre una superficie cortical humana de atlas. Pendiente
+    de elegir atlas, versión y licencia.
+contextId: ctx.atlas.human_reference_pending
+semanticScale: region
+coordinateFrame:
+  kind: physical
+  id: frame.atlas.pending
+  units: mm
+  axes: pendiente de definir con el atlas elegido (DEC-005)
+layers:
+  - id: cortical_surface
+    label: { es: Superficie cortical con V1 }
+    kind: mesh
+    representationId: rep.atlas.human_cortex_v1
+    entityIds: [ent.human.v1]
+    evidenceClaimIds: [claim.visual.v1_calcarine]
+    defaultVisible: true
+entryEntityIds: [ent.human.v1]
+transitions:
+  - targetSceneId: scene.visual.v1_laminar_circuit
+    label: { es: Explorar el circuito laminar de la corteza }
+    bridgeClaimId: claim.bridge.v1_location_to_laminar
+    correspondence: conceptual
+    contextChanges: [species, abstraction, dataset]

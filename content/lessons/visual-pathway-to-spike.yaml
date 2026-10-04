@@ -1,0 +1,113 @@
+# yaml-language-server: $schema=../../packages/schemas/json/lesson.file.schema.json
+# La narrativa contiene preguntas e instrucciones; las afirmaciones científicas están en claimIds.
+schemaVersion: '1'
+lessonId: lesson.visual.pathway_to_spike
+title: { es: 'De la retina al potencial de acción', en: 'From retina to action potential' }
+audience: Estudiantes avanzados y docentes de neurociencia
+durationMinutes: 15
+objectives:
+  - es: Localizar las estaciones de la vía visual y explicar qué fibras cruzan en el quiasma.
+  - es: Reconocer cuándo cambian la especie, el dataset o el nivel de abstracción entre escenas.
+  - es: Manipular la corriente de entrada de un modelo documentado y relacionar el resultado con sus supuestos.
+status: draft
+steps:
+  - id: overview
+    sceneId: scene.visual.pathway
+    title: { es: Recorrido general }
+    narrative:
+      es: >-
+        Sigue las fibras desde cada ojo hasta la corteza. Usa la lista de estructuras o el visor para
+        seleccionar cada estación y abre sus fuentes en la ficha.
+    claimIds: [claim.visual.retina_to_lgn, claim.visual.lgn_to_v1]
+    focusEntityIds: [ent.human.retina]
+    task:
+      kind: observe
+      prompt:
+        {
+          es: Nombra en orden las estructuras que atraviesa la información desde la retina hasta V1.,
+        }
+  - id: chiasm
+    sceneId: scene.visual.pathway
+    title: { es: El quiasma óptico }
+    narrative:
+      es: >-
+        Oculta los tractos para ver solo las fibras coloreadas por ojo. Observa cuáles cruzan la línea
+        media y adónde llega cada color.
+    claimIds: [claim.visual.chiasm_partial_decussation, claim.visual.tract_contralateral_hemifield]
+    focusEntityIds: [ent.human.optic_chiasm, ent.human.nasal_hemiretina]
+    visibleLayerIds: [structures, hemiretinas, fibers]
+    task:
+      kind: locate
+      prompt:
+        {
+          es: ¿Qué hemirretina aporta las fibras que cruzan? ¿Qué parte del campo visual llega al NGL derecho?,
+        }
+  - id: lgn_v1
+    sceneId: scene.visual.pathway
+    title: { es: Del NGL a V1 }
+    narrative:
+      es: Selecciona el NGL y revisa qué dicen sus afirmaciones y qué falta por verificar en cada una.
+    claimIds: [claim.visual.lgn_eye_specific_layers, claim.visual.lgn_to_v1]
+    focusEntityIds: [ent.human.lgn]
+  - id: laminar
+    sceneId: scene.visual.v1_laminar_circuit
+    title: { es: Un esquema del circuito cortical }
+    narrative:
+      es: >-
+        Fíjate en el aviso de cambio de contexto: ya no es anatomía humana sino un esquema genérico.
+        Recorre las flechas desde la entrada talámica hasta las salidas.
+    claimIds:
+      - claim.cortex.thalamic_input_l4
+      - claim.cortex.l4_to_l23
+      - claim.cortex.l23_to_l5
+      - claim.cortex.l5_subcortical
+      - claim.cortex.l6_corticothalamic
+    focusEntityIds: [ent.neocortex.l4_excitatory]
+    task:
+      kind: explain
+      prompt:
+        {
+          es: Describe el recorrido de la información en el esquema y qué capas son salida hacia fuera de la corteza.,
+        }
+  - id: laminar_limits
+    sceneId: scene.visual.v1_laminar_circuit
+    title: { es: Límites del esquema }
+    narrative:
+      es: ¿Qué partes del circuito no aparecen en el esquema? ¿Por qué no debe leerse como una descripción de toda la corteza?
+    claimIds: [claim.cortex.canonical_not_universal, claim.cortex.interneurons_present]
+    focusEntityIds: [ent.neocortex.inhibitory_interneurons]
+  - id: cell
+    sceneId: scene.visual.cell_morphology
+    title: { es: Una neurona piramidal }
+    narrative:
+      es: Identifica los compartimentos y lee por qué la forma no determina el tipo celular.
+    claimIds: [claim.cell.pyramidal_compartments, claim.cell.morphology_not_type]
+    focusEntityIds: [ent.generic.pyramidal_apical_dendrite]
+  - id: excitability
+    sceneId: scene.visual.excitability
+    title: { es: Generar un potencial de acción }
+    narrative:
+      es: >-
+        Configura un pulso de 1 ms que empiece en 5 ms y aumenta la amplitud desde 2 hasta 20 µA/cm².
+        Después prueba una corriente sostenida de 10 µA/cm² durante 80 ms.
+    claimIds: [claim.hh.preparation, claim.hh.current_decomposition, claim.hh.spike_generation]
+    focusEntityIds: [ent.squid.giant_axon]
+    task:
+      kind: manipulate
+      prompt:
+        {
+          es: ¿A partir de qué amplitud aparece un potencial de acción con el pulso de 1 ms? ¿Qué corriente domina en la fase de subida y cuál en la de bajada?,
+        }
+  - id: model_limits
+    sceneId: scene.visual.excitability
+    title: { es: ¿Qué representa este modelo? }
+    narrative:
+      es: Relaciona lo que acabas de observar con el contexto del modelo y con la neurona de la escena anterior.
+    claimIds: [claim.hh.temperature, claim.hh.not_cortical_model]
+    focusEntityIds: [ent.squid.giant_axon]
+    task:
+      kind: explain
+      prompt:
+        {
+          es: ¿Por qué este modelo no describe directamente la neurona piramidal de la escena anterior?,
+        }

@@ -1,0 +1,75 @@
+# yaml-language-server: $schema=../../packages/schemas/json/relation.file.schema.json
+# Relaciones dirigidas del recorrido. La modalidad de la evidencia está "pending_extraction":
+# no se afirma si proviene de trazado axonal, sinapsis reconstruidas u otra técnica hasta extraerla.
+# El signo queda "unknown" porque ninguna afirmación del paquete lo establece todavía.
+- id: rel.human.retina_projects_to_lgn
+  version: 1
+  type: projects_to
+  subjectId: ent.human.retina
+  objectId: ent.human.lgn
+  contextId: ctx.schematic.human_visual_pathway
+  claimIds: [claim.visual.retina_to_lgn, claim.visual.chiasm_partial_decussation]
+  connection: { modality: pending_extraction, directed: true, sign: unknown, weight: null }
+  status: draft
+- id: rel.human.lgn_projects_to_v1
+  version: 1
+  type: projects_to
+  subjectId: ent.human.lgn
+  objectId: ent.human.v1
+  contextId: ctx.schematic.human_visual_pathway
+  claimIds: [claim.visual.lgn_to_v1]
+  connection: { modality: pending_extraction, directed: true, sign: unknown, weight: null }
+  status: draft
+- id: rel.cortex.thalamus_projects_to_l4
+  version: 1
+  type: projects_to
+  subjectId: ent.generic.thalamus_first_order
+  objectId: ent.neocortex.l4_excitatory
+  contextId: ctx.schematic.neocortex_laminar_generic
+  claimIds: [claim.cortex.thalamic_input_l4]
+  connection: { modality: pending_extraction, directed: true, sign: unknown, weight: null }
+  status: draft
+- id: rel.cortex.l4_projects_to_l23
+  version: 1
+  type: projects_to
+  subjectId: ent.neocortex.l4_excitatory
+  objectId: ent.neocortex.l23_pyramidal
+  contextId: ctx.schematic.neocortex_laminar_generic
+  claimIds: [claim.cortex.l4_to_l23]
+  connection: { modality: pending_extraction, directed: true, sign: unknown, weight: null }
+  status: draft
+- id: rel.cortex.l23_projects_to_l5
+  version: 1
+  type: projects_to
+  subjectId: ent.neocortex.l23_pyramidal
+  objectId: ent.neocortex.l5_pyramidal
+  contextId: ctx.schematic.neocortex_laminar_generic
+  claimIds: [claim.cortex.l23_to_l5]
+  connection: { modality: pending_extraction, directed: true, sign: unknown, weight: null }
+  status: draft
+- id: rel.cortex.l5_projects_to_subcortical
+  version: 1
+  type: projects_to
+  subjectId: ent.neocortex.l5_pyramidal
+  objectId: ent.generic.subcortical_targets
+  contextId: ctx.schematic.neocortex_laminar_generic
+  claimIds: [claim.cortex.l5_subcortical]
+  connection: { modality: pending_extraction, directed: true, sign: unknown, weight: null }
+  status: draft
+- id: rel.cortex.l6_projects_to_thalamus
+  version: 1
+  type: projects_to
+  subjectId: ent.neocortex.l6_pyramidal
+  objectId: ent.generic.thalamus_first_order
+  contextId: ctx.schematic.neocortex_laminar_generic
+  claimIds: [claim.cortex.l6_corticothalamic]
+  connection: { modality: pending_extraction, directed: true, sign: unknown, weight: null }
+  status: draft
+- id: rel.squid.giant_axon_implemented_by_hh
+  version: 1
+  type: implemented_by_model
+  subjectId: ent.squid.giant_axon
+  objectId: model.hh_classic
+  contextId: ctx.model.hh_squid_axon_1952
+  claimIds: [claim.hh.preparation]
+  status: draft

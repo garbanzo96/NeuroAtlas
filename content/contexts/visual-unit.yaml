@@ -1,0 +1,83 @@
+# yaml-language-server: $schema=../../packages/schemas/json/context.file.schema.json
+# Contextos de la unidad visual. Cada escena tiene un único contexto; pasar de uno a otro
+# exige una transición con puente explícito (ver scenes/).
+- id: ctx.schematic.human_visual_pathway
+  label:
+    es: Vía visual humana (diagrama didáctico)
+  kind: schematic
+  species:
+    scope: species
+    scientificName: Homo sapiens
+    ncbiTaxon: NCBITaxon:9606
+  developmentalStage: adulto
+  preparation: no_aplica
+  modality: diagrama didáctico basado en descripciones de manuales (fuentes pendientes de extracción)
+  atlas: null
+  description:
+    es: >-
+      Diagrama esquemático de la vía retino-geniculo-cortical humana. Las posiciones y tamaños son
+      ilustrativos y no están registrados en ningún atlas.
+- id: ctx.atlas.human_reference_pending
+  label:
+    es: Anatomía humana de referencia (atlas pendiente)
+  kind: anatomical_reference
+  species:
+    scope: species
+    scientificName: Homo sapiens
+    ncbiTaxon: NCBITaxon:9606
+  developmentalStage: adulto
+  preparation: atlas de referencia pendiente de elección (DEC-005)
+  modality: superficie cortical derivada de un atlas (pendiente)
+  atlas: null
+  description:
+    es: >-
+      Contexto reservado para localizar V1 sobre una geometría anatómica humana autorizada.
+      Bloqueado hasta elegir atlas, versión y licencia (DEC-005, WP-020).
+- id: ctx.schematic.neocortex_laminar_generic
+  label:
+    es: Circuito laminar neocortical (esquema genérico; especie pendiente)
+  kind: schematic
+  species:
+    scope: pending_decision
+    decision: DEC-004
+    description: Especie, área y edad del circuito por decidir con el asesor de anatomía.
+  developmentalStage: no_especificado
+  preparation: no_aplica
+  modality: síntesis esquemática de revisiones (fuentes pendientes de extracción)
+  atlas: null
+  description:
+    es: >-
+      Esquema generalizado de capas y vías excitadoras principales de una corteza sensorial primaria.
+      No describe un área, una especie ni un individuo concretos.
+- id: ctx.schematic.pyramidal_neuron_generic
+  label:
+    es: Neurona piramidal (esquema rotulado)
+  kind: schematic
+  species:
+    scope: general
+    description: Neocorteza de mamíferos; generalización morfológica didáctica.
+  developmentalStage: no_especificado
+  preparation: no_aplica
+  modality: esquema morfológico rotulado (no es una reconstrucción)
+  atlas: null
+  description:
+    es: >-
+      Compartimentos típicos de una neurona piramidal. Proporciones y ramificación ilustrativas.
+- id: ctx.model.hh_squid_axon_1952
+  label:
+    es: Modelo de Hodgkin–Huxley (axón gigante de calamar, 1952)
+  kind: computational_model
+  species:
+    scope: species
+    scientificName: Loligo forbesii
+    ncbiTaxon: null
+  developmentalStage: adulto
+  preparation: >-
+    Axón gigante aislado, fijación de voltaje; parámetros de referencia a 6,3 °C. Especie según la
+    literatura secundaria: verificar en el artículo original (WP-012).
+  modality: modelo de conductancias (ecuaciones diferenciales ordinarias), compartimento único con space clamp
+  atlas: null
+  description:
+    es: >-
+      Contexto de un modelo matemático. Las curvas de la escena son resultados de simulación,
+      no registros experimentales.

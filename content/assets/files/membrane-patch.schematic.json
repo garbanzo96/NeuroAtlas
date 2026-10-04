@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "1",
+  "assetId": "asset.schematic.membrane_patch",
+  "frame": {
+    "units": "arbitrary",
+    "axes": "x: eje del segmento."
+  },
+  "disclaimer": {
+    "es": "Esquema: segmento de membrana con space clamp (todo el segmento comparte el mismo potencial). El color representa V_m del modelo, no una medición."
+  },
+  "nodes": [
+    {
+      "id": "axon_membrane",
+      "entityId": "ent.squid.giant_axon",
+      "label": {
+        "es": "Membrana del axón (modelo)"
+      },
+      "shape": "cylinder",
+      "position": [0, 0, 0],
+      "size": [1.2, 6.0, 1.2],
+      "rotation": [0, 0, 1.5708],
+      "group": "membrane"
+    }
+  ],
+  "links": []
+}

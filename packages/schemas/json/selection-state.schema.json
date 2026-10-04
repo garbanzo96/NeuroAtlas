@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "sceneId": {
+      "type": "string",
+      "pattern": "^scene\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+      "description": "Identificador estable de scene (prefijo \"scene.\")"
+    },
+    "contextId": {
+      "type": "string",
+      "pattern": "^ctx\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+      "description": "Identificador estable de context (prefijo \"ctx.\")"
+    },
+    "selectedEntityIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^ent\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+        "description": "Identificador estable de entity (prefijo \"ent.\")"
+      }
+    },
+    "focusedRepresentationId": {
+      "type": "string",
+      "pattern": "^rep\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+      "description": "Identificador estable de representation (prefijo \"rep.\")"
+    },
+    "visibleLayerIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_]+$"
+      }
+    },
+    "filters": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "timeCursor": {
+      "type": "object",
+      "properties": {
+        "runId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "number"
+        },
+        "units": {
+          "type": "string",
+          "enum": [
+            "ms",
+            "s"
+          ]
+        }
+      },
+      "required": [
+        "runId",
+        "value",
+        "units"
+      ],
+      "additionalProperties": false
+    },
+    "compareWith": {
+      "type": "object",
+      "properties": {
+        "sceneId": {
+          "type": "string",
+          "pattern": "^scene\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+          "description": "Identificador estable de scene (prefijo \"scene.\")"
+        },
+        "contextId": {
+          "type": "string",
+          "pattern": "^ctx\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+          "description": "Identificador estable de context (prefijo \"ctx.\")"
+        }
+      },
+      "required": [
+        "sceneId",
+        "contextId"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "sceneId",
+    "contextId",
+    "selectedEntityIds",
+    "visibleLayerIds",
+    "filters"
+  ],
+  "additionalProperties": false,
+  "title": "NeuroAtlas selection state"
+}

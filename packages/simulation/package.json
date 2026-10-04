@@ -1,0 +1,14 @@
+{
+  "name": "@neuroatlas/simulation",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Modelos y solvers desacoplados del renderizado; adaptadores para Web Worker.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./reference": "./src/hh-reference.ts"
+  },
+  "dependencies": {
+    "@neuroatlas/schemas": "0.1.0"
+  }
+}

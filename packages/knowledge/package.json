@@ -1,0 +1,14 @@
+{
+  "name": "@neuroatlas/knowledge",
+  "private": true,
+  "version": "0.1.0",
+  "description": "\u00cdndice, consultas y validaci\u00f3n de integridad del grafo de conocimiento.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./testing": "./src/test-fixtures.ts"
+  },
+  "dependencies": {
+    "@neuroatlas/schemas": "0.1.0"
+  }
+}

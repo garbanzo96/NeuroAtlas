@@ -1,0 +1,16 @@
+{
+  "doi": "10.1038/4580",
+  "checkedOn": "2026-10-04",
+  "endpoint": "https://api.crossref.org/works/10.1038%2F4580",
+  "httpStatus": 200,
+  "metadata": {
+    "title": "Predictive coding in the visual cortex: a functional interpretation of some extra-classical receptive-field effects",
+    "authors": ["Rao, Rajesh P. N.", "Ballard, Dana H."],
+    "container": "Nature Neuroscience",
+    "year": 1999,
+    "volume": "2",
+    "page": "79-87"
+  },
+  "comparison": [],
+  "scope": "Crossref: título, autores, revista y fecha. No verifica contenido ni licencia."
+}

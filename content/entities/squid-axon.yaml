@@ -1,0 +1,8 @@
+# yaml-language-server: $schema=../../packages/schemas/json/entity.file.schema.json
+- id: ent.squid.giant_axon
+  type: structure
+  semanticScale: cell
+  label: { es: Axón gigante de calamar, en: Squid giant axon }
+  taxonScope: { kind: species, scientificName: Loligo forbesii }
+  notes: Preparación experimental del modelo de Hodgkin–Huxley (1952). Especie a verificar en la fuente original (WP-012).
+  status: draft

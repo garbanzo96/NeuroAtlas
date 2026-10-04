@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=../../packages/schemas/json/entity.file.schema.json
+- id: ent.generic.pyramidal_neuron
+  type: cell_type
+  semanticScale: cell
+  label: { es: Neurona piramidal (morfología), en: Pyramidal neuron (morphology) }
+  taxonScope:
+    {
+      kind: general,
+      note: Clase morfológica; no equivale a un tipo transcriptómico o electrofisiológico concreto.,
+    }
+  status: draft
+- id: ent.generic.pyramidal_soma
+  type: compartment
+  semanticScale: cell
+  label: { es: Soma, en: Soma }
+  synonyms:
+    - { text: cuerpo celular, lang: es }
+  taxonScope: { kind: general, note: Compartimento de la neurona piramidal esquemática. }
+  status: draft
+- id: ent.generic.pyramidal_apical_dendrite
+  type: compartment
+  semanticScale: cell
+  label: { es: Dendrita apical, en: Apical dendrite }
+  taxonScope: { kind: general, note: Compartimento de la neurona piramidal esquemática. }
+  status: draft
+- id: ent.generic.pyramidal_basal_dendrites
+  type: compartment
+  semanticScale: cell
+  label: { es: Dendritas basales, en: Basal dendrites }
+  taxonScope: { kind: general, note: Compartimento de la neurona piramidal esquemática. }
+  status: draft
+- id: ent.generic.pyramidal_axon
+  type: compartment
+  semanticScale: cell
+  label: { es: Axón, en: Axon }
+  taxonScope: { kind: general, note: Compartimento de la neurona piramidal esquemática. }
+  status: draft

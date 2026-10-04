@@ -1,0 +1,16 @@
+{
+  "doi": "10.1113/jphysiol.1952.sp004764",
+  "checkedOn": "2026-10-04",
+  "endpoint": "https://api.crossref.org/works/10.1113%2Fjphysiol.1952.sp004764",
+  "httpStatus": 200,
+  "metadata": {
+    "title": "A quantitative description of membrane current and its application to conduction and excitation in nerve",
+    "authors": ["Hodgkin, A. L.", "Huxley, A. F."],
+    "container": "The Journal of Physiology",
+    "year": 1952,
+    "volume": "117",
+    "page": "500-544"
+  },
+  "comparison": [],
+  "scope": "Crossref: título, autores, revista y fecha. No verifica contenido ni licencia."
+}

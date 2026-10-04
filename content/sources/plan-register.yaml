@@ -1,0 +1,501 @@
+# yaml-language-server: $schema=../../packages/schemas/json/source.file.schema.json
+# Registro de fuentes del plan inicial (research/source-register.json, 2026-10-04), convertido al
+# esquema Source. plannedUse y limitations se conservan textualmente. Las fuentes con DOI se
+# verificaron en Crossref el 2026-10-04 (solo metadatos; ver docs/research/metadata-checks/).
+- id: src.kandel_principles
+  legacyId: source.01
+  type: book
+  title: Principles of Neural Science
+  authors:
+    - Kandel, E. R.
+    - y colaboradores
+  year: null
+  container: McGraw Hill
+  edition: 6.ª edición como candidata; edición y capítulos pendientes (DEC-001)
+  urls:
+    - https://accessmedicine.mhmedical.com/
+  plannedUse: Fundamentos anatómicos, fisiológicos y de sistemas; elegir edición y capítulos con el usuario.
+  limitations: Verificar edición, páginas y acceso. Manual y figuras no equivalen a recursos abiertos redistribuibles.
+  verification:
+    status: candidate
+    verifiedOn: null
+    scope: 'Ninguna: candidato del plan inicial, pendiente de comprobación documental.'
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.dayan_abbott_theoretical_neuroscience
+  legacyId: source.02
+  type: book
+  title: 'Theoretical Neuroscience: Computational and Mathematical Modeling of Neural Systems'
+  authors:
+    - Dayan, P.
+    - Abbott, L. F.
+  year: null
+  container: MIT Press
+  urls:
+    - https://mitpress.mit.edu/9780262541855/theoretical-neuroscience/
+  plannedUse: Codificación, dinámica, aprendizaje y modelos; complemento candidato.
+  limitations: No se ha confirmado que sea el libro computacional que mencionó el usuario.
+  verification:
+    status: candidate
+    verifiedOn: null
+    scope: 'Ninguna: candidato del plan inicial, pendiente de comprobación documental.'
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.gerstner_neuronal_dynamics
+  legacyId: source.03
+  type: book
+  title: Neuronal Dynamics
+  authors:
+    - Gerstner, Wulfram
+    - Kistler, Werner M.
+    - Naud, Richard
+    - Paninski, Liam
+  year: 2014
+  container: Cambridge University Press
+  doi: 10.1017/CBO9781107447615
+  urls:
+    - https://doi.org/10.1017/CBO9781107447615
+    - https://neuronaldynamics.epfl.ch/
+  plannedUse: Modelos neuronales, redes y formalismos computacionales.
+  limitations: Comprobar edición, permisos de recursos y adecuación a cada modelo.
+  verification:
+    status: metadata_verified
+    verifiedOn: 2026-10-04
+    scope: 'Crossref: título, autores, revista/editorial y año coinciden. Contenido y licencia no revisados.'
+    method: crossref_api (docs/research/metadata-checks/10_1017_CBO9781107447615.json)
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.ebrains_julich_brain
+  legacyId: source.04
+  type: atlas
+  title: EBRAINS y Jülich Brain / siibra-explorer
+  authors: []
+  year: null
+  urls:
+    - https://www.ebrains.eu/
+    - https://siibra-explorer.org/
+  plannedUse: Atlas humanos, parcelaciones y vínculos multimodales.
+  limitations: Parcelaciones y versiones tienen alcance distinto; atlas probabilístico no es anatomía exacta de cada individuo.
+  verification:
+    status: candidate
+    verifiedOn: null
+    scope: 'Ninguna: candidato del plan inicial, pendiente de comprobación documental.'
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.siibra_python
+  legacyId: source.05
+  type: tool
+  title: siibra-python
+  authors: []
+  year: null
+  urls:
+    - https://siibra-python.readthedocs.io/
+  plannedUse: Acceso programático y correspondencias de atlas para pipeline offline.
+  limitations: Verificar API, formatos, versión y términos de datasets; una biblioteca no resuelve por sí sola todas las correspondencias.
+  verification:
+    status: candidate
+    verifiedOn: null
+    scope: 'Ninguna: candidato del plan inicial, pendiente de comprobación documental.'
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.bigbrain
+  legacyId: source.06
+  type: dataset
+  title: BigBrain
+  authors: []
+  year: null
+  urls:
+    - https://bigbrainproject.org/
+  plannedUse: Reconstrucción histológica humana y organización cortical.
+  limitations: Referencia de espécimen concreto; resolución geométrica no equivale a conectoma sináptico ni a variabilidad poblacional.
+  verification:
+    status: candidate
+    verifiedOn: null
+    scope: 'Ninguna: candidato del plan inicial, pendiente de comprobación documental.'
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.human_connectome_project
+  legacyId: source.07
+  type: dataset
+  title: Human Connectome Project
+  authors: []
+  year: null
+  urls:
+    - https://www.humanconnectome.org/
+  plannedUse: Datos humanos de MRI, tractografía, actividad y organización a escala macroscópica.
+  limitations: Distinguir tractografía, conectividad funcional y anatomía sináptica; inspeccionar restricciones y sujetos.
+  verification:
+    status: candidate
+    verifiedOn: null
+    scope: 'Ninguna: candidato del plan inicial, pendiente de comprobación documental.'
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.allen_brain_map
+  legacyId: source.08
+  type: atlas
+  title: Allen Brain Map
+  authors: []
+  year: null
+  urls:
+    - https://portal.brain-map.org/
+  plannedUse: Atlas de ratón/CCF, conectividad y recursos humanos/celulares; elegir producto y release.
+  limitations: No transferir CCF de ratón a humano ni dar por compatible toda clasificación.
+  verification:
+    status: candidate
+    verifiedOn: null
+    scope: 'Ninguna: candidato del plan inicial, pendiente de comprobación documental.'
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.biccn_bican
+  legacyId: source.09
+  type: repository
+  title: BICCN / BICAN
+  authors: []
+  year: null
+  urls:
+    - https://biccn.org/
+    - https://www.bicannetwork.org/
+  plannedUse: Taxonomías celulares, referencias multimodales y censos por especie/región.
+  limitations: Confirmar portales activos y releases. Cobertura y clases dependen de muestreo y modalidades; no es una taxonomía cerrada universal.
+  verification:
+    status: candidate
+    verifiedOn: null
+    scope: 'Ninguna: candidato del plan inicial, pendiente de comprobación documental.'
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.microns
+  legacyId: source.10
+  type: dataset
+  title: MICrONS Explorer
+  authors: []
+  year: null
+  urls:
+    - https://www.microns-explorer.org/
+  plannedUse: Conectómica y relaciones estructura–actividad en tejido de corteza visual de ratón; revisar colección de trabajos de 2025.
+  limitations: Volumen local y contexto experimental definido; no representa el conectoma humano completo ni prueba toda interpretación funcional.
+  verification:
+    status: candidate
+    verifiedOn: null
+    scope: 'Ninguna: candidato del plan inicial, pendiente de comprobación documental.'
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.flywire
+  legacyId: source.11
+  type: dataset
+  title: FlyWire
+  authors: []
+  year: null
+  urls:
+    - https://flywire.ai/
+  plannedUse: Conectoma de cerebro de Drosophila adulta, navegación de circuitos y anotaciones; localizar artículos/releases de 2024 y posteriores.
+  limitations: Especie, espécimen y límites de reconstrucción explícitos; no extrapolar a circuitos corticales humanos.
+  verification:
+    status: candidate
+    verifiedOn: null
+    scope: 'Ninguna: candidato del plan inicial, pendiente de comprobación documental.'
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.h01
+  legacyId: source.12
+  type: dataset
+  title: H01, fragmento de corteza humana
+  authors: []
+  year: null
+  urls:
+    - https://h01-release.storage.googleapis.com/landing.html
+  plannedUse: Reconstrucción de microscopía electrónica a escala sináptica; localizar publicación de 2024.
+  limitations: Fragmento de tejido y preparación concretos; no cerebro humano completo ni registro funcional simultáneo.
+  verification:
+    status: candidate
+    verifiedOn: null
+    scope: 'Ninguna: candidato del plan inicial, pendiente de comprobación documental.'
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.neuromorpho
+  legacyId: source.13
+  type: repository
+  title: NeuroMorpho.Org
+  authors: []
+  year: null
+  urls:
+    - https://neuromorpho.org/
+  plannedUse: Morfologías neuronales/gliales y metadatos para escenas celulares.
+  limitations: Una reconstrucción puede ser parcial y sufrir efectos de preparación; comprobar términos por depósito.
+  verification:
+    status: candidate
+    verifiedOn: null
+    scope: 'Ninguna: candidato del plan inicial, pendiente de comprobación documental.'
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.neuroglancer
+  legacyId: source.14
+  type: tool
+  title: Neuroglancer
+  authors: []
+  year: null
+  urls:
+    - https://github.com/google/neuroglancer
+  plannedUse: Visor especializado y formatos para volúmenes y anotaciones masivos.
+  limitations: Herramienta, no fuente científica ni curador de evidencia; integración/licencia separadas de datos.
+  verification:
+    status: candidate
+    verifiedOn: null
+    scope: 'Ninguna: candidato del plan inicial, pendiente de comprobación documental.'
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.openneuro
+  legacyId: source.15
+  type: repository
+  title: OpenNeuro
+  authors: []
+  year: null
+  urls:
+    - https://openneuro.org/
+  plannedUse: Datasets humanos/neuroimagen para preguntas funcionales y ejemplos reproducibles.
+  limitations: Revisar dataset, consentimiento/uso, versión y calidad; un archivo disponible no establece una conclusión.
+  verification:
+    status: candidate
+    verifiedOn: null
+    scope: 'Ninguna: candidato del plan inicial, pendiente de comprobación documental.'
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.bids
+  legacyId: source.16
+  type: standard
+  title: Brain Imaging Data Structure (BIDS)
+  authors: []
+  year: null
+  urls:
+    - https://bids.neuroimaging.io/
+  plannedUse: Convenciones y metadatos de datasets de neuroimagen.
+  limitations: Estándar de organización; no ontología completa ni garantía de calidad científica.
+  verification:
+    status: candidate
+    verifiedOn: null
+    scope: 'Ninguna: candidato del plan inicial, pendiente de comprobación documental.'
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.dandi_nwb
+  legacyId: source.17
+  type: repository
+  title: DANDI y Neurodata Without Borders (NWB)
+  authors: []
+  year: null
+  urls:
+    - https://dandiarchive.org/
+    - https://www.nwb.org/
+  plannedUse: Datos de neurofisiología, series y metadatos; elegir conjuntos pequeños y pertinentes.
+  limitations: DANDI es repositorio y NWB un estándar; revisar modalidades, permisos y validación por dataset.
+  verification:
+    status: candidate
+    verifiedOn: null
+    scope: 'Ninguna: candidato del plan inicial, pendiente de comprobación documental.'
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.modeldb
+  legacyId: source.18
+  type: repository
+  title: ModelDB
+  authors: []
+  year: null
+  urls:
+    - https://modeldb.science/
+  plannedUse: Modelos publicados, código y vínculos con artículos.
+  limitations: Reproducir y revisar código/parametrización; presencia en repositorio no garantiza validez general.
+  verification:
+    status: candidate
+    verifiedOn: null
+    scope: 'Ninguna: candidato del plan inicial, pendiente de comprobación documental.'
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.neuron_simulator
+  legacyId: source.19
+  type: tool
+  title: NEURON simulator
+  authors: []
+  year: null
+  urls:
+    - https://nrn.readthedocs.io/
+  plannedUse: Simulación de neuronas y redes con modelos detallados cuando sea necesario.
+  limitations: No obligatorio para MVP web; solver, mecanismos y contexto científico requieren verificación.
+  verification:
+    status: candidate
+    verifiedOn: null
+    scope: 'Ninguna: candidato del plan inicial, pendiente de comprobación documental.'
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.brian2
+  legacyId: source.20
+  type: tool
+  title: Brian2
+  authors: []
+  year: null
+  urls:
+    - https://brian2.readthedocs.io/
+  plannedUse: Modelos spiking/rate y experimentos computacionales; pipeline o motor posterior.
+  limitations: Seleccionar formalismo y unidades; simulación de red no equivale a conectoma funcional validado.
+  verification:
+    status: candidate
+    verifiedOn: null
+    scope: 'Ninguna: candidato del plan inicial, pendiente de comprobación documental.'
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.hubel_wiesel_1962
+  legacyId: source.21
+  type: article
+  title: Receptive fields, binocular interaction and functional architecture in the cat's visual cortex
+  authors:
+    - Hubel, D. H.
+    - Wiesel, T. N.
+  year: 1962
+  container: The Journal of Physiology 160:106–154
+  doi: 10.1113/jphysiol.1962.sp006837
+  urls:
+    - https://doi.org/10.1113/jphysiol.1962.sp006837
+  plannedUse: Candidato fundacional para respuestas de corteza visual y organización funcional.
+  limitations: Verificar preparación, especies, selección de unidades y localizadores; no generalizar curvas/cifras sin lectura.
+  verification:
+    status: metadata_verified
+    verifiedOn: 2026-10-04
+    scope: 'Crossref: título, autores, revista/editorial y año coinciden. Contenido y licencia no revisados.'
+    method: crossref_api (docs/research/metadata-checks/10_1113_jphysiol_1962_sp006837.json)
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.rao_ballard_1999
+  legacyId: source.22
+  type: article
+  title: 'Predictive coding in the visual cortex: a functional interpretation of some extra-classical receptive-field effects'
+  authors:
+    - Rao, Rajesh P. N.
+    - Ballard, Dana H.
+  year: 1999
+  container: Nature Neuroscience 2:79–87
+  doi: 10.1038/4580
+  urls:
+    - https://doi.org/10.1038/4580
+  plannedUse: Modelo jerárquico de codificación predictiva visual; ecuaciones y fenómenos explicados.
+  limitations: Interpretación computacional contextualizada; no demostración de identidad con toda arquitectura biológica.
+  verification:
+    status: metadata_verified
+    verifiedOn: 2026-10-04
+    scope: 'Crossref: título, autores, revista/editorial y año coinciden. Contenido y licencia no revisados.'
+    method: crossref_api (docs/research/metadata-checks/10_1038_4580.json)
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.bastos_2012
+  legacyId: source.23
+  type: article
+  title: Canonical Microcircuits for Predictive Coding
+  authors:
+    - Bastos, Andre M.
+    - Usrey, W. Martin
+    - Adams, Rick A.
+    - y colaboradores
+  year: 2012
+  container: Neuron 76:695–711
+  doi: 10.1016/j.neuron.2012.10.038
+  urls:
+    - https://doi.org/10.1016/j.neuron.2012.10.038
+  plannedUse: Propuesta de microcircuitos para codificación predictiva; candidato para comparar mensajes y capas.
+  limitations: Metadatos verificados en esta fase; falta lectura y extracción. Propuesta de arquitectura no implica universalidad laminar.
+  verification:
+    status: metadata_verified
+    verifiedOn: 2026-10-04
+    scope: 'Crossref: título, autores, revista/editorial y año coinciden. Contenido y licencia no revisados.'
+    method: crossref_api (docs/research/metadata-checks/10_1016_j_neuron_2012_10_038.json)
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.barrett_simmons_2015
+  legacyId: source.24
+  type: review
+  title: Interoceptive predictions in the brain
+  authors:
+    - Barrett, Lisa Feldman
+    - Simmons, W. Kyle
+  year: 2015
+  container: Nature Reviews Neuroscience 16:419–429
+  doi: 10.1038/nrn3950
+  urls:
+    - https://doi.org/10.1038/nrn3950
+  plannedUse: '*Interoceptive predictions in the brain*: marco para interocepción y predicción.'
+  limitations: Verificar texto, afirmaciones y alternativas; una revisión teórica no prueba por sí sola cada mecanismo.
+  verification:
+    status: metadata_verified
+    verifiedOn: 2026-10-04
+    scope: 'Crossref: título, autores, revista/editorial y año coinciden. Contenido y licencia no revisados.'
+    method: crossref_api (docs/research/metadata-checks/10_1038_nrn3950.json)
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.
+- id: src.kleckner_2017
+  legacyId: source.25
+  type: article
+  title: Evidence for a large-scale brain system supporting allostasis and interoception in humans
+  authors:
+    - Kleckner, Ian R.
+    - Zhang, Jiahe
+    - Touroutoglou, Alexandra
+    - y colaboradores
+  year: 2017
+  container: Nature Human Behaviour 1
+  doi: 10.1038/s41562-017-0069
+  urls:
+    - https://doi.org/10.1038/s41562-017-0069
+  plannedUse: '*Evidence for a large-scale brain system supporting allostasis and interoception in humans*: candidato para organización funcional.'
+  limitations: Verificar métodos y alcance; asociaciones/arquitectura funcional no establecen conexiones sinápticas ni validación global de teoría de emoción.
+  verification:
+    status: metadata_verified
+    verifiedOn: 2026-10-04
+    scope: 'Crossref: título, autores, revista/editorial y año coinciden. Contenido y licencia no revisados.'
+    method: crossref_api (docs/research/metadata-checks/10_1038_s41562_017_0069.json)
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. Ningún recurso de esta fuente puede copiarse ni redistribuirse hasta revisar sus términos.

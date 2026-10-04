@@ -1,0 +1,19 @@
+{
+  "verified_on": "2026-10-04",
+  "endpoint": "https://api.crossref.org/works/10.1016/j.neuron.2012.10.038",
+  "http_status": 200,
+  "metadata": {
+    "title": "Canonical Microcircuits for Predictive Coding",
+    "DOI": "10.1016/j.neuron.2012.10.038",
+    "published": {
+      "date-parts": [
+        [
+          2012,
+          11
+        ]
+      ]
+    },
+    "URL": "https://doi.org/10.1016/j.neuron.2012.10.038"
+  },
+  "verification_scope": "Title, DOI, bibliographic date only; no article content or license review"
+}

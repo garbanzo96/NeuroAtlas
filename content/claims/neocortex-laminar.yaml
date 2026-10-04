@@ -1,0 +1,217 @@
+# yaml-language-server: $schema=../../packages/schemas/json/claim.file.schema.json
+# BORRADORES del esquema laminar genérico. Se etiquetan como "esquema educativo": describen una
+# generalización ("circuito canónico"), no una medición en una especie y área concretas.
+- id: claim.cortex.thalamic_input_l4
+  version: 1
+  proposition:
+    es: >-
+      En el esquema clásico del circuito de una corteza sensorial primaria, las aferencias de los
+      núcleos talámicos de relevo de primer orden terminan sobre todo en la capa 4.
+  kind: inference
+  subjectIds: [ent.generic.thalamus_first_order]
+  predicate: projects_to
+  object: { type: entity, id: ent.neocortex.l4_excitatory }
+  contextId: ctx.schematic.neocortex_laminar_generic
+  measurement: pending_extraction
+  modelId: null
+  evidence:
+    - sourceId: src.douglas_martin_2004
+      locator: pending
+      locatorVerified: false
+      relation: supports
+      methodLimitations: Revisión; especie, área y método de los estudios originales pendientes de extracción.
+    - sourceId: src.harris_shepherd_2015
+      locator: pending
+      locatorVerified: false
+      relation: contextualizes
+      methodLimitations: Revisión de variaciones entre áreas y especies.
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: Las aferencias talámicas también alcanzan otras capas; la proporción depende de especie y área.
+    competingExplanations: No aplica.
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Redacción a partir de conocimiento de revisiones; fuentes asignadas como candidatas sin consultar el texto.
+  display: { label: educational_schematic }
+- id: claim.cortex.l4_to_l23
+  version: 1
+  proposition:
+    es: >-
+      En ese esquema, las neuronas excitadoras de capa 4 proyectan principalmente a las capas 2/3.
+  kind: inference
+  subjectIds: [ent.neocortex.l4_excitatory]
+  predicate: projects_to
+  object: { type: entity, id: ent.neocortex.l23_pyramidal }
+  contextId: ctx.schematic.neocortex_laminar_generic
+  measurement: pending_extraction
+  modelId: null
+  evidence:
+    - sourceId: src.douglas_martin_2004
+      locator: pending
+      locatorVerified: false
+      relation: supports
+      methodLimitations: Revisión; método de los estudios originales pendiente de extracción.
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: Generalización; la fuerza relativa de la vía varía entre áreas y especies.
+    competingExplanations: No aplica.
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Redacción a partir de conocimiento de revisiones; fuente asignada como candidata sin consultar el texto.
+  display: { label: educational_schematic }
+- id: claim.cortex.l23_to_l5
+  version: 1
+  proposition:
+    es: >-
+      Las neuronas piramidales de capas 2/3 proyectan, entre otros destinos (como otras áreas
+      corticales), a la capa 5.
+  kind: inference
+  subjectIds: [ent.neocortex.l23_pyramidal]
+  predicate: projects_to
+  object: { type: entity, id: ent.neocortex.l5_pyramidal }
+  contextId: ctx.schematic.neocortex_laminar_generic
+  measurement: pending_extraction
+  modelId: null
+  evidence:
+    - sourceId: src.douglas_martin_2004
+      locator: pending
+      locatorVerified: false
+      relation: supports
+      methodLimitations: Revisión; método de los estudios originales pendiente de extracción.
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: Generalización.
+    competingExplanations: No aplica.
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Redacción a partir de conocimiento de revisiones; fuente asignada como candidata sin consultar el texto.
+  display: { label: educational_schematic }
+- id: claim.cortex.l5_subcortical
+  version: 1
+  proposition:
+    es: >-
+      Las neuronas piramidales de capa 5 constituyen una vía principal de salida de la corteza hacia
+      estructuras subcorticales.
+  kind: inference
+  subjectIds: [ent.neocortex.l5_pyramidal]
+  predicate: projects_to
+  object: { type: entity, id: ent.generic.subcortical_targets }
+  contextId: ctx.schematic.neocortex_laminar_generic
+  measurement: pending_extraction
+  modelId: null
+  evidence:
+    - sourceId: src.harris_shepherd_2015
+      locator: pending
+      locatorVerified: false
+      relation: supports
+      methodLimitations: Revisión; destinos concretos y subtipos de capa 5 pendientes de extracción.
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: Agrupa destinos y subtipos diversos en un solo trazo.
+    competingExplanations: No aplica.
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Redacción a partir de conocimiento de revisiones; fuente asignada como candidata sin consultar el texto.
+  display: { label: educational_schematic }
+- id: claim.cortex.l6_corticothalamic
+  version: 1
+  proposition:
+    es: >-
+      Neuronas piramidales de capa 6 envían proyecciones corticotalámicas de vuelta al tálamo.
+  kind: inference
+  subjectIds: [ent.neocortex.l6_pyramidal]
+  predicate: projects_to
+  object: { type: entity, id: ent.generic.thalamus_first_order }
+  contextId: ctx.schematic.neocortex_laminar_generic
+  measurement: pending_extraction
+  modelId: null
+  evidence:
+    - sourceId: src.harris_shepherd_2015
+      locator: pending
+      locatorVerified: false
+      relation: supports
+      methodLimitations: Revisión; método de los estudios originales pendiente de extracción.
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: Generalización; no todas las neuronas de capa 6 son corticotalámicas.
+    competingExplanations: No aplica.
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Redacción a partir de conocimiento de revisiones; fuente asignada como candidata sin consultar el texto.
+  display: { label: educational_schematic }
+- id: claim.cortex.interneurons_present
+  version: 1
+  proposition:
+    es: >-
+      Además de las neuronas excitadoras, la neocorteza contiene interneuronas inhibitorias
+      GABAérgicas diversas, presentes en todas las capas.
+  kind: observation
+  subjectIds: [ent.neocortex.inhibitory_interneurons]
+  predicate: present_in
+  object: { type: text, text: todas las capas neocorticales }
+  contextId: ctx.schematic.neocortex_laminar_generic
+  measurement: pending_extraction
+  modelId: null
+  evidence:
+    - sourceId: src.harris_shepherd_2015
+      locator: pending
+      locatorVerified: false
+      relation: supports
+      methodLimitations: Revisión; clasificación y proporciones de interneuronas dependen de especie, área y método (morfología, marcadores, transcriptómica).
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: El esquema no representa subclases, conexiones ni densidades de interneuronas.
+    competingExplanations: No aplica.
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Redacción a partir de conocimiento de revisiones; fuente asignada como candidata sin consultar el texto.
+  display: { label: observation }
+- id: claim.cortex.canonical_not_universal
+  version: 1
+  proposition:
+    es: >-
+      El "circuito canónico" es una generalización: la conectividad laminar varía entre áreas y
+      especies (por ejemplo, en cortezas agranulares sin una capa 4 definida) y existen vías que no
+      siguen la secuencia 4 → 2/3 → 5 → 6.
+  kind: inference
+  subjectIds: [ent.neocortex.layer_4, ent.neocortex.l4_excitatory]
+  predicate: has_limitation
+  object: { type: text, text: variación entre áreas y especies }
+  contextId: ctx.schematic.neocortex_laminar_generic
+  measurement: not_applicable
+  modelId: null
+  evidence:
+    - sourceId: src.harris_shepherd_2015
+      locator: pending
+      locatorVerified: false
+      relation: supports
+      methodLimitations: Revisión.
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: Pendiente enumerar las variaciones concretas con sus fuentes primarias.
+    competingExplanations: No aplica.
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Redacción a partir de conocimiento de revisiones; fuente asignada como candidata sin consultar el texto.
+  display: { label: inference }

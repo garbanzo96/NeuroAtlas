@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=../../packages/schemas/json/scene.file.schema.json
+schemaVersion: '1'
+sceneId: scene.visual.excitability
+title: { es: 'Excitabilidad: modelo de Hodgkin–Huxley', en: 'Excitability: Hodgkin–Huxley model' }
+summary:
+  es: >-
+    Experimento reproducible con el modelo clásico del axón gigante de calamar: aplica un escalón de
+    corriente y observa el potencial de membrana, las corrientes y las compuertas. Las curvas son
+    resultados de simulación.
+contextId: ctx.model.hh_squid_axon_1952
+semanticScale: subcellular
+coordinateFrame:
+  kind: schematic
+  id: frame.schematic.membrane_patch
+  units: arbitrary
+  axes: 'x: eje del segmento'
+camera: { position: [0, 2.5, 7], target: [0, 0, 0] }
+layers:
+  - id: membrane
+    label: { es: Membrana (space clamp) }
+    kind: schematic
+    representationId: rep.excitability.membrane
+    entityIds: [ent.squid.giant_axon]
+    evidenceClaimIds:
+      - claim.hh.preparation
+      - claim.hh.current_decomposition
+      - claim.hh.temperature
+      - claim.hh.spike_generation
+      - claim.hh.not_cortical_model
+    defaultVisible: true
+entryEntityIds: [ent.squid.giant_axon]
+simulation:
+  modelId: model.hh_classic
+  visualMappings:
+    - variable: v
+      units: mV
+      encoding: color
+      domain: [-80, 50]
+      targetNodeIds: [axon_membrane]
+      legend:
+        es: Color = V_m del modelo en el instante del cursor. Con space clamp, toda la membrana comparte el mismo potencial.

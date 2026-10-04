@@ -1,0 +1,185 @@
+# yaml-language-server: $schema=../../packages/schemas/json/model.file.schema.json
+# Ficha del modelo de Hodgkin–Huxley (1952). La implementación es hh_classic_v1 en
+# packages/simulation; `npm run validate` comprueba que IDs y unidades coinciden, y las pruebas
+# comparan esta ficha contra trazas independientes de NEURON 9.0.2.
+id: model.hh_classic
+version: 1
+name:
+  es: Hodgkin–Huxley clásico (axón gigante de calamar)
+  en: Classic Hodgkin–Huxley (squid giant axon)
+formalism: conductance_based
+implementation: hh_classic_v1
+contextId: ctx.model.hh_squid_axon_1952
+description:
+  es: >-
+    Modelo de conductancias de un compartimento isopotencial (space clamp). Tres corrientes iónicas
+    —sodio, potasio y fuga— y tres variables de compuerta (m, h, n) con cinética de primer orden.
+conventions:
+  es: >-
+    Convención moderna: V es el potencial de membrana en mV con reposo cercano a −65 mV y
+    despolarización positiva. Hodgkin y Huxley midieron V como desplazamiento desde el reposo con
+    signo opuesto; los potenciales de inversión se convierten con V_moderno = −65 mV − V_HH
+    (E_Na: −115 → 50 mV; E_K: +12 → −77 mV; E_L: −10,613 → −54,387 mV). El origen de −65 mV es una
+    convención, no una medición. Corrientes de membrana positivas = salientes; la corriente externa
+    positiva despolariza.
+equations:
+  - id: membrane
+    latex: C_m \frac{dV}{dt} = I_{ext} - \bar g_{Na} m^3 h (V - E_{Na}) - \bar g_K n^4 (V - E_K) - g_L (V - E_L)
+    description: { es: Balance de corrientes en la membrana. }
+  - id: gates
+    latex: \frac{dx}{dt} = \phi\,[\alpha_x(V)(1 - x) - \beta_x(V)\,x], \quad x \in \{m, h, n\}, \quad \phi = 3^{(T - 6.3)/10}
+    description: { es: 'Cinética de primer orden de cada compuerta, con factor de temperatura.' }
+  - id: rates_m
+    latex: \alpha_m = \frac{0.1 (V + 40)}{1 - e^{-(V + 40)/10}}, \quad \beta_m = 4 e^{-(V + 65)/18}
+    description: { es: 'Tasas de activación del sodio (ms⁻¹, V en mV).' }
+  - id: rates_h
+    latex: \alpha_h = 0.07 e^{-(V + 65)/20}, \quad \beta_h = \frac{1}{1 + e^{-(V + 35)/10}}
+    description: { es: Tasas de inactivación del sodio (ms⁻¹). }
+  - id: rates_n
+    latex: \alpha_n = \frac{0.01 (V + 55)}{1 - e^{-(V + 55)/10}}, \quad \beta_n = 0.125 e^{-(V + 65)/80}
+    description: { es: Tasas de activación del potasio (ms⁻¹). }
+stateVariables:
+  - { id: v, symbol: V, units: mV, description: { es: Potencial de membrana }, initialValue: -65 }
+  - { id: m, symbol: m, units: '1', description: { es: Activación de Na⁺ }, initialValue: 0.0529 }
+  - { id: h, symbol: h, units: '1', description: { es: Inactivación de Na⁺ }, initialValue: 0.5961 }
+  - { id: n, symbol: n, units: '1', description: { es: Activación de K⁺ }, initialValue: 0.3177 }
+parameters:
+  - id: c_m
+    symbol: C_m
+    value: 1
+    units: uF/cm^2
+    description: { es: Capacitancia específica de membrana }
+    sourceId: src.hodgkin_huxley_1952
+    locator: pending
+    locatorVerified: false
+    adjustable: false
+  - id: g_na
+    symbol: ḡ_Na
+    value: 120
+    units: mS/cm^2
+    description: { es: Conductancia máxima de sodio }
+    sourceId: src.hodgkin_huxley_1952
+    locator: pending
+    locatorVerified: false
+    adjustable: true
+    range: [0, 240]
+  - id: g_k
+    symbol: ḡ_K
+    value: 36
+    units: mS/cm^2
+    description: { es: Conductancia máxima de potasio }
+    sourceId: src.hodgkin_huxley_1952
+    locator: pending
+    locatorVerified: false
+    adjustable: true
+    range: [0, 72]
+  - id: g_l
+    symbol: g_L
+    value: 0.3
+    units: mS/cm^2
+    description: { es: Conductancia de fuga }
+    sourceId: src.hodgkin_huxley_1952
+    locator: pending
+    locatorVerified: false
+    adjustable: false
+  - id: e_na
+    symbol: E_Na
+    value: 50
+    units: mV
+    description: { es: Potencial de inversión del sodio (convención moderna) }
+    sourceId: src.hodgkin_huxley_1952
+    locator: pending
+    locatorVerified: false
+    adjustable: false
+  - id: e_k
+    symbol: E_K
+    value: -77
+    units: mV
+    description: { es: Potencial de inversión del potasio (convención moderna) }
+    sourceId: src.hodgkin_huxley_1952
+    locator: pending
+    locatorVerified: false
+    adjustable: false
+  - id: e_l
+    symbol: E_L
+    value: -54.387
+    units: mV
+    description: { es: Potencial de inversión de la fuga (convención moderna) }
+    sourceId: src.hodgkin_huxley_1952
+    locator: pending
+    locatorVerified: false
+    adjustable: false
+  - id: temperature
+    symbol: T
+    value: 6.3
+    units: degC
+    description: { es: Temperatura de referencia de las tasas (φ = 1) }
+    sourceId: src.hodgkin_huxley_1952
+    locator: pending
+    locatorVerified: false
+    adjustable: false
+inputs:
+  - id: amplitude
+    units: uA/cm^2
+    description: { es: Amplitud del escalón de corriente externa (positiva despolariza) }
+    range: [-20, 150]
+    default: 10
+  - id: start
+    units: ms
+    description: { es: Inicio del escalón (múltiplo de dt) }
+    range: [0, 500]
+    default: 10
+  - id: duration
+    units: ms
+    description: { es: Duración del escalón (múltiplo de dt) }
+    range: [0, 1000]
+    default: 80
+observables:
+  - { id: v, units: mV, description: { es: Potencial de membrana } }
+  - { id: i_na, units: uA/cm^2, description: { es: Corriente de sodio (negativa = entrante) } }
+  - { id: i_k, units: uA/cm^2, description: { es: Corriente de potasio (positiva = saliente) } }
+  - { id: i_l, units: uA/cm^2, description: { es: Corriente de fuga } }
+  - { id: i_ext, units: uA/cm^2, description: { es: Corriente externa aplicada } }
+  - { id: m, units: '1', description: { es: Compuerta m } }
+  - { id: h, units: '1', description: { es: Compuerta h } }
+  - { id: n, units: '1', description: { es: Compuerta n } }
+solver:
+  method: rk4
+  defaultDt: 0.01
+  maxDt: 0.05
+  dtUnits: ms
+  notes:
+    es: >-
+      Runge–Kutta de 4.º orden con paso fijo, independiente del reloj de la pantalla. El estímulo es
+      constante a trozos con bordes alineados a dt. Con dt = 0,01 ms, los tiempos de espiga coinciden
+      con NEURON (CVODE, tolerancia 1e-9) con diferencias < 0,001 ms en los casos de referencia.
+assumptions:
+  - es: Compartimento isopotencial (space clamp); no hay propagación a lo largo del axón.
+  - es: Conductancias deterministas (sin ruido de canales individuales).
+  - es: Concentraciones iónicas constantes (potenciales de inversión fijos).
+validity:
+  es: >-
+    Axón gigante de calamar en las condiciones del estudio original (~6,3 °C). Fuera de ese contexto
+    es un modelo didáctico del mecanismo, no una descripción cuantitativa de otra neurona.
+limitations:
+  - es: No describe neuronas corticales de mamífero ni sus canales (Ca²⁺, otros K⁺, etc.).
+  - es: Los rangos de los controles son didácticos; valores extremos producen comportamientos sin correlato fisiológico.
+  - es: Los localizadores de parámetros en el artículo original están pendientes de verificación (WP-012).
+sourceIds: [src.hodgkin_huxley_1952, src.dayan_abbott_theoretical_neuroscience]
+claimIds:
+  - claim.hh.preparation
+  - claim.hh.current_decomposition
+  - claim.hh.temperature
+  - claim.hh.spike_generation
+  - claim.hh.not_cortical_model
+status: draft
+provenance:
+  author: NeuroAtlas (sesión de arquitectura)
+  extractor: llm:claude
+  createdOn: 2026-10-04
+  method: >-
+    Formulación estándar en convención moderna transcrita sin consultar el artículo; verificada
+    numéricamente contra el mecanismo hh de NEURON 9.0.2 (usetable_hh = 0), que es una transcripción
+    independiente. Pendiente: cotejo con el texto original y revisión experta (WP-012).
+  transformations:
+    - Conversión de potenciales de inversión a convención moderna (V_moderno = −65 mV − V_HH).

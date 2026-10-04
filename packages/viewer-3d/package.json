@@ -1,0 +1,17 @@
+{
+  "name": "@neuroatlas/viewer-3d",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Visor 3D (React Three Fiber) de manifiestos de escena.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@neuroatlas/schemas": "0.1.0",
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.1",
+    "react": "^19.3.0",
+    "three": "^0.186.1"
+  }
+}

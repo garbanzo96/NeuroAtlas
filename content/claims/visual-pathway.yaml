@@ -1,0 +1,186 @@
+# yaml-language-server: $schema=../../packages/schemas/json/claim.file.schema.json
+# BORRADORES. Redactados a partir de conocimiento de manual sin consultar el texto de la fuente
+# asignada. Requieren extracción con localizador (WP-010) y revisión de un especialista (WP-011)
+# antes de pasar a "reviewed". La interfaz los muestra con la etiqueta "Borrador".
+- id: claim.visual.retina_to_lgn
+  version: 1
+  proposition:
+    es: >-
+      En humanos, los axones de las células ganglionares de la retina forman el nervio óptico y,
+      tras pasar por el quiasma y el tracto óptico, terminan, entre otros destinos, en el núcleo
+      geniculado lateral (NGL) del tálamo.
+  kind: observation
+  subjectIds: [ent.human.retina, ent.human.optic_nerve, ent.human.optic_tract]
+  predicate: projects_to
+  object: { type: entity, id: ent.human.lgn }
+  contextId: ctx.schematic.human_visual_pathway
+  measurement: pending_extraction
+  modelId: null
+  evidence:
+    - sourceId: src.kandel_principles
+      locator: pending
+      locatorVerified: false
+      relation: supports
+      methodLimitations: Manual de referencia; la evidencia primaria (trazado anatómico, lesiones) está pendiente de identificar.
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: Descripción general de la anatomía humana adulta; no cuantifica proporciones de fibras por destino.
+    competingExplanations: No aplica a la existencia de la vía; las proporciones y destinos adicionales requieren fuentes primarias.
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Redacción a partir de conocimiento de manual; fuente asignada como candidata sin consultar el texto.
+  display: { label: observation }
+- id: claim.visual.chiasm_partial_decussation
+  version: 1
+  proposition:
+    es: >-
+      En el quiasma óptico humano se cruzan al lado opuesto las fibras procedentes de la hemirretina
+      nasal de cada ojo; las fibras de la hemirretina temporal continúan por el tracto óptico del
+      mismo lado.
+  kind: observation
+  subjectIds: [ent.human.optic_chiasm, ent.human.nasal_hemiretina, ent.human.temporal_hemiretina]
+  predicate: decussation_pattern
+  object: { type: text, text: 'decusación parcial (nasal cruza, temporal no cruza)' }
+  contextId: ctx.schematic.human_visual_pathway
+  measurement: pending_extraction
+  modelId: null
+  evidence:
+    - sourceId: src.kandel_principles
+      locator: pending
+      locatorVerified: false
+      relation: supports
+      methodLimitations: Manual de referencia; evidencia primaria pendiente de identificar.
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: Organización típica del adulto; existen variaciones y alteraciones (p. ej. albinismo) no representadas.
+    competingExplanations: No aplica.
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Redacción a partir de conocimiento de manual; fuente asignada como candidata sin consultar el texto.
+  display: { label: observation }
+- id: claim.visual.tract_contralateral_hemifield
+  version: 1
+  proposition:
+    es: >-
+      Como consecuencia de esa decusación parcial, cada tracto óptico conduce información del
+      hemicampo visual contralateral procedente de ambos ojos.
+  kind: observation
+  subjectIds: [ent.human.optic_tract]
+  predicate: carries_information_from
+  object: { type: text, text: hemicampo visual contralateral }
+  contextId: ctx.schematic.human_visual_pathway
+  measurement: pending_extraction
+  modelId: null
+  evidence:
+    - sourceId: src.kandel_principles
+      locator: pending
+      locatorVerified: false
+      relation: supports
+      methodLimitations: Manual de referencia; la evidencia clínica y anatómica primaria está pendiente de identificar.
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: Organización general del adulto; no detalla la representación de la línea media ni de la fóvea.
+    competingExplanations: No aplica.
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Redacción a partir de conocimiento de manual; fuente asignada como candidata sin consultar el texto.
+  display: { label: observation }
+- id: claim.visual.lgn_eye_specific_layers
+  version: 1
+  proposition:
+    es: >-
+      En el NGL humano, las entradas de cada ojo terminan en capas distintas, de modo que cada capa
+      recibe predominantemente información de un solo ojo.
+  kind: observation
+  subjectIds: [ent.human.lgn]
+  predicate: has_organization
+  object: { type: text, text: capas con segregación por ojo }
+  contextId: ctx.schematic.human_visual_pathway
+  measurement: pending_extraction
+  modelId: null
+  evidence:
+    - sourceId: src.kandel_principles
+      locator: pending
+      locatorVerified: false
+      relation: supports
+      methodLimitations: Manual de referencia; buena parte de la evidencia proviene de primates no humanos. Extraer qué parte es humana.
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: Pendiente distinguir datos humanos de datos de otros primates.
+    competingExplanations: No aplica.
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Redacción a partir de conocimiento de manual; fuente asignada como candidata sin consultar el texto.
+  display: { label: observation }
+- id: claim.visual.lgn_to_v1
+  version: 1
+  proposition:
+    es: >-
+      Las neuronas de relevo del NGL proyectan a la corteza visual primaria (V1) a través de la
+      radiación óptica.
+  kind: observation
+  subjectIds: [ent.human.lgn, ent.human.optic_radiation]
+  predicate: projects_to
+  object: { type: entity, id: ent.human.v1 }
+  contextId: ctx.schematic.human_visual_pathway
+  measurement: pending_extraction
+  modelId: null
+  evidence:
+    - sourceId: src.kandel_principles
+      locator: pending
+      locatorVerified: false
+      relation: supports
+      methodLimitations: Manual de referencia; evidencia primaria pendiente de identificar.
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: No describe otras dianas corticales del NGL ni vías visuales alternativas.
+    competingExplanations: No aplica.
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Redacción a partir de conocimiento de manual; fuente asignada como candidata sin consultar el texto.
+  display: { label: observation }
+- id: claim.visual.v1_calcarine
+  version: 1
+  proposition:
+    es: >-
+      En humanos, V1 se sitúa principalmente en las paredes del surco calcarino, en la cara medial
+      del lóbulo occipital.
+  kind: observation
+  subjectIds: [ent.human.v1]
+  predicate: located_in
+  object: { type: text, text: 'paredes del surco calcarino, lóbulo occipital medial' }
+  contextId: ctx.schematic.human_visual_pathway
+  measurement: pending_extraction
+  modelId: null
+  evidence:
+    - sourceId: src.kandel_principles
+      locator: pending
+      locatorVerified: false
+      relation: supports
+      methodLimitations: Manual de referencia. La extensión exacta varía entre individuos; un atlas probabilístico (WP-020) aportará la variabilidad.
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: Localización típica; la extensión y los bordes varían entre individuos y hemisferios.
+    competingExplanations: No aplica.
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Redacción a partir de conocimiento de manual; fuente asignada como candidata sin consultar el texto.
+  display: { label: observation }

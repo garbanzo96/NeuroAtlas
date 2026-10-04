@@ -1,0 +1,413 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "anyOf": [
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^ent\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+          "description": "Identificador estable de entity (prefijo \"ent.\")"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "organism",
+            "system",
+            "region",
+            "structure",
+            "nucleus",
+            "tract",
+            "layer",
+            "population",
+            "cell_type",
+            "cell",
+            "compartment",
+            "synapse",
+            "ion_channel",
+            "ion_current",
+            "pathway",
+            "network",
+            "process",
+            "task",
+            "capacity",
+            "variable"
+          ]
+        },
+        "semanticScale": {
+          "type": "string",
+          "enum": [
+            "organism",
+            "system",
+            "pathway",
+            "region",
+            "circuit",
+            "cell",
+            "subcellular",
+            "molecular"
+          ]
+        },
+        "label": {
+          "type": "object",
+          "properties": {
+            "es": {
+              "type": "string",
+              "minLength": 1
+            },
+            "en": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "es"
+          ],
+          "additionalProperties": false
+        },
+        "synonyms": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "minLength": 1
+              },
+              "lang": {
+                "type": "string",
+                "enum": [
+                  "es",
+                  "en",
+                  "la"
+                ]
+              }
+            },
+            "required": [
+              "text",
+              "lang"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "taxonScope": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "general"
+                },
+                "note": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "kind",
+                "note"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "species"
+                },
+                "scientificName": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "kind",
+                "scientificName"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "externalRefs": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "system": {
+                "type": "string",
+                "enum": [
+                  "UBERON",
+                  "NeuroNames",
+                  "AllenMouseCCF",
+                  "JulichBrain",
+                  "CL",
+                  "other"
+                ]
+              },
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "version": {
+                "type": "string"
+              },
+              "verified": {
+                "type": "boolean"
+              },
+              "verifiedOn": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "date",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "system",
+              "id",
+              "verified",
+              "verifiedOn"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "reviewed",
+            "published",
+            "questioned",
+            "retired"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "semanticScale",
+        "label",
+        "taxonScope",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^ent\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de entity (prefijo \"ent.\")"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "organism",
+              "system",
+              "region",
+              "structure",
+              "nucleus",
+              "tract",
+              "layer",
+              "population",
+              "cell_type",
+              "cell",
+              "compartment",
+              "synapse",
+              "ion_channel",
+              "ion_current",
+              "pathway",
+              "network",
+              "process",
+              "task",
+              "capacity",
+              "variable"
+            ]
+          },
+          "semanticScale": {
+            "type": "string",
+            "enum": [
+              "organism",
+              "system",
+              "pathway",
+              "region",
+              "circuit",
+              "cell",
+              "subcellular",
+              "molecular"
+            ]
+          },
+          "label": {
+            "type": "object",
+            "properties": {
+              "es": {
+                "type": "string",
+                "minLength": 1
+              },
+              "en": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "es"
+            ],
+            "additionalProperties": false
+          },
+          "synonyms": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "lang": {
+                  "type": "string",
+                  "enum": [
+                    "es",
+                    "en",
+                    "la"
+                  ]
+                }
+              },
+              "required": [
+                "text",
+                "lang"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "taxonScope": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "const": "general"
+                  },
+                  "note": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "kind",
+                  "note"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "const": "species"
+                  },
+                  "scientificName": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "kind",
+                  "scientificName"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "externalRefs": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "system": {
+                  "type": "string",
+                  "enum": [
+                    "UBERON",
+                    "NeuroNames",
+                    "AllenMouseCCF",
+                    "JulichBrain",
+                    "CL",
+                    "other"
+                  ]
+                },
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "version": {
+                  "type": "string"
+                },
+                "verified": {
+                  "type": "boolean"
+                },
+                "verifiedOn": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "system",
+                "id",
+                "verified",
+                "verifiedOn"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "reviewed",
+              "published",
+              "questioned",
+              "retired"
+            ]
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "semanticScale",
+          "label",
+          "taxonScope",
+          "status"
+        ],
+        "additionalProperties": false
+      }
+    }
+  ],
+  "title": "NeuroAtlas entity (archivo: registro o lista)"
+}

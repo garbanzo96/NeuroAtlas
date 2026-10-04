@@ -1,0 +1,98 @@
+# yaml-language-server: $schema=../../packages/schemas/json/entity.file.schema.json
+# Entidades del esquema laminar genérico. Alcance taxonómico general: cuando se decida la
+# especie (DEC-004) se crearán entidades específicas y correspondencias explícitas.
+- id: ent.neocortex.layer_1
+  type: layer
+  semanticScale: circuit
+  label: { es: Capa 1 (molecular), en: Layer 1 }
+  taxonScope: { kind: general, note: Neocorteza de mamíferos; esquema genérico. }
+  status: draft
+- id: ent.neocortex.layer_2_3
+  type: layer
+  semanticScale: circuit
+  label: { es: Capas 2/3, en: Layers 2/3 }
+  taxonScope: { kind: general, note: Neocorteza de mamíferos; esquema genérico. }
+  status: draft
+- id: ent.neocortex.layer_4
+  type: layer
+  semanticScale: circuit
+  label: { es: Capa 4 (granular interna), en: Layer 4 }
+  taxonScope:
+    {
+      kind: general,
+      note: Neocorteza sensorial primaria de mamíferos; ausente o reducida en cortezas agranulares.,
+    }
+  status: draft
+- id: ent.neocortex.layer_5
+  type: layer
+  semanticScale: circuit
+  label: { es: Capa 5, en: Layer 5 }
+  taxonScope: { kind: general, note: Neocorteza de mamíferos; esquema genérico. }
+  status: draft
+- id: ent.neocortex.layer_6
+  type: layer
+  semanticScale: circuit
+  label: { es: Capa 6, en: Layer 6 }
+  taxonScope: { kind: general, note: Neocorteza de mamíferos; esquema genérico. }
+  status: draft
+- id: ent.neocortex.l4_excitatory
+  type: population
+  semanticScale: circuit
+  label: { es: Neuronas excitadoras de capa 4, en: Layer 4 excitatory neurons }
+  taxonScope:
+    {
+      kind: general,
+      note: Población esquemática; tipos celulares concretos dependen de especie y área.,
+    }
+  status: draft
+- id: ent.neocortex.l23_pyramidal
+  type: population
+  semanticScale: circuit
+  label: { es: Neuronas piramidales de capas 2/3, en: Layer 2/3 pyramidal neurons }
+  taxonScope: { kind: general, note: Población esquemática. }
+  status: draft
+- id: ent.neocortex.l5_pyramidal
+  type: population
+  semanticScale: circuit
+  label: { es: Neuronas piramidales de capa 5, en: Layer 5 pyramidal neurons }
+  taxonScope:
+    { kind: general, note: Población esquemática; incluye subtipos con destinos distintos. }
+  status: draft
+- id: ent.neocortex.l6_pyramidal
+  type: population
+  semanticScale: circuit
+  label: { es: Neuronas piramidales de capa 6, en: Layer 6 pyramidal neurons }
+  taxonScope: { kind: general, note: Población esquemática. }
+  status: draft
+- id: ent.neocortex.inhibitory_interneurons
+  type: population
+  semanticScale: circuit
+  label: { es: Interneuronas inhibitorias (GABAérgicas), en: Inhibitory interneurons }
+  taxonScope:
+    {
+      kind: general,
+      note: Grupo diverso; sus subclases y conexiones no se detallan en este esquema.,
+    }
+  status: draft
+- id: ent.generic.thalamus_first_order
+  type: nucleus
+  semanticScale: region
+  label: { es: Tálamo (núcleo de relevo de primer orden), en: First-order thalamic relay nucleus }
+  synonyms:
+    - { text: entrada talámica, lang: es }
+  taxonScope:
+    {
+      kind: general,
+      note: En la vía visual corresponde al NGL; la correspondencia con una especie concreta se declarará al decidir DEC-004.,
+    }
+  status: draft
+- id: ent.generic.subcortical_targets
+  type: structure
+  semanticScale: region
+  label: { es: Destinos subcorticales, en: Subcortical targets }
+  taxonScope:
+    {
+      kind: general,
+      note: 'Agrupa destinos diversos (p. ej. tronco, estriado); simplificación didáctica.',
+    }
+  status: draft

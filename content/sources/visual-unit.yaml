@@ -1,0 +1,69 @@
+# yaml-language-server: $schema=../../packages/schemas/json/source.file.schema.json
+# Fuentes añadidas para la unidad visual (no estaban en el registro del plan inicial).
+# Metadatos verificados en Crossref el 2026-10-04; contenido no inspeccionado.
+- id: src.hodgkin_huxley_1952
+  type: article
+  title: A quantitative description of membrane current and its application to conduction and excitation in nerve
+  authors:
+    - Hodgkin, A. L.
+    - Huxley, A. F.
+  year: 1952
+  container: The Journal of Physiology 117:500–544
+  doi: 10.1113/jphysiol.1952.sp004764
+  urls:
+    - https://doi.org/10.1113/jphysiol.1952.sp004764
+  plannedUse: Formulación original del modelo de conductancias del axón gigante de calamar; ecuaciones, parámetros y condiciones (temperatura, preparación) de la escena de excitabilidad.
+  limitations: Modelo de una preparación concreta (axón gigante de calamar, ~6,3 °C). No describe neuronas corticales de mamífero sin reparametrización. La convención de voltaje del artículo difiere de la convención moderna.
+  verification:
+    status: metadata_verified
+    verifiedOn: 2026-10-04
+    scope: 'Crossref: título, autores, revista y año coinciden. Contenido y licencia no revisados.'
+    method: crossref_api (docs/research/metadata-checks/10_1113_jphysiol_1952_sp004764.json)
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. No reproducir figuras ni tablas sin revisar derechos.
+- id: src.douglas_martin_2004
+  type: review
+  title: Neuronal circuits of the neocortex
+  authors:
+    - Douglas, Rodney J.
+    - Martin, Kevan A. C.
+  year: 2004
+  container: Annual Review of Neuroscience 27:419–451
+  doi: 10.1146/annurev.neuro.27.070203.144152
+  urls:
+    - https://doi.org/10.1146/annurev.neuro.27.070203.144152
+  plannedUse: Candidata para el esquema laminar del circuito neocortical ("circuito canónico") de la escena laminar.
+  limitations: Revisión que propone una generalización; las vías y pesos dependen de especie, área y método de los estudios citados. Extraer especie y datos originales antes de publicar.
+  verification:
+    status: metadata_verified
+    verifiedOn: 2026-10-04
+    scope: 'Crossref: título, autores, revista y año coinciden. Contenido y licencia no revisados.'
+    method: crossref_api (docs/research/metadata-checks/10_1146_annurev_neuro_27_070203_144152.json)
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. No reproducir diagramas sin revisar derechos.
+- id: src.harris_shepherd_2015
+  type: review
+  title: 'The neocortical circuit: themes and variations'
+  authors:
+    - Harris, Kenneth D.
+    - Shepherd, Gordon M. G.
+  year: 2015
+  container: Nature Neuroscience 18:170–181
+  doi: 10.1038/nn.3917
+  urls:
+    - https://doi.org/10.1038/nn.3917
+  plannedUse: Candidata para variaciones del circuito neocortical entre áreas y especies, y para matizar el esquema canónico.
+  limitations: Revisión; cada afirmación concreta debe rastrearse a estudios primarios con especie y método.
+  verification:
+    status: metadata_verified
+    verifiedOn: 2026-10-04
+    scope: 'Crossref: título, autores, revista y año coinciden. Contenido y licencia no revisados.'
+    method: crossref_api (docs/research/metadata-checks/10_1038_nn_3917.json)
+  license:
+    reviewed: false
+    redistribution: unknown
+    summary: No revisada. No reproducir figuras sin revisar derechos.

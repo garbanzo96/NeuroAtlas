@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "anyOf": [
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^rep\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+          "description": "Identificador estable de representation (prefijo \"rep.\")"
+        },
+        "label": {
+          "type": "object",
+          "properties": {
+            "es": {
+              "type": "string",
+              "minLength": 1
+            },
+            "en": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "es"
+          ],
+          "additionalProperties": false
+        },
+        "contextId": {
+          "type": "string",
+          "pattern": "^ctx\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+          "description": "Identificador estable de context (prefijo \"ctx.\")"
+        },
+        "assetId": {
+          "type": "string",
+          "pattern": "^asset\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+          "description": "Identificador estable de asset (prefijo \"asset.\")"
+        },
+        "groups": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          }
+        },
+        "description": {
+          "type": "object",
+          "properties": {
+            "es": {
+              "type": "string",
+              "minLength": 1
+            },
+            "en": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "es"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "contextId",
+        "assetId",
+        "description"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^rep\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de representation (prefijo \"rep.\")"
+          },
+          "label": {
+            "type": "object",
+            "properties": {
+              "es": {
+                "type": "string",
+                "minLength": 1
+              },
+              "en": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "es"
+            ],
+            "additionalProperties": false
+          },
+          "contextId": {
+            "type": "string",
+            "pattern": "^ctx\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de context (prefijo \"ctx.\")"
+          },
+          "assetId": {
+            "type": "string",
+            "pattern": "^asset\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de asset (prefijo \"asset.\")"
+          },
+          "groups": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_]+$"
+            }
+          },
+          "description": {
+            "type": "object",
+            "properties": {
+              "es": {
+                "type": "string",
+                "minLength": 1
+              },
+              "en": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "es"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "contextId",
+          "assetId",
+          "description"
+        ],
+        "additionalProperties": false
+      }
+    }
+  ],
+  "title": "NeuroAtlas representation (archivo: registro o lista)"
+}

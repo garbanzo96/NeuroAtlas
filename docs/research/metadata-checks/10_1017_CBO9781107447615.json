@@ -1,0 +1,16 @@
+{
+  "doi": "10.1017/CBO9781107447615",
+  "checkedOn": "2026-10-04",
+  "endpoint": "https://api.crossref.org/works/10.1017%2FCBO9781107447615",
+  "httpStatus": 200,
+  "metadata": {
+    "title": "Neuronal Dynamics",
+    "authors": ["Gerstner, Wulfram", "Kistler, Werner M.", "Naud, Richard", "Paninski, Liam"],
+    "container": null,
+    "year": 2014,
+    "volume": null,
+    "page": null
+  },
+  "comparison": [],
+  "scope": "Crossref: título, autores, revista y fecha. No verifica contenido ni licencia."
+}

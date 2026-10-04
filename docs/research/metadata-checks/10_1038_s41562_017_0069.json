@@ -1,0 +1,26 @@
+{
+  "doi": "10.1038/s41562-017-0069",
+  "checkedOn": "2026-10-04",
+  "endpoint": "https://api.crossref.org/works/10.1038%2Fs41562-017-0069",
+  "httpStatus": 200,
+  "metadata": {
+    "title": "Evidence for a large-scale brain system supporting allostasis and interoception in humans",
+    "authors": [
+      "Kleckner, Ian R.",
+      "Zhang, Jiahe",
+      "Touroutoglou, Alexandra",
+      "Chanes, Lorena",
+      "Xia, Chenjie",
+      "Simmons, W. Kyle",
+      "Quigley, Karen S.",
+      "Dickerson, Bradford C.",
+      "Feldman Barrett, Lisa"
+    ],
+    "container": "Nature Human Behaviour",
+    "year": 2017,
+    "volume": "1",
+    "page": null
+  },
+  "comparison": [],
+  "scope": "Crossref: título, autores, revista y fecha. No verifica contenido ni licencia."
+}

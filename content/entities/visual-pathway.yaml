@@ -1,0 +1,71 @@
+# yaml-language-server: $schema=../../packages/schemas/json/entity.file.schema.json
+# Entidades humanas de la vía visual. Sin referencias externas todavía: los IDs de UBERON /
+# NeuroNames se añaden solo tras verificarlos uno a uno (WP-013).
+- id: ent.human.retina
+  type: structure
+  semanticScale: region
+  label: { es: Retina, en: Retina }
+  taxonScope: { kind: species, scientificName: Homo sapiens }
+  status: draft
+- id: ent.human.nasal_hemiretina
+  type: structure
+  semanticScale: region
+  label: { es: Hemirretina nasal, en: Nasal hemiretina }
+  taxonScope: { kind: species, scientificName: Homo sapiens }
+  status: draft
+- id: ent.human.temporal_hemiretina
+  type: structure
+  semanticScale: region
+  label: { es: Hemirretina temporal, en: Temporal hemiretina }
+  taxonScope: { kind: species, scientificName: Homo sapiens }
+  status: draft
+- id: ent.human.optic_nerve
+  type: tract
+  semanticScale: pathway
+  label: { es: Nervio óptico, en: Optic nerve }
+  taxonScope: { kind: species, scientificName: Homo sapiens }
+  status: draft
+- id: ent.human.optic_chiasm
+  type: structure
+  semanticScale: region
+  label: { es: Quiasma óptico, en: Optic chiasm }
+  taxonScope: { kind: species, scientificName: Homo sapiens }
+  status: draft
+- id: ent.human.optic_tract
+  type: tract
+  semanticScale: pathway
+  label: { es: Tracto óptico, en: Optic tract }
+  synonyms:
+    - { text: cintilla óptica, lang: es }
+  taxonScope: { kind: species, scientificName: Homo sapiens }
+  status: draft
+- id: ent.human.lgn
+  type: nucleus
+  semanticScale: region
+  label: { es: Núcleo geniculado lateral, en: Lateral geniculate nucleus }
+  synonyms:
+    - { text: NGL, lang: es }
+    - { text: LGN, lang: en }
+    - { text: cuerpo geniculado lateral, lang: es }
+  taxonScope: { kind: species, scientificName: Homo sapiens }
+  status: draft
+- id: ent.human.optic_radiation
+  type: tract
+  semanticScale: pathway
+  label: { es: Radiación óptica, en: Optic radiation }
+  synonyms:
+    - { text: radiaciones ópticas, lang: es }
+    - { text: tracto geniculocalcarino, lang: es }
+  taxonScope: { kind: species, scientificName: Homo sapiens }
+  status: draft
+- id: ent.human.v1
+  type: region
+  semanticScale: region
+  label: { es: Corteza visual primaria (V1), en: Primary visual cortex (V1) }
+  synonyms:
+    - { text: V1, lang: es }
+    - { text: corteza estriada, lang: es }
+    - { text: área 17 de Brodmann, lang: es }
+  taxonScope: { kind: species, scientificName: Homo sapiens }
+  notes: La correspondencia entre "V1", "corteza estriada", "área 17" y parcelas de atlas concretos (p. ej. hOc1) debe registrarse como relación corresponds_to con su esquema, no como sinónimo exacto, cuando se incorpore un atlas (WP-020).
+  status: draft

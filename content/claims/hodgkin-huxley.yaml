@@ -1,0 +1,164 @@
+# yaml-language-server: $schema=../../packages/schemas/json/claim.file.schema.json
+# Afirmaciones sobre el modelo HH. Las de tipo model_prediction describen qué postula o produce
+# el modelo, no mediciones. Los resultados de simulación se comparan contra NEURON (ver
+# packages/simulation/src/fixtures), lo que verifica la implementación, no la biología.
+- id: claim.hh.preparation
+  version: 1
+  proposition:
+    es: >-
+      Hodgkin y Huxley formularon su modelo (1952) a partir de experimentos de fijación de voltaje
+      en axones gigantes de calamar.
+  kind: observation
+  subjectIds: [model.hh_classic, ent.squid.giant_axon]
+  predicate: derived_from
+  object: { type: text, text: experimentos de fijación de voltaje en axón gigante de calamar }
+  contextId: ctx.model.hh_squid_axon_1952
+  measurement: Fijación de voltaje (voltage clamp) de corrientes de membrana.
+  modelId: null
+  evidence:
+    - sourceId: src.hodgkin_huxley_1952
+      locator: pending
+      locatorVerified: false
+      relation: supports
+      methodLimitations: El artículo de 1952 resume y modela datos de una serie de trabajos; localizar las referencias a la preparación.
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: Una preparación de invertebrado, a baja temperatura.
+    competingExplanations: No aplica.
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Redacción a partir de conocimiento general; fuente con metadatos verificados, texto no consultado.
+  display: { label: observation }
+- id: claim.hh.current_decomposition
+  version: 1
+  proposition:
+    es: >-
+      En el modelo HH, la corriente iónica de membrana se descompone en una corriente de sodio y
+      una de potasio, con conductancias que dependen del voltaje y del tiempo, más una corriente de
+      fuga de conductancia constante.
+  kind: model_prediction
+  subjectIds: [model.hh_classic]
+  predicate: models_current_as
+  object: { type: text, text: 'I_ion = I_Na + I_K + I_L' }
+  contextId: ctx.model.hh_squid_axon_1952
+  measurement: not_applicable
+  modelId: model.hh_classic
+  evidence:
+    - sourceId: src.hodgkin_huxley_1952
+      locator: pending
+      locatorVerified: false
+      relation: supports
+      methodLimitations: Estructura del modelo; no implica que todas las neuronas tengan solo estas corrientes.
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: Las neuronas de mamífero expresan muchos otros canales (Ca²⁺, K⁺ de varios tipos, etc.).
+    competingExplanations: No aplica a la estructura del modelo.
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Descripción de la formulación implementada en hh_classic_v1.
+  display: { label: model }
+- id: claim.hh.temperature
+  version: 1
+  proposition:
+    es: >-
+      Los parámetros cinéticos del modelo clásico corresponden a 6,3 °C; en la formulación original,
+      las tasas de las compuertas se escalan con la temperatura mediante un factor Q10.
+  kind: model_prediction
+  subjectIds: [model.hh_classic]
+  predicate: has_reference_temperature
+  object: { type: quantity, value: 6.3, units: degC }
+  contextId: ctx.model.hh_squid_axon_1952
+  measurement: not_applicable
+  modelId: model.hh_classic
+  evidence:
+    - sourceId: src.hodgkin_huxley_1952
+      locator: pending
+      locatorVerified: false
+      relation: supports
+      methodLimitations: Verificar valor y forma del factor de temperatura en el texto original.
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: El escalado Q10 es una aproximación; no convierte el modelo en uno de mamífero.
+    competingExplanations: No aplica.
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Redacción a partir de conocimiento general; fuente con metadatos verificados, texto no consultado.
+  display: { label: model }
+- id: claim.hh.spike_generation
+  version: 1
+  proposition:
+    es: >-
+      En el modelo HH, un pulso breve de corriente suficientemente intenso genera un potencial de
+      acción, y una corriente sostenida suficiente produce disparo repetitivo.
+  kind: model_prediction
+  subjectIds: [model.hh_classic]
+  predicate: predicts
+  object:
+    {
+      type: text,
+      text: potencial de acción ante pulso supraumbral; disparo repetitivo ante corriente sostenida,
+    }
+  contextId: ctx.model.hh_squid_axon_1952
+  measurement: Simulación numérica (RK4, dt = 0,01 ms) comparada con NEURON 9.0.2.
+  modelId: model.hh_classic
+  evidence:
+    - sourceId: src.hodgkin_huxley_1952
+      locator: pending
+      locatorVerified: false
+      relation: supports
+      methodLimitations: Localizar en el artículo las respuestas simuladas a estímulos breves y sostenidos.
+    - sourceId: src.neuron_simulator
+      locator: 'Trazas de referencia: packages/simulation/src/fixtures/hh-neuron-reference.json'
+      locatorVerified: true
+      relation: contextualizes
+      methodLimitations: Una segunda implementación del mismo modelo; confirma la ejecución numérica, no la validez biológica.
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: Resultado del modelo con los parámetros clásicos; el umbral concreto depende de duración del pulso y parámetros.
+    competingExplanations: No aplica.
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Comprobado ejecutando hh_classic_v1 y comparando con trazas independientes de NEURON.
+  display: { label: model }
+- id: claim.hh.not_cortical_model
+  version: 1
+  proposition:
+    es: >-
+      El modelo HH clásico no es un modelo parametrizado de neuronas corticales de mamífero; usarlo
+      para ellas exige otras fuentes, parámetros y validación.
+  kind: inference
+  subjectIds: [model.hh_classic]
+  predicate: has_limitation
+  object: { type: text, text: alcance limitado a la preparación original }
+  contextId: ctx.model.hh_squid_axon_1952
+  measurement: not_applicable
+  modelId: model.hh_classic
+  evidence:
+    - sourceId: src.hodgkin_huxley_1952
+      locator: pending
+      locatorVerified: false
+      relation: contextualizes
+      methodLimitations: El alcance se deduce de la preparación y la temperatura del estudio.
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: No aplica.
+    competingExplanations: No aplica.
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Inferencia metodológica exigida por el plan (04-ejecucion-y-prompts.md, prompt F).
+  display: { label: inference }

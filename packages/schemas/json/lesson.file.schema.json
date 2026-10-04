@@ -1,0 +1,447 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "anyOf": [
+    {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "const": "1"
+        },
+        "lessonId": {
+          "type": "string",
+          "pattern": "^lesson\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+          "description": "Identificador estable de lesson (prefijo \"lesson.\")"
+        },
+        "title": {
+          "type": "object",
+          "properties": {
+            "es": {
+              "type": "string",
+              "minLength": 1
+            },
+            "en": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "es"
+          ],
+          "additionalProperties": false
+        },
+        "audience": {
+          "type": "string",
+          "minLength": 1
+        },
+        "durationMinutes": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        },
+        "objectives": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "es": {
+                "type": "string",
+                "minLength": 1
+              },
+              "en": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "es"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "reviewed",
+            "published",
+            "questioned",
+            "retired"
+          ]
+        },
+        "steps": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_]+$"
+              },
+              "sceneId": {
+                "type": "string",
+                "pattern": "^scene\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                "description": "Identificador estable de scene (prefijo \"scene.\")"
+              },
+              "title": {
+                "type": "object",
+                "properties": {
+                  "es": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "en": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "es"
+                ],
+                "additionalProperties": false
+              },
+              "narrative": {
+                "type": "object",
+                "properties": {
+                  "es": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "en": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "es"
+                ],
+                "additionalProperties": false
+              },
+              "claimIds": {
+                "default": [],
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^claim\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                  "description": "Identificador estable de claim (prefijo \"claim.\")"
+                }
+              },
+              "focusEntityIds": {
+                "default": [],
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^ent\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                  "description": "Identificador estable de entity (prefijo \"ent.\")"
+                }
+              },
+              "visibleLayerIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9_]+$"
+                }
+              },
+              "task": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "observe",
+                      "locate",
+                      "manipulate",
+                      "explain"
+                    ]
+                  },
+                  "prompt": {
+                    "type": "object",
+                    "properties": {
+                      "es": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "en": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "es"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "successCriteria": {
+                    "type": "object",
+                    "properties": {
+                      "es": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "en": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "es"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "kind",
+                  "prompt"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "id",
+              "sceneId",
+              "title",
+              "narrative"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "lessonId",
+        "title",
+        "audience",
+        "durationMinutes",
+        "objectives",
+        "status",
+        "steps"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "schemaVersion": {
+            "type": "string",
+            "const": "1"
+          },
+          "lessonId": {
+            "type": "string",
+            "pattern": "^lesson\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de lesson (prefijo \"lesson.\")"
+          },
+          "title": {
+            "type": "object",
+            "properties": {
+              "es": {
+                "type": "string",
+                "minLength": 1
+              },
+              "en": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "es"
+            ],
+            "additionalProperties": false
+          },
+          "audience": {
+            "type": "string",
+            "minLength": 1
+          },
+          "durationMinutes": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "objectives": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "es": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "en": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "es"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "reviewed",
+              "published",
+              "questioned",
+              "retired"
+            ]
+          },
+          "steps": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9_]+$"
+                },
+                "sceneId": {
+                  "type": "string",
+                  "pattern": "^scene\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                  "description": "Identificador estable de scene (prefijo \"scene.\")"
+                },
+                "title": {
+                  "type": "object",
+                  "properties": {
+                    "es": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "en": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "es"
+                  ],
+                  "additionalProperties": false
+                },
+                "narrative": {
+                  "type": "object",
+                  "properties": {
+                    "es": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "en": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "es"
+                  ],
+                  "additionalProperties": false
+                },
+                "claimIds": {
+                  "default": [],
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^claim\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                    "description": "Identificador estable de claim (prefijo \"claim.\")"
+                  }
+                },
+                "focusEntityIds": {
+                  "default": [],
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^ent\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                    "description": "Identificador estable de entity (prefijo \"ent.\")"
+                  }
+                },
+                "visibleLayerIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9_]+$"
+                  }
+                },
+                "task": {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "observe",
+                        "locate",
+                        "manipulate",
+                        "explain"
+                      ]
+                    },
+                    "prompt": {
+                      "type": "object",
+                      "properties": {
+                        "es": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "en": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": [
+                        "es"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "successCriteria": {
+                      "type": "object",
+                      "properties": {
+                        "es": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "en": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": [
+                        "es"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "prompt"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "id",
+                "sceneId",
+                "title",
+                "narrative"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "lessonId",
+          "title",
+          "audience",
+          "durationMinutes",
+          "objectives",
+          "status",
+          "steps"
+        ],
+        "additionalProperties": false
+      }
+    }
+  ],
+  "title": "NeuroAtlas lesson (archivo: registro o lista)"
+}

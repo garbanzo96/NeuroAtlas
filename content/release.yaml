@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=../packages/schemas/json/release.schema.json
+# Release en desarrollo: todo el contenido científico está en borrador y la interfaz lo indica.
+id: 2026.10.0-dev
+channel: dev
+cutoffDate: 2026-10-04
+notes:
+  es: >-
+    Esqueleto de arquitectura. Ninguna afirmación ha sido revisada por especialistas; las fuentes
+    con DOI tienen solo metadatos verificados (Crossref, 2026-10-04). La escena anatómica de V1
+    está bloqueada hasta disponer de una geometría autorizada.

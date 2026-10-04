@@ -1,0 +1,1219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "anyOf": [
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^model\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+          "description": "Identificador estable de model (prefijo \"model.\")"
+        },
+        "version": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        },
+        "name": {
+          "type": "object",
+          "properties": {
+            "es": {
+              "type": "string",
+              "minLength": 1
+            },
+            "en": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "es"
+          ],
+          "additionalProperties": false
+        },
+        "formalism": {
+          "type": "string",
+          "enum": [
+            "conductance_based",
+            "integrate_and_fire",
+            "rate",
+            "other"
+          ]
+        },
+        "implementation": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$"
+        },
+        "contextId": {
+          "type": "string",
+          "pattern": "^ctx\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+          "description": "Identificador estable de context (prefijo \"ctx.\")"
+        },
+        "description": {
+          "type": "object",
+          "properties": {
+            "es": {
+              "type": "string",
+              "minLength": 1
+            },
+            "en": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "es"
+          ],
+          "additionalProperties": false
+        },
+        "conventions": {
+          "type": "object",
+          "properties": {
+            "es": {
+              "type": "string",
+              "minLength": 1
+            },
+            "en": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "es"
+          ],
+          "additionalProperties": false
+        },
+        "equations": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_]+$"
+              },
+              "latex": {
+                "type": "string",
+                "minLength": 1
+              },
+              "description": {
+                "type": "object",
+                "properties": {
+                  "es": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "en": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "es"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "id",
+              "latex",
+              "description"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "stateVariables": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_]+$"
+              },
+              "symbol": {
+                "type": "string",
+                "minLength": 1
+              },
+              "units": {
+                "type": "string",
+                "minLength": 1
+              },
+              "description": {
+                "type": "object",
+                "properties": {
+                  "es": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "en": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "es"
+                ],
+                "additionalProperties": false
+              },
+              "initialValue": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "id",
+              "symbol",
+              "units",
+              "description",
+              "initialValue"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "parameters": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_]+$"
+              },
+              "symbol": {
+                "type": "string",
+                "minLength": 1
+              },
+              "value": {
+                "type": "number"
+              },
+              "units": {
+                "type": "string",
+                "minLength": 1
+              },
+              "description": {
+                "type": "object",
+                "properties": {
+                  "es": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "en": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "es"
+                ],
+                "additionalProperties": false
+              },
+              "sourceId": {
+                "type": "string",
+                "pattern": "^src\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                "description": "Identificador estable de source (prefijo \"src.\")"
+              },
+              "locator": {
+                "type": "string",
+                "minLength": 1
+              },
+              "locatorVerified": {
+                "type": "boolean"
+              },
+              "adjustable": {
+                "type": "boolean"
+              },
+              "range": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "items": false,
+                "minItems": 2,
+                "maxItems": 2
+              }
+            },
+            "required": [
+              "id",
+              "symbol",
+              "value",
+              "units",
+              "description",
+              "sourceId",
+              "locator",
+              "locatorVerified",
+              "adjustable"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_]+$"
+              },
+              "units": {
+                "type": "string",
+                "minLength": 1
+              },
+              "description": {
+                "type": "object",
+                "properties": {
+                  "es": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "en": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "es"
+                ],
+                "additionalProperties": false
+              },
+              "range": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "items": false,
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "default": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "id",
+              "units",
+              "description",
+              "range",
+              "default"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "observables": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_]+$"
+              },
+              "units": {
+                "type": "string",
+                "minLength": 1
+              },
+              "description": {
+                "type": "object",
+                "properties": {
+                  "es": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "en": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "es"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "id",
+              "units",
+              "description"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "solver": {
+          "type": "object",
+          "properties": {
+            "method": {
+              "type": "string",
+              "enum": [
+                "rk4",
+                "euler"
+              ]
+            },
+            "defaultDt": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "maxDt": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "dtUnits": {
+              "type": "string",
+              "const": "ms"
+            },
+            "notes": {
+              "type": "object",
+              "properties": {
+                "es": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "en": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "es"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "method",
+            "defaultDt",
+            "maxDt",
+            "dtUnits",
+            "notes"
+          ],
+          "additionalProperties": false
+        },
+        "assumptions": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "es": {
+                "type": "string",
+                "minLength": 1
+              },
+              "en": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "es"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "validity": {
+          "type": "object",
+          "properties": {
+            "es": {
+              "type": "string",
+              "minLength": 1
+            },
+            "en": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "es"
+          ],
+          "additionalProperties": false
+        },
+        "limitations": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "es": {
+                "type": "string",
+                "minLength": 1
+              },
+              "en": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "es"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "sourceIds": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^src\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de source (prefijo \"src.\")"
+          }
+        },
+        "claimIds": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^claim\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de claim (prefijo \"claim.\")"
+          }
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "reviewed",
+            "published",
+            "questioned",
+            "retired"
+          ]
+        },
+        "reviews": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "human_expert",
+                  "human_editorial",
+                  "llm_crosscheck"
+                ]
+              },
+              "reviewer": {
+                "type": "string",
+                "minLength": 1
+              },
+              "role": {
+                "type": "string",
+                "minLength": 1
+              },
+              "date": {
+                "type": "string",
+                "format": "date",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+              },
+              "scope": {
+                "type": "string",
+                "minLength": 1
+              },
+              "criteria": {
+                "type": "string",
+                "minLength": 1
+              },
+              "outcome": {
+                "type": "string",
+                "enum": [
+                  "approved",
+                  "approved_with_changes",
+                  "rejected",
+                  "needs_more_evidence"
+                ]
+              }
+            },
+            "required": [
+              "kind",
+              "reviewer",
+              "role",
+              "date",
+              "scope",
+              "criteria",
+              "outcome"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "provenance": {
+          "type": "object",
+          "properties": {
+            "author": {
+              "type": "string",
+              "minLength": 1
+            },
+            "extractor": {
+              "type": "string",
+              "minLength": 1
+            },
+            "createdOn": {
+              "type": "string",
+              "format": "date",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+            },
+            "method": {
+              "type": "string",
+              "minLength": 1
+            },
+            "transformations": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "author",
+            "extractor",
+            "createdOn",
+            "method"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "name",
+        "formalism",
+        "implementation",
+        "contextId",
+        "description",
+        "conventions",
+        "equations",
+        "stateVariables",
+        "parameters",
+        "inputs",
+        "observables",
+        "solver",
+        "assumptions",
+        "validity",
+        "limitations",
+        "sourceIds",
+        "status",
+        "provenance"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^model\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de model (prefijo \"model.\")"
+          },
+          "version": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "name": {
+            "type": "object",
+            "properties": {
+              "es": {
+                "type": "string",
+                "minLength": 1
+              },
+              "en": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "es"
+            ],
+            "additionalProperties": false
+          },
+          "formalism": {
+            "type": "string",
+            "enum": [
+              "conductance_based",
+              "integrate_and_fire",
+              "rate",
+              "other"
+            ]
+          },
+          "implementation": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "contextId": {
+            "type": "string",
+            "pattern": "^ctx\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de context (prefijo \"ctx.\")"
+          },
+          "description": {
+            "type": "object",
+            "properties": {
+              "es": {
+                "type": "string",
+                "minLength": 1
+              },
+              "en": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "es"
+            ],
+            "additionalProperties": false
+          },
+          "conventions": {
+            "type": "object",
+            "properties": {
+              "es": {
+                "type": "string",
+                "minLength": 1
+              },
+              "en": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "es"
+            ],
+            "additionalProperties": false
+          },
+          "equations": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9_]+$"
+                },
+                "latex": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "description": {
+                  "type": "object",
+                  "properties": {
+                    "es": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "en": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "es"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "id",
+                "latex",
+                "description"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "stateVariables": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9_]+$"
+                },
+                "symbol": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "units": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "description": {
+                  "type": "object",
+                  "properties": {
+                    "es": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "en": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "es"
+                  ],
+                  "additionalProperties": false
+                },
+                "initialValue": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "id",
+                "symbol",
+                "units",
+                "description",
+                "initialValue"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "parameters": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9_]+$"
+                },
+                "symbol": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "value": {
+                  "type": "number"
+                },
+                "units": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "description": {
+                  "type": "object",
+                  "properties": {
+                    "es": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "en": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "es"
+                  ],
+                  "additionalProperties": false
+                },
+                "sourceId": {
+                  "type": "string",
+                  "pattern": "^src\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                  "description": "Identificador estable de source (prefijo \"src.\")"
+                },
+                "locator": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "locatorVerified": {
+                  "type": "boolean"
+                },
+                "adjustable": {
+                  "type": "boolean"
+                },
+                "range": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ],
+                  "items": false,
+                  "minItems": 2,
+                  "maxItems": 2
+                }
+              },
+              "required": [
+                "id",
+                "symbol",
+                "value",
+                "units",
+                "description",
+                "sourceId",
+                "locator",
+                "locatorVerified",
+                "adjustable"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "inputs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9_]+$"
+                },
+                "units": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "description": {
+                  "type": "object",
+                  "properties": {
+                    "es": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "en": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "es"
+                  ],
+                  "additionalProperties": false
+                },
+                "range": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ],
+                  "items": false,
+                  "minItems": 2,
+                  "maxItems": 2
+                },
+                "default": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "id",
+                "units",
+                "description",
+                "range",
+                "default"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "observables": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9_]+$"
+                },
+                "units": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "description": {
+                  "type": "object",
+                  "properties": {
+                    "es": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "en": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "es"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "id",
+                "units",
+                "description"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "solver": {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "enum": [
+                  "rk4",
+                  "euler"
+                ]
+              },
+              "defaultDt": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "maxDt": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "dtUnits": {
+                "type": "string",
+                "const": "ms"
+              },
+              "notes": {
+                "type": "object",
+                "properties": {
+                  "es": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "en": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "es"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "method",
+              "defaultDt",
+              "maxDt",
+              "dtUnits",
+              "notes"
+            ],
+            "additionalProperties": false
+          },
+          "assumptions": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "es": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "en": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "es"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "validity": {
+            "type": "object",
+            "properties": {
+              "es": {
+                "type": "string",
+                "minLength": 1
+              },
+              "en": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "es"
+            ],
+            "additionalProperties": false
+          },
+          "limitations": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "es": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "en": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "es"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "sourceIds": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^src\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+              "description": "Identificador estable de source (prefijo \"src.\")"
+            }
+          },
+          "claimIds": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^claim\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+              "description": "Identificador estable de claim (prefijo \"claim.\")"
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "reviewed",
+              "published",
+              "questioned",
+              "retired"
+            ]
+          },
+          "reviews": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "human_expert",
+                    "human_editorial",
+                    "llm_crosscheck"
+                  ]
+                },
+                "reviewer": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "role": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "date": {
+                  "type": "string",
+                  "format": "date",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                },
+                "scope": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "criteria": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "outcome": {
+                  "type": "string",
+                  "enum": [
+                    "approved",
+                    "approved_with_changes",
+                    "rejected",
+                    "needs_more_evidence"
+                  ]
+                }
+              },
+              "required": [
+                "kind",
+                "reviewer",
+                "role",
+                "date",
+                "scope",
+                "criteria",
+                "outcome"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "provenance": {
+            "type": "object",
+            "properties": {
+              "author": {
+                "type": "string",
+                "minLength": 1
+              },
+              "extractor": {
+                "type": "string",
+                "minLength": 1
+              },
+              "createdOn": {
+                "type": "string",
+                "format": "date",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+              },
+              "method": {
+                "type": "string",
+                "minLength": 1
+              },
+              "transformations": {
+                "default": [],
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "author",
+              "extractor",
+              "createdOn",
+              "method"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "version",
+          "name",
+          "formalism",
+          "implementation",
+          "contextId",
+          "description",
+          "conventions",
+          "equations",
+          "stateVariables",
+          "parameters",
+          "inputs",
+          "observables",
+          "solver",
+          "assumptions",
+          "validity",
+          "limitations",
+          "sourceIds",
+          "status",
+          "provenance"
+        ],
+        "additionalProperties": false
+      }
+    }
+  ],
+  "title": "NeuroAtlas model (archivo: registro o lista)"
+}

@@ -1,0 +1,16 @@
+{
+  "doi": "10.1038/nrn3950",
+  "checkedOn": "2026-10-04",
+  "endpoint": "https://api.crossref.org/works/10.1038%2Fnrn3950",
+  "httpStatus": 200,
+  "metadata": {
+    "title": "Interoceptive predictions in the brain",
+    "authors": ["Barrett, Lisa Feldman", "Simmons, W. Kyle"],
+    "container": "Nature Reviews Neuroscience",
+    "year": 2015,
+    "volume": "16",
+    "page": "419-429"
+  },
+  "comparison": [],
+  "scope": "Crossref: título, autores, revista y fecha. No verifica contenido ni licencia."
+}

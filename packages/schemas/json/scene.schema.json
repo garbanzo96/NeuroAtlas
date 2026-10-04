@@ -1,0 +1,479 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "1"
+    },
+    "sceneId": {
+      "type": "string",
+      "pattern": "^scene\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+      "description": "Identificador estable de scene (prefijo \"scene.\")"
+    },
+    "title": {
+      "type": "object",
+      "properties": {
+        "es": {
+          "type": "string",
+          "minLength": 1
+        },
+        "en": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "es"
+      ],
+      "additionalProperties": false
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "es": {
+          "type": "string",
+          "minLength": 1
+        },
+        "en": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "es"
+      ],
+      "additionalProperties": false
+    },
+    "contextId": {
+      "type": "string",
+      "pattern": "^ctx\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+      "description": "Identificador estable de context (prefijo \"ctx.\")"
+    },
+    "semanticScale": {
+      "type": "string",
+      "enum": [
+        "organism",
+        "system",
+        "pathway",
+        "region",
+        "circuit",
+        "cell",
+        "subcellular",
+        "molecular"
+      ]
+    },
+    "coordinateFrame": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "physical"
+            },
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "units": {
+              "type": "string",
+              "enum": [
+                "m",
+                "mm",
+                "um",
+                "nm"
+              ]
+            },
+            "axes": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "kind",
+            "id",
+            "units",
+            "axes"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "schematic"
+            },
+            "id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "units": {
+              "type": "string",
+              "const": "arbitrary"
+            },
+            "axes": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "kind",
+            "id",
+            "units",
+            "axes"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "camera": {
+      "type": "object",
+      "properties": {
+        "position": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "items": false,
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "target": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "items": false,
+          "minItems": 3,
+          "maxItems": 3
+        }
+      },
+      "required": [
+        "position",
+        "target"
+      ],
+      "additionalProperties": false
+    },
+    "layers": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "label": {
+            "type": "object",
+            "properties": {
+              "es": {
+                "type": "string",
+                "minLength": 1
+              },
+              "en": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "es"
+            ],
+            "additionalProperties": false
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "mesh",
+              "volume",
+              "morphology",
+              "graph",
+              "schematic",
+              "labels"
+            ]
+          },
+          "representationId": {
+            "type": "string",
+            "pattern": "^rep\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de representation (prefijo \"rep.\")"
+          },
+          "entityIds": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^ent\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+              "description": "Identificador estable de entity (prefijo \"ent.\")"
+            }
+          },
+          "evidenceClaimIds": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^claim\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+              "description": "Identificador estable de claim (prefijo \"claim.\")"
+            }
+          },
+          "lodRefs": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "defaultVisible": {
+            "type": "boolean"
+          },
+          "defaultOpacity": {
+            "default": 1,
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "kind",
+          "representationId",
+          "defaultVisible"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "transitions": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "targetSceneId": {
+            "type": "string",
+            "pattern": "^scene\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de scene (prefijo \"scene.\")"
+          },
+          "label": {
+            "type": "object",
+            "properties": {
+              "es": {
+                "type": "string",
+                "minLength": 1
+              },
+              "en": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "es"
+            ],
+            "additionalProperties": false
+          },
+          "bridgeClaimId": {
+            "type": "string",
+            "pattern": "^claim\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de claim (prefijo \"claim.\")"
+          },
+          "correspondence": {
+            "type": "string",
+            "enum": [
+              "registered",
+              "conceptual"
+            ]
+          },
+          "contextChanges": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "species",
+                "dataset",
+                "atlas",
+                "modality",
+                "abstraction"
+              ]
+            }
+          },
+          "spatialMappingId": {
+            "type": "string",
+            "pattern": "^map\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de spatialMapping (prefijo \"map.\")"
+          }
+        },
+        "required": [
+          "targetSceneId",
+          "label",
+          "bridgeClaimId",
+          "correspondence",
+          "contextChanges"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "legend": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "colorGroup": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "color": {
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}$"
+          },
+          "label": {
+            "type": "object",
+            "properties": {
+              "es": {
+                "type": "string",
+                "minLength": 1
+              },
+              "en": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "es"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "colorGroup",
+          "color",
+          "label"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "entryEntityIds": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^ent\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+        "description": "Identificador estable de entity (prefijo \"ent.\")"
+      }
+    },
+    "simulation": {
+      "type": "object",
+      "properties": {
+        "modelId": {
+          "type": "string",
+          "pattern": "^model\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+          "description": "Identificador estable de model (prefijo \"model.\")"
+        },
+        "visualMappings": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "variable": {
+                "type": "string",
+                "minLength": 1
+              },
+              "units": {
+                "type": "string",
+                "minLength": 1
+              },
+              "encoding": {
+                "type": "string",
+                "enum": [
+                  "color"
+                ]
+              },
+              "domain": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "items": false,
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "targetNodeIds": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9_]+$"
+                }
+              },
+              "legend": {
+                "type": "object",
+                "properties": {
+                  "es": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "en": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "es"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "variable",
+              "units",
+              "encoding",
+              "domain",
+              "targetNodeIds",
+              "legend"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "modelId"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "sceneId",
+    "title",
+    "summary",
+    "contextId",
+    "semanticScale",
+    "coordinateFrame",
+    "layers"
+  ],
+  "additionalProperties": false,
+  "title": "NeuroAtlas scene"
+}

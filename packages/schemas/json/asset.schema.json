@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^asset\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+      "description": "Identificador estable de asset (prefijo \"asset.\")"
+    },
+    "title": {
+      "type": "object",
+      "properties": {
+        "es": {
+          "type": "string",
+          "minLength": 1
+        },
+        "en": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "es"
+      ],
+      "additionalProperties": false
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "schematic_geometry",
+        "mesh",
+        "volume",
+        "morphology",
+        "image",
+        "timeseries"
+      ]
+    },
+    "nature": {
+      "type": "string",
+      "enum": [
+        "schematic",
+        "reconstruction",
+        "atlas_derived",
+        "interpolated",
+        "illustration"
+      ]
+    },
+    "origin": {
+      "type": "string",
+      "enum": [
+        "project_original",
+        "external"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "available",
+        "blocked_missing",
+        "blocked_license"
+      ]
+    },
+    "file": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "pattern": "^[a-z0-9_\\-/.]+$"
+            },
+            "format": {
+              "type": "string",
+              "enum": [
+                "schematic+json",
+                "glb",
+                "swc",
+                "nii",
+                "png",
+                "json"
+              ]
+            }
+          },
+          "required": [
+            "path",
+            "format"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "license": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "verified",
+            "pending",
+            "project_original"
+          ]
+        },
+        "spdx": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "holder": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "attribution": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "redistribution": {
+          "type": "string",
+          "enum": [
+            "allowed",
+            "link_only",
+            "internal_only",
+            "unknown"
+          ]
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "verifiedOn": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "spdx",
+        "holder",
+        "attribution",
+        "redistribution",
+        "url",
+        "verifiedOn"
+      ],
+      "additionalProperties": false
+    },
+    "sourceIds": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^src\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+        "description": "Identificador estable de source (prefijo \"src.\")"
+      }
+    },
+    "units": {
+      "type": "string",
+      "minLength": 1
+    },
+    "coordinateFrameId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "processing": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "blocked": {
+      "type": "object",
+      "properties": {
+        "reason": {
+          "type": "object",
+          "properties": {
+            "es": {
+              "type": "string",
+              "minLength": 1
+            },
+            "en": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "es"
+          ],
+          "additionalProperties": false
+        },
+        "candidateSourceIds": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^src\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de source (prefijo \"src.\")"
+          }
+        },
+        "workPackage": {
+          "type": "string",
+          "pattern": "^WP-\\d{3}$"
+        },
+        "decisions": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^DEC-\\d{3}$"
+          }
+        }
+      },
+      "required": [
+        "reason",
+        "workPackage"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "kind",
+    "nature",
+    "origin",
+    "status",
+    "file",
+    "license",
+    "units",
+    "coordinateFrameId"
+  ],
+  "additionalProperties": false,
+  "title": "NeuroAtlas asset"
+}

@@ -1,0 +1,308 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "1"
+    },
+    "assetId": {
+      "type": "string",
+      "pattern": "^asset\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+      "description": "Identificador estable de asset (prefijo \"asset.\")"
+    },
+    "frame": {
+      "type": "object",
+      "properties": {
+        "units": {
+          "type": "string",
+          "const": "arbitrary"
+        },
+        "axes": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "units",
+        "axes"
+      ],
+      "additionalProperties": false
+    },
+    "disclaimer": {
+      "type": "object",
+      "properties": {
+        "es": {
+          "type": "string",
+          "minLength": 1
+        },
+        "en": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "es"
+      ],
+      "additionalProperties": false
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "entityId": {
+            "type": "string",
+            "pattern": "^ent\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de entity (prefijo \"ent.\")"
+          },
+          "label": {
+            "type": "object",
+            "properties": {
+              "es": {
+                "type": "string",
+                "minLength": 1
+              },
+              "en": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "es"
+            ],
+            "additionalProperties": false
+          },
+          "shape": {
+            "type": "string",
+            "enum": [
+              "sphere",
+              "box",
+              "capsule",
+              "cylinder",
+              "cone"
+            ]
+          },
+          "position": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "items": false,
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "size": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "items": false,
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "rotation": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "items": false,
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "side": {
+            "default": "none",
+            "type": "string",
+            "enum": [
+              "left",
+              "right",
+              "midline",
+              "none"
+            ]
+          },
+          "group": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "colorGroup": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "labelMode": {
+            "default": "always",
+            "type": "string",
+            "enum": [
+              "always",
+              "focus"
+            ]
+          },
+          "labelOffset": {
+            "type": "array",
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "items": false,
+            "minItems": 3,
+            "maxItems": 3
+          }
+        },
+        "required": [
+          "id",
+          "entityId",
+          "shape",
+          "position",
+          "size",
+          "group"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "links": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "entityId": {
+            "type": "string",
+            "pattern": "^ent\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de entity (prefijo \"ent.\")"
+          },
+          "relationId": {
+            "type": "string",
+            "pattern": "^rel\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de relation (prefijo \"rel.\")"
+          },
+          "label": {
+            "type": "object",
+            "properties": {
+              "es": {
+                "type": "string",
+                "minLength": 1
+              },
+              "en": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "es"
+            ],
+            "additionalProperties": false
+          },
+          "style": {
+            "type": "string",
+            "enum": [
+              "projection",
+              "conceptual"
+            ]
+          },
+          "points": {
+            "minItems": 2,
+            "type": "array",
+            "items": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "items": false,
+              "minItems": 3,
+              "maxItems": 3
+            }
+          },
+          "radius": {
+            "default": 0.05,
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "arrow": {
+            "default": false,
+            "type": "boolean"
+          },
+          "side": {
+            "default": "none",
+            "type": "string",
+            "enum": [
+              "left",
+              "right",
+              "midline",
+              "none"
+            ]
+          },
+          "group": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "colorGroup": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          }
+        },
+        "required": [
+          "id",
+          "style",
+          "points",
+          "group"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "assetId",
+    "frame",
+    "disclaimer",
+    "nodes"
+  ],
+  "additionalProperties": false,
+  "title": "NeuroAtlas schematic geometry"
+}

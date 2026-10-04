@@ -1,0 +1,23 @@
+{
+  "doi": "10.1016/j.neuron.2012.10.038",
+  "checkedOn": "2026-10-04",
+  "endpoint": "https://api.crossref.org/works/10.1016%2Fj.neuron.2012.10.038",
+  "httpStatus": 200,
+  "metadata": {
+    "title": "Canonical Microcircuits for Predictive Coding",
+    "authors": [
+      "Bastos, Andre M.",
+      "Usrey, W. Martin",
+      "Adams, Rick A.",
+      "Mangun, George R.",
+      "Fries, Pascal",
+      "Friston, Karl J."
+    ],
+    "container": "Neuron",
+    "year": 2012,
+    "volume": "76",
+    "page": "695-711"
+  },
+  "comparison": [],
+  "scope": "Crossref: título, autores, revista y fecha. No verifica contenido ni licencia."
+}

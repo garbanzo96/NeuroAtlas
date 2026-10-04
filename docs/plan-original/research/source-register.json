@@ -1,0 +1,334 @@
+{
+  "created_on": "2026-10-04",
+  "scope": "Preliminary source map; not a systematic review",
+  "sources": [
+    {
+      "id": "source.01",
+      "label": "Kandel y colaboradores, *Principles of Neural Science*, 6.ª edición como candidata; McGraw Hill AccessMedicine",
+      "urls": [
+        "https://accessmedicine.mhmedical.com/"
+      ],
+      "planned_use": "Fundamentos anatómicos, fisiológicos y de sistemas; elegir edición y capítulos con el usuario.",
+      "limitations": "Verificar edición, páginas y acceso. Manual y figuras no equivalen a recursos abiertos redistribuibles.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.02",
+      "label": "Dayan y Abbott, *Theoretical Neuroscience*; MIT Press",
+      "urls": [
+        "https://mitpress.mit.edu/9780262541855/theoretical-neuroscience/"
+      ],
+      "planned_use": "Codificación, dinámica, aprendizaje y modelos; complemento candidato.",
+      "limitations": "No se ha confirmado que sea el libro computacional que mencionó el usuario.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.03",
+      "label": "Gerstner y colaboradores, *Neuronal Dynamics*; libro en línea",
+      "urls": [
+        "https://neuronaldynamics.epfl.ch/"
+      ],
+      "planned_use": "Modelos neuronales, redes y formalismos computacionales.",
+      "limitations": "Comprobar edición, permisos de recursos y adecuación a cada modelo.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.04",
+      "label": "EBRAINS y Jülich Brain / siibra-explorer",
+      "urls": [
+        "https://www.ebrains.eu/",
+        "https://siibra-explorer.org/"
+      ],
+      "planned_use": "Atlas humanos, parcelaciones y vínculos multimodales.",
+      "limitations": "Parcelaciones y versiones tienen alcance distinto; atlas probabilístico no es anatomía exacta de cada individuo.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.05",
+      "label": "siibra-python",
+      "urls": [
+        "https://siibra-python.readthedocs.io/"
+      ],
+      "planned_use": "Acceso programático y correspondencias de atlas para pipeline offline.",
+      "limitations": "Verificar API, formatos, versión y términos de datasets; una biblioteca no resuelve por sí sola todas las correspondencias.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.06",
+      "label": "BigBrain",
+      "urls": [
+        "https://bigbrainproject.org/"
+      ],
+      "planned_use": "Reconstrucción histológica humana y organización cortical.",
+      "limitations": "Referencia de espécimen concreto; resolución geométrica no equivale a conectoma sináptico ni a variabilidad poblacional.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.07",
+      "label": "Human Connectome Project",
+      "urls": [
+        "https://www.humanconnectome.org/"
+      ],
+      "planned_use": "Datos humanos de MRI, tractografía, actividad y organización a escala macroscópica.",
+      "limitations": "Distinguir tractografía, conectividad funcional y anatomía sináptica; inspeccionar restricciones y sujetos.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.08",
+      "label": "Allen Brain Map",
+      "urls": [
+        "https://portal.brain-map.org/"
+      ],
+      "planned_use": "Atlas de ratón/CCF, conectividad y recursos humanos/celulares; elegir producto y release.",
+      "limitations": "No transferir CCF de ratón a humano ni dar por compatible toda clasificación.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.09",
+      "label": "BICCN / BICAN",
+      "urls": [
+        "https://biccn.org/",
+        "https://www.bicannetwork.org/"
+      ],
+      "planned_use": "Taxonomías celulares, referencias multimodales y censos por especie/región.",
+      "limitations": "Confirmar portales activos y releases. Cobertura y clases dependen de muestreo y modalidades; no es una taxonomía cerrada universal.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.10",
+      "label": "MICrONS Explorer",
+      "urls": [
+        "https://www.microns-explorer.org/"
+      ],
+      "planned_use": "Conectómica y relaciones estructura–actividad en tejido de corteza visual de ratón; revisar colección de trabajos de 2025.",
+      "limitations": "Volumen local y contexto experimental definido; no representa el conectoma humano completo ni prueba toda interpretación funcional.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.11",
+      "label": "FlyWire",
+      "urls": [
+        "https://flywire.ai/"
+      ],
+      "planned_use": "Conectoma de cerebro de Drosophila adulta, navegación de circuitos y anotaciones; localizar artículos/releases de 2024 y posteriores.",
+      "limitations": "Especie, espécimen y límites de reconstrucción explícitos; no extrapolar a circuitos corticales humanos.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.12",
+      "label": "H01, fragmento de corteza humana",
+      "urls": [
+        "https://h01-release.storage.googleapis.com/landing.html"
+      ],
+      "planned_use": "Reconstrucción de microscopía electrónica a escala sináptica; localizar publicación de 2024.",
+      "limitations": "Fragmento de tejido y preparación concretos; no cerebro humano completo ni registro funcional simultáneo.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.13",
+      "label": "NeuroMorpho.Org",
+      "urls": [
+        "https://neuromorpho.org/"
+      ],
+      "planned_use": "Morfologías neuronales/gliales y metadatos para escenas celulares.",
+      "limitations": "Una reconstrucción puede ser parcial y sufrir efectos de preparación; comprobar términos por depósito.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.14",
+      "label": "Neuroglancer",
+      "urls": [
+        "https://github.com/google/neuroglancer"
+      ],
+      "planned_use": "Visor especializado y formatos para volúmenes y anotaciones masivos.",
+      "limitations": "Herramienta, no fuente científica ni curador de evidencia; integración/licencia separadas de datos.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.15",
+      "label": "OpenNeuro",
+      "urls": [
+        "https://openneuro.org/"
+      ],
+      "planned_use": "Datasets humanos/neuroimagen para preguntas funcionales y ejemplos reproducibles.",
+      "limitations": "Revisar dataset, consentimiento/uso, versión y calidad; un archivo disponible no establece una conclusión.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.16",
+      "label": "BIDS",
+      "urls": [
+        "https://bids.neuroimaging.io/"
+      ],
+      "planned_use": "Convenciones y metadatos de datasets de neuroimagen.",
+      "limitations": "Estándar de organización; no ontología completa ni garantía de calidad científica.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.17",
+      "label": "DANDI y NWB",
+      "urls": [
+        "https://dandiarchive.org/",
+        "https://www.nwb.org/"
+      ],
+      "planned_use": "Datos de neurofisiología, series y metadatos; elegir conjuntos pequeños y pertinentes.",
+      "limitations": "DANDI es repositorio y NWB un estándar; revisar modalidades, permisos y validación por dataset.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.18",
+      "label": "ModelDB",
+      "urls": [
+        "https://modeldb.science/"
+      ],
+      "planned_use": "Modelos publicados, código y vínculos con artículos.",
+      "limitations": "Reproducir y revisar código/parametrización; presencia en repositorio no garantiza validez general.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.19",
+      "label": "NEURON",
+      "urls": [
+        "https://nrn.readthedocs.io/"
+      ],
+      "planned_use": "Simulación de neuronas y redes con modelos detallados cuando sea necesario.",
+      "limitations": "No obligatorio para MVP web; solver, mecanismos y contexto científico requieren verificación.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.20",
+      "label": "Brian2",
+      "urls": [
+        "https://brian2.readthedocs.io/"
+      ],
+      "planned_use": "Modelos spiking/rate y experimentos computacionales; pipeline o motor posterior.",
+      "limitations": "Seleccionar formalismo y unidades; simulación de red no equivale a conectoma funcional validado.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.21",
+      "label": "Hubel y Wiesel (1962), DOI",
+      "urls": [
+        "https://doi.org/10.1113/jphysiol.1962.sp006837"
+      ],
+      "planned_use": "Candidato fundacional para respuestas de corteza visual y organización funcional.",
+      "limitations": "Verificar preparación, especies, selección de unidades y localizadores; no generalizar curvas/cifras sin lectura.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.22",
+      "label": "Rao y Ballard (1999), DOI",
+      "urls": [
+        "https://doi.org/10.1038/4580"
+      ],
+      "planned_use": "Modelo jerárquico de codificación predictiva visual; ecuaciones y fenómenos explicados.",
+      "limitations": "Interpretación computacional contextualizada; no demostración de identidad con toda arquitectura biológica.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.23",
+      "label": "Bastos y colaboradores (2012), DOI",
+      "urls": [
+        "https://doi.org/10.1016/j.neuron.2012.10.038"
+      ],
+      "planned_use": "Propuesta de microcircuitos para codificación predictiva; candidato para comparar mensajes y capas.",
+      "limitations": "Metadatos verificados en esta fase; falta lectura y extracción. Propuesta de arquitectura no implica universalidad laminar.",
+      "verification_status": "metadata_verified_only",
+      "verified_on": "2026-10-04",
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.24",
+      "label": "Barrett y Simmons (2015), DOI",
+      "urls": [
+        "https://doi.org/10.1038/nrn3950"
+      ],
+      "planned_use": "*Interoceptive predictions in the brain*: marco para interocepción y predicción.",
+      "limitations": "Verificar texto, afirmaciones y alternativas; una revisión teórica no prueba por sí sola cada mecanismo.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    },
+    {
+      "id": "source.25",
+      "label": "Kleckner y colaboradores (2017), DOI",
+      "urls": [
+        "https://doi.org/10.1038/s41562-017-0069"
+      ],
+      "planned_use": "*Evidence for a large-scale brain system supporting allostasis and interoception in humans*: candidato para organización funcional.",
+      "limitations": "Verificar métodos y alcance; asociaciones/arquitectura funcional no establecen conexiones sinápticas ni validación global de teoría de emoción.",
+      "verification_status": "candidate_not_accessed",
+      "verified_on": null,
+      "content_reviewed": false,
+      "license_verified": false
+    }
+  ]
+}

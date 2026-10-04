@@ -1,0 +1,16 @@
+{
+  "doi": "10.1038/nn.3917",
+  "checkedOn": "2026-10-04",
+  "endpoint": "https://api.crossref.org/works/10.1038%2Fnn.3917",
+  "httpStatus": 200,
+  "metadata": {
+    "title": "The neocortical circuit: themes and variations",
+    "authors": ["Harris, Kenneth D", "Shepherd, Gordon M G"],
+    "container": "Nature Neuroscience",
+    "year": 2015,
+    "volume": "18",
+    "page": "170-181"
+  },
+  "comparison": [],
+  "scope": "Crossref: título, autores, revista y fecha. No verifica contenido ni licencia."
+}

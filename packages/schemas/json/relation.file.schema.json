@@ -1,0 +1,373 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "anyOf": [
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^rel\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+          "description": "Identificador estable de relation (prefijo \"rel.\")"
+        },
+        "version": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "part_of",
+            "located_in",
+            "classified_as",
+            "connects_to",
+            "projects_to",
+            "modulates",
+            "participates_in",
+            "measured_by",
+            "implemented_by_model",
+            "corresponds_to",
+            "derived_from"
+          ]
+        },
+        "subjectId": {
+          "type": "string",
+          "pattern": "^ent\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+          "description": "Identificador estable de entity (prefijo \"ent.\")"
+        },
+        "objectId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^ent\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+              "description": "Identificador estable de entity (prefijo \"ent.\")"
+            },
+            {
+              "type": "string",
+              "pattern": "^model\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+              "description": "Identificador estable de model (prefijo \"model.\")"
+            }
+          ]
+        },
+        "contextId": {
+          "type": "string",
+          "pattern": "^ctx\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+          "description": "Identificador estable de context (prefijo \"ctx.\")"
+        },
+        "claimIds": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^claim\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de claim (prefijo \"claim.\")"
+          }
+        },
+        "connection": {
+          "type": "object",
+          "properties": {
+            "modality": {
+              "type": "string",
+              "enum": [
+                "synaptic_reconstruction",
+                "axonal_tracing",
+                "tractography",
+                "functional_connectivity",
+                "effective_connectivity",
+                "physiology",
+                "pending_extraction"
+              ]
+            },
+            "directed": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "string",
+                  "const": "unknown"
+                }
+              ]
+            },
+            "sign": {
+              "type": "string",
+              "enum": [
+                "excitatory",
+                "inhibitory",
+                "modulatory",
+                "mixed",
+                "unknown"
+              ]
+            },
+            "weight": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "number"
+                    },
+                    "units": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "measure": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "value",
+                    "units",
+                    "measure"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "modality",
+            "directed",
+            "sign",
+            "weight"
+          ],
+          "additionalProperties": false
+        },
+        "correspondence": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string",
+              "enum": [
+                "equivalent_per_scheme",
+                "approximate",
+                "one_to_many",
+                "uncertain"
+              ]
+            },
+            "scheme": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "category",
+            "scheme"
+          ],
+          "additionalProperties": false
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "reviewed",
+            "published",
+            "questioned",
+            "retired"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "type",
+        "subjectId",
+        "objectId",
+        "contextId",
+        "claimIds",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^rel\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de relation (prefijo \"rel.\")"
+          },
+          "version": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "part_of",
+              "located_in",
+              "classified_as",
+              "connects_to",
+              "projects_to",
+              "modulates",
+              "participates_in",
+              "measured_by",
+              "implemented_by_model",
+              "corresponds_to",
+              "derived_from"
+            ]
+          },
+          "subjectId": {
+            "type": "string",
+            "pattern": "^ent\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de entity (prefijo \"ent.\")"
+          },
+          "objectId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^ent\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                "description": "Identificador estable de entity (prefijo \"ent.\")"
+              },
+              {
+                "type": "string",
+                "pattern": "^model\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                "description": "Identificador estable de model (prefijo \"model.\")"
+              }
+            ]
+          },
+          "contextId": {
+            "type": "string",
+            "pattern": "^ctx\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de context (prefijo \"ctx.\")"
+          },
+          "claimIds": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^claim\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+              "description": "Identificador estable de claim (prefijo \"claim.\")"
+            }
+          },
+          "connection": {
+            "type": "object",
+            "properties": {
+              "modality": {
+                "type": "string",
+                "enum": [
+                  "synaptic_reconstruction",
+                  "axonal_tracing",
+                  "tractography",
+                  "functional_connectivity",
+                  "effective_connectivity",
+                  "physiology",
+                  "pending_extraction"
+                ]
+              },
+              "directed": {
+                "anyOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "string",
+                    "const": "unknown"
+                  }
+                ]
+              },
+              "sign": {
+                "type": "string",
+                "enum": [
+                  "excitatory",
+                  "inhibitory",
+                  "modulatory",
+                  "mixed",
+                  "unknown"
+                ]
+              },
+              "weight": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "number"
+                      },
+                      "units": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "measure": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "value",
+                      "units",
+                      "measure"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "modality",
+              "directed",
+              "sign",
+              "weight"
+            ],
+            "additionalProperties": false
+          },
+          "correspondence": {
+            "type": "object",
+            "properties": {
+              "category": {
+                "type": "string",
+                "enum": [
+                  "equivalent_per_scheme",
+                  "approximate",
+                  "one_to_many",
+                  "uncertain"
+                ]
+              },
+              "scheme": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "category",
+              "scheme"
+            ],
+            "additionalProperties": false
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "reviewed",
+              "published",
+              "questioned",
+              "retired"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "version",
+          "type",
+          "subjectId",
+          "objectId",
+          "contextId",
+          "claimIds",
+          "status"
+        ],
+        "additionalProperties": false
+      }
+    }
+  ],
+  "title": "NeuroAtlas relation (archivo: registro o lista)"
+}

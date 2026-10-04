@@ -1,0 +1,112 @@
+# yaml-language-server: $schema=../../packages/schemas/json/asset.file.schema.json
+# Assets de la unidad visual. Los esquemas son originales del proyecto (licencia del proyecto
+# pendiente: DEC-008). Los assets anatómicos externos solo se distribuyen con licencia verificada.
+- id: asset.schematic.visual_pathway
+  title: { es: Diagrama 3D esquemático de la vía visual }
+  kind: schematic_geometry
+  nature: schematic
+  origin: project_original
+  status: available
+  file: { path: visual-pathway.schematic.json, format: schematic+json }
+  license:
+    {
+      status: project_original,
+      spdx: null,
+      holder: null,
+      attribution: null,
+      redistribution: allowed,
+      url: null,
+      verifiedOn: null,
+    }
+  units: arbitrary
+  coordinateFrameId: frame.schematic.visual_pathway
+  processing: [Geometría dibujada a mano en coordenadas arbitrarias; sin datos anatómicos.]
+- id: asset.atlas.human_cortical_surface
+  title: { es: Superficie cortical humana de un atlas de referencia (pendiente) }
+  kind: mesh
+  nature: atlas_derived
+  origin: external
+  status: blocked_missing
+  file: null
+  license:
+    {
+      status: pending,
+      spdx: null,
+      holder: null,
+      attribution: null,
+      redistribution: unknown,
+      url: null,
+      verifiedOn: null,
+    }
+  units: mm
+  coordinateFrameId: frame.atlas.pending
+  blocked:
+    reason:
+      es: >-
+        Falta una geometría anatómica humana con licencia que permita redistribuirla y una parcelación
+        de V1 identificada (atlas, versión y espacio de coordenadas). No se sustituye por un cerebro
+        dibujado a mano.
+    candidateSourceIds:
+      [src.ebrains_julich_brain, src.siibra_python, src.bigbrain, src.human_connectome_project]
+    workPackage: WP-020
+    decisions: [DEC-005]
+- id: asset.schematic.laminar_circuit
+  title: { es: Esquema 3D del circuito laminar neocortical genérico }
+  kind: schematic_geometry
+  nature: schematic
+  origin: project_original
+  status: available
+  file: { path: laminar-circuit.schematic.json, format: schematic+json }
+  license:
+    {
+      status: project_original,
+      spdx: null,
+      holder: null,
+      attribution: null,
+      redistribution: allowed,
+      url: null,
+      verifiedOn: null,
+    }
+  units: arbitrary
+  coordinateFrameId: frame.schematic.laminar_circuit
+  processing: [Grosores de capa y posiciones ilustrativos; no derivados de mediciones.]
+- id: asset.schematic.pyramidal_neuron
+  title: { es: Neurona piramidal esquemática rotulada }
+  kind: schematic_geometry
+  nature: schematic
+  origin: project_original
+  status: available
+  file: { path: pyramidal-neuron.schematic.json, format: schematic+json }
+  license:
+    {
+      status: project_original,
+      spdx: null,
+      holder: null,
+      attribution: null,
+      redistribution: allowed,
+      url: null,
+      verifiedOn: null,
+    }
+  units: arbitrary
+  coordinateFrameId: frame.schematic.pyramidal_neuron
+  processing: [Ramificación y proporciones ilustrativas; no es una reconstrucción.]
+- id: asset.schematic.membrane_patch
+  title: { es: Segmento de membrana esquemático para la simulación }
+  kind: schematic_geometry
+  nature: schematic
+  origin: project_original
+  status: available
+  file: { path: membrane-patch.schematic.json, format: schematic+json }
+  license:
+    {
+      status: project_original,
+      spdx: null,
+      holder: null,
+      attribution: null,
+      redistribution: allowed,
+      url: null,
+      verifiedOn: null,
+    }
+  units: arbitrary
+  coordinateFrameId: frame.schematic.membrane_patch
+  processing: [Cilindro ilustrativo que recibe el mapeo V_m → color.]

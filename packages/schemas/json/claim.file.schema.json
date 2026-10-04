@@ -1,0 +1,755 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "anyOf": [
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^claim\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+          "description": "Identificador estable de claim (prefijo \"claim.\")"
+        },
+        "version": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        },
+        "proposition": {
+          "type": "object",
+          "properties": {
+            "es": {
+              "type": "string",
+              "minLength": 1
+            },
+            "en": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "es"
+          ],
+          "additionalProperties": false
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "observation",
+            "association",
+            "causal_intervention",
+            "inference",
+            "model_prediction",
+            "didactic_bridge"
+          ]
+        },
+        "subjectIds": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^ent\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                "description": "Identificador estable de entity (prefijo \"ent.\")"
+              },
+              {
+                "type": "string",
+                "pattern": "^model\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                "description": "Identificador estable de model (prefijo \"model.\")"
+              },
+              {
+                "type": "string",
+                "pattern": "^scene\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                "description": "Identificador estable de scene (prefijo \"scene.\")"
+              }
+            ]
+          }
+        },
+        "predicate": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$"
+        },
+        "object": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "entity"
+                },
+                "id": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^ent\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                      "description": "Identificador estable de entity (prefijo \"ent.\")"
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^model\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                      "description": "Identificador estable de model (prefijo \"model.\")"
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^scene\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                      "description": "Identificador estable de scene (prefijo \"scene.\")"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "id"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "quantity"
+                },
+                "value": {
+                  "type": "number"
+                },
+                "units": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "type",
+                "value",
+                "units"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "text"
+                },
+                "text": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "type",
+                "text"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "contextId": {
+          "type": "string",
+          "pattern": "^ctx\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+          "description": "Identificador estable de context (prefijo \"ctx.\")"
+        },
+        "measurement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "modelId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^model\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+              "description": "Identificador estable de model (prefijo \"model.\")"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "sourceId": {
+                "type": "string",
+                "pattern": "^src\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                "description": "Identificador estable de source (prefijo \"src.\")"
+              },
+              "locator": {
+                "type": "string",
+                "minLength": 1
+              },
+              "locatorVerified": {
+                "type": "boolean"
+              },
+              "relation": {
+                "type": "string",
+                "enum": [
+                  "supports",
+                  "contradicts",
+                  "contextualizes"
+                ]
+              },
+              "methodLimitations": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "sourceId",
+              "locator",
+              "locatorVerified",
+              "relation",
+              "methodLimitations"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "uncertainty": {
+          "type": "object",
+          "properties": {
+            "measurement": {
+              "type": "string",
+              "minLength": 1
+            },
+            "samplingGeneralization": {
+              "type": "string",
+              "minLength": 1
+            },
+            "competingExplanations": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "measurement",
+            "samplingGeneralization",
+            "competingExplanations"
+          ],
+          "additionalProperties": false
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "reviewed",
+            "published",
+            "questioned",
+            "retired"
+          ]
+        },
+        "reviews": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "human_expert",
+                  "human_editorial",
+                  "llm_crosscheck"
+                ]
+              },
+              "reviewer": {
+                "type": "string",
+                "minLength": 1
+              },
+              "role": {
+                "type": "string",
+                "minLength": 1
+              },
+              "date": {
+                "type": "string",
+                "format": "date",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+              },
+              "scope": {
+                "type": "string",
+                "minLength": 1
+              },
+              "criteria": {
+                "type": "string",
+                "minLength": 1
+              },
+              "outcome": {
+                "type": "string",
+                "enum": [
+                  "approved",
+                  "approved_with_changes",
+                  "rejected",
+                  "needs_more_evidence"
+                ]
+              }
+            },
+            "required": [
+              "kind",
+              "reviewer",
+              "role",
+              "date",
+              "scope",
+              "criteria",
+              "outcome"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "provenance": {
+          "type": "object",
+          "properties": {
+            "author": {
+              "type": "string",
+              "minLength": 1
+            },
+            "extractor": {
+              "type": "string",
+              "minLength": 1
+            },
+            "createdOn": {
+              "type": "string",
+              "format": "date",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+            },
+            "method": {
+              "type": "string",
+              "minLength": 1
+            },
+            "transformations": {
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "author",
+            "extractor",
+            "createdOn",
+            "method"
+          ],
+          "additionalProperties": false
+        },
+        "display": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "type": "string",
+              "enum": [
+                "observation",
+                "inference",
+                "model",
+                "educational_schematic"
+              ]
+            },
+            "note": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "label"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "proposition",
+        "kind",
+        "subjectIds",
+        "predicate",
+        "object",
+        "contextId",
+        "measurement",
+        "modelId",
+        "evidence",
+        "uncertainty",
+        "status",
+        "provenance",
+        "display"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^claim\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de claim (prefijo \"claim.\")"
+          },
+          "version": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "proposition": {
+            "type": "object",
+            "properties": {
+              "es": {
+                "type": "string",
+                "minLength": 1
+              },
+              "en": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "es"
+            ],
+            "additionalProperties": false
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "observation",
+              "association",
+              "causal_intervention",
+              "inference",
+              "model_prediction",
+              "didactic_bridge"
+            ]
+          },
+          "subjectIds": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^ent\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                  "description": "Identificador estable de entity (prefijo \"ent.\")"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^model\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                  "description": "Identificador estable de model (prefijo \"model.\")"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^scene\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                  "description": "Identificador estable de scene (prefijo \"scene.\")"
+                }
+              ]
+            }
+          },
+          "predicate": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "object": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "entity"
+                  },
+                  "id": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^ent\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                        "description": "Identificador estable de entity (prefijo \"ent.\")"
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "^model\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                        "description": "Identificador estable de model (prefijo \"model.\")"
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "^scene\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                        "description": "Identificador estable de scene (prefijo \"scene.\")"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "type",
+                  "id"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "quantity"
+                  },
+                  "value": {
+                    "type": "number"
+                  },
+                  "units": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "type",
+                  "value",
+                  "units"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "text"
+                  },
+                  "text": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "type",
+                  "text"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "contextId": {
+            "type": "string",
+            "pattern": "^ctx\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de context (prefijo \"ctx.\")"
+          },
+          "measurement": {
+            "type": "string",
+            "minLength": 1
+          },
+          "modelId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^model\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                "description": "Identificador estable de model (prefijo \"model.\")"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "sourceId": {
+                  "type": "string",
+                  "pattern": "^src\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+                  "description": "Identificador estable de source (prefijo \"src.\")"
+                },
+                "locator": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "locatorVerified": {
+                  "type": "boolean"
+                },
+                "relation": {
+                  "type": "string",
+                  "enum": [
+                    "supports",
+                    "contradicts",
+                    "contextualizes"
+                  ]
+                },
+                "methodLimitations": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "sourceId",
+                "locator",
+                "locatorVerified",
+                "relation",
+                "methodLimitations"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "uncertainty": {
+            "type": "object",
+            "properties": {
+              "measurement": {
+                "type": "string",
+                "minLength": 1
+              },
+              "samplingGeneralization": {
+                "type": "string",
+                "minLength": 1
+              },
+              "competingExplanations": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "measurement",
+              "samplingGeneralization",
+              "competingExplanations"
+            ],
+            "additionalProperties": false
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "reviewed",
+              "published",
+              "questioned",
+              "retired"
+            ]
+          },
+          "reviews": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "human_expert",
+                    "human_editorial",
+                    "llm_crosscheck"
+                  ]
+                },
+                "reviewer": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "role": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "date": {
+                  "type": "string",
+                  "format": "date",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                },
+                "scope": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "criteria": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "outcome": {
+                  "type": "string",
+                  "enum": [
+                    "approved",
+                    "approved_with_changes",
+                    "rejected",
+                    "needs_more_evidence"
+                  ]
+                }
+              },
+              "required": [
+                "kind",
+                "reviewer",
+                "role",
+                "date",
+                "scope",
+                "criteria",
+                "outcome"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "provenance": {
+            "type": "object",
+            "properties": {
+              "author": {
+                "type": "string",
+                "minLength": 1
+              },
+              "extractor": {
+                "type": "string",
+                "minLength": 1
+              },
+              "createdOn": {
+                "type": "string",
+                "format": "date",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+              },
+              "method": {
+                "type": "string",
+                "minLength": 1
+              },
+              "transformations": {
+                "default": [],
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "author",
+              "extractor",
+              "createdOn",
+              "method"
+            ],
+            "additionalProperties": false
+          },
+          "display": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string",
+                "enum": [
+                  "observation",
+                  "inference",
+                  "model",
+                  "educational_schematic"
+                ]
+              },
+              "note": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "label"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "version",
+          "proposition",
+          "kind",
+          "subjectIds",
+          "predicate",
+          "object",
+          "contextId",
+          "measurement",
+          "modelId",
+          "evidence",
+          "uncertainty",
+          "status",
+          "provenance",
+          "display"
+        ],
+        "additionalProperties": false
+      }
+    }
+  ],
+  "title": "NeuroAtlas claim (archivo: registro o lista)"
+}

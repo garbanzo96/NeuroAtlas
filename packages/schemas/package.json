@@ -1,0 +1,14 @@
+{
+  "name": "@neuroatlas/schemas",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Contratos validables (Zod + JSON Schema) compartidos por todo NeuroAtlas.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./json-schema": "./src/json-schema.ts"
+  },
+  "dependencies": {
+    "zod": "^4.6.5"
+  }
+}

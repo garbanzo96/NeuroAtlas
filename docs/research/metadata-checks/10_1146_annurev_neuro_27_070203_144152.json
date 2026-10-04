@@ -1,0 +1,16 @@
+{
+  "doi": "10.1146/annurev.neuro.27.070203.144152",
+  "checkedOn": "2026-10-04",
+  "endpoint": "https://api.crossref.org/works/10.1146%2Fannurev.neuro.27.070203.144152",
+  "httpStatus": 200,
+  "metadata": {
+    "title": "NEURONAL CIRCUITS OF THE NEOCORTEX",
+    "authors": ["Douglas, Rodney J.", "Martin, Kevan A.C."],
+    "container": "Annual Review of Neuroscience",
+    "year": 2004,
+    "volume": "27",
+    "page": "419-451"
+  },
+  "comparison": [],
+  "scope": "Crossref: título, autores, revista y fecha. No verifica contenido ni licencia."
+}

@@ -1,0 +1,65 @@
+# yaml-language-server: $schema=../../packages/schemas/json/scene.file.schema.json
+schemaVersion: '1'
+sceneId: scene.visual.pathway
+title: { es: 'Vía visual: de la retina a V1', en: 'Visual pathway: retina to V1' }
+summary:
+  es: >-
+    Diagrama esquemático de la vía retino-geniculo-cortical humana: nervios ópticos, quiasma, tractos,
+    núcleos geniculados laterales y corteza visual primaria. Los colores indican el ojo de origen de
+    las fibras.
+contextId: ctx.schematic.human_visual_pathway
+semanticScale: pathway
+coordinateFrame:
+  kind: schematic
+  id: frame.schematic.visual_pathway
+  units: arbitrary
+  axes: 'x: derecha del sujeto (+); y: superior (+); z: posterior (+)'
+camera: { position: [0, 12, 7.5], target: [0, 0, -0.3] }
+layers:
+  - id: structures
+    label: { es: Estructuras }
+    kind: schematic
+    representationId: rep.visual_pathway.structures
+    entityIds: [ent.human.retina, ent.human.optic_chiasm, ent.human.lgn, ent.human.v1]
+    evidenceClaimIds: [claim.visual.retina_to_lgn, claim.visual.lgn_to_v1]
+    defaultVisible: true
+    defaultOpacity: 0.85
+  - id: hemiretinas
+    label: { es: Hemirretinas nasal y temporal }
+    kind: schematic
+    representationId: rep.visual_pathway.hemiretinas
+    entityIds: [ent.human.nasal_hemiretina, ent.human.temporal_hemiretina]
+    evidenceClaimIds: [claim.visual.chiasm_partial_decussation]
+    defaultVisible: true
+  - id: tracts
+    label: { es: 'Nervios, tractos y radiaciones' }
+    kind: schematic
+    representationId: rep.visual_pathway.tracts
+    entityIds: [ent.human.optic_nerve, ent.human.optic_tract, ent.human.optic_radiation]
+    evidenceClaimIds: [claim.visual.retina_to_lgn, claim.visual.lgn_to_v1]
+    defaultVisible: true
+    defaultOpacity: 0.35
+  - id: fibers
+    label: { es: Fibras por ojo de origen }
+    kind: schematic
+    representationId: rep.visual_pathway.fibers
+    evidenceClaimIds:
+      [claim.visual.chiasm_partial_decussation, claim.visual.tract_contralateral_hemifield]
+    defaultVisible: true
+legend:
+  - { colorGroup: left_eye, color: '#4cc9f0', label: { es: Ojo izquierdo y sus fibras } }
+  - { colorGroup: right_eye, color: '#f72585', label: { es: Ojo derecho y sus fibras } }
+  - { colorGroup: geniculocortical, color: '#c8b6ff', label: { es: Proyección NGL → V1 } }
+  - { colorGroup: structure, color: '#8d99ae', label: { es: Estructura o haz nombrado } }
+entryEntityIds: [ent.human.optic_chiasm]
+transitions:
+  - targetSceneId: scene.visual.v1_laminar_circuit
+    label: { es: Explorar el circuito laminar de la corteza }
+    bridgeClaimId: claim.bridge.pathway_to_laminar
+    correspondence: conceptual
+    contextChanges: [species, abstraction]
+  - targetSceneId: scene.visual.v1_location
+    label: { es: Localizar V1 en un atlas humano }
+    bridgeClaimId: claim.bridge.pathway_to_v1_location
+    correspondence: conceptual
+    contextChanges: [abstraction, dataset]

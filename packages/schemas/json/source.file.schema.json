@@ -1,0 +1,313 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "anyOf": [
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^src\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+          "description": "Identificador estable de source (prefijo \"src.\")"
+        },
+        "legacyId": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "book",
+            "article",
+            "review",
+            "dataset",
+            "atlas",
+            "tool",
+            "repository",
+            "website",
+            "standard"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authors": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "year": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "container": {
+          "type": "string"
+        },
+        "edition": {
+          "type": "string"
+        },
+        "doi": {
+          "type": "string",
+          "pattern": "^10\\.\\d{4,9}\\/\\S+$"
+        },
+        "urls": {
+          "default": [],
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "plannedUse": {
+          "type": "string",
+          "minLength": 1
+        },
+        "limitations": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verification": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "candidate",
+                "metadata_verified",
+                "content_inspected"
+              ]
+            },
+            "verifiedOn": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "scope": {
+              "type": "string",
+              "minLength": 1
+            },
+            "method": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "status",
+            "verifiedOn",
+            "scope"
+          ],
+          "additionalProperties": false
+        },
+        "license": {
+          "type": "object",
+          "properties": {
+            "reviewed": {
+              "type": "boolean"
+            },
+            "redistribution": {
+              "type": "string",
+              "enum": [
+                "allowed",
+                "link_only",
+                "not_allowed",
+                "unknown"
+              ]
+            },
+            "summary": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "reviewed",
+            "redistribution",
+            "summary"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "title",
+        "year",
+        "plannedUse",
+        "limitations",
+        "verification",
+        "license"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^src\\.[a-z0-9_]+(\\.[a-z0-9_]+)*$",
+            "description": "Identificador estable de source (prefijo \"src.\")"
+          },
+          "legacyId": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "book",
+              "article",
+              "review",
+              "dataset",
+              "atlas",
+              "tool",
+              "repository",
+              "website",
+              "standard"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authors": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "year": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "container": {
+            "type": "string"
+          },
+          "edition": {
+            "type": "string"
+          },
+          "doi": {
+            "type": "string",
+            "pattern": "^10\\.\\d{4,9}\\/\\S+$"
+          },
+          "urls": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          "plannedUse": {
+            "type": "string",
+            "minLength": 1
+          },
+          "limitations": {
+            "type": "string",
+            "minLength": 1
+          },
+          "verification": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "candidate",
+                  "metadata_verified",
+                  "content_inspected"
+                ]
+              },
+              "verifiedOn": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "format": "date",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "scope": {
+                "type": "string",
+                "minLength": 1
+              },
+              "method": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "status",
+              "verifiedOn",
+              "scope"
+            ],
+            "additionalProperties": false
+          },
+          "license": {
+            "type": "object",
+            "properties": {
+              "reviewed": {
+                "type": "boolean"
+              },
+              "redistribution": {
+                "type": "string",
+                "enum": [
+                  "allowed",
+                  "link_only",
+                  "not_allowed",
+                  "unknown"
+                ]
+              },
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "reviewed",
+              "redistribution",
+              "summary"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "title",
+          "year",
+          "plannedUse",
+          "limitations",
+          "verification",
+          "license"
+        ],
+        "additionalProperties": false
+      }
+    }
+  ],
+  "title": "NeuroAtlas source (archivo: registro o lista)"
+}

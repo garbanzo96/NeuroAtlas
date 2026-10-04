@@ -1,0 +1,72 @@
+# yaml-language-server: $schema=../../packages/schemas/json/scene.file.schema.json
+schemaVersion: '1'
+sceneId: scene.visual.v1_laminar_circuit
+title: { es: Circuito laminar neocortical (esquema), en: Neocortical laminar circuit (schematic) }
+summary:
+  es: >-
+    Esquema genérico de las capas y de las proyecciones excitadoras principales de una corteza
+    sensorial primaria ("circuito canónico"). Especie y área pendientes de decisión.
+contextId: ctx.schematic.neocortex_laminar_generic
+semanticScale: circuit
+coordinateFrame:
+  kind: schematic
+  id: frame.schematic.laminar_circuit
+  units: arbitrary
+  axes: 'x: horizontal; y: profundidad (pía arriba); z: espesor'
+camera: { position: [0, 0.5, 9], target: [0, -0.2, 0] }
+layers:
+  - id: cortical_layers
+    label: { es: Capas corticales }
+    kind: schematic
+    representationId: rep.laminar.layers
+    entityIds:
+      - ent.neocortex.layer_1
+      - ent.neocortex.layer_2_3
+      - ent.neocortex.layer_4
+      - ent.neocortex.layer_5
+      - ent.neocortex.layer_6
+    evidenceClaimIds: [claim.cortex.canonical_not_universal]
+    defaultVisible: true
+    defaultOpacity: 0.18
+  - id: populations
+    label: { es: Poblaciones y estructuras extrínsecas }
+    kind: schematic
+    representationId: rep.laminar.populations
+    entityIds:
+      - ent.neocortex.l4_excitatory
+      - ent.neocortex.l23_pyramidal
+      - ent.neocortex.l5_pyramidal
+      - ent.neocortex.l6_pyramidal
+      - ent.neocortex.inhibitory_interneurons
+      - ent.generic.thalamus_first_order
+      - ent.generic.subcortical_targets
+    evidenceClaimIds: [claim.cortex.interneurons_present]
+    defaultVisible: true
+  - id: projections
+    label: { es: Proyecciones principales (esquema canónico) }
+    kind: schematic
+    representationId: rep.laminar.projections
+    evidenceClaimIds:
+      - claim.cortex.thalamic_input_l4
+      - claim.cortex.l4_to_l23
+      - claim.cortex.l23_to_l5
+      - claim.cortex.l5_subcortical
+      - claim.cortex.l6_corticothalamic
+    defaultVisible: true
+legend:
+  - { colorGroup: layer, color: '#5c677d', label: { es: Capa cortical (grosor ilustrativo) } }
+  - { colorGroup: excitatory, color: '#ffb703', label: { es: Población excitadora } }
+  - { colorGroup: inhibitory, color: '#2ec4b6', label: { es: Interneuronas inhibitorias } }
+  - { colorGroup: extrinsic, color: '#8d99ae', label: { es: Estructura fuera de la corteza } }
+  - {
+      colorGroup: projection,
+      color: '#fb8500',
+      label: { es: Proyección del esquema (flecha = dirección) },
+    }
+entryEntityIds: [ent.neocortex.l4_excitatory]
+transitions:
+  - targetSceneId: scene.visual.cell_morphology
+    label: { es: Ver una neurona piramidal }
+    bridgeClaimId: claim.bridge.laminar_to_cell
+    correspondence: conceptual
+    contextChanges: [species, abstraction]

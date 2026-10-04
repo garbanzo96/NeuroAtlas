@@ -1,0 +1,71 @@
+# yaml-language-server: $schema=../../packages/schemas/json/claim.file.schema.json
+- id: claim.cell.pyramidal_compartments
+  version: 1
+  proposition:
+    es: >-
+      Las neuronas piramidales neocorticales tienen un soma de forma aproximadamente piramidal,
+      dendritas basales, una dendrita apical orientada hacia la superficie pial y un axón.
+  kind: observation
+  subjectIds:
+    - ent.generic.pyramidal_neuron
+    - ent.generic.pyramidal_soma
+    - ent.generic.pyramidal_apical_dendrite
+    - ent.generic.pyramidal_basal_dendrites
+    - ent.generic.pyramidal_axon
+  predicate: has_parts
+  object: { type: text, text: 'soma, dendritas basales, dendrita apical, axón' }
+  contextId: ctx.schematic.pyramidal_neuron_generic
+  measurement: pending_extraction
+  modelId: null
+  evidence:
+    - sourceId: src.kandel_principles
+      locator: pending
+      locatorVerified: false
+      relation: supports
+      methodLimitations: Manual de referencia; las reconstrucciones primarias (p. ej. NeuroMorpho.Org) se incorporarán en una escena propia (WP-021).
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: Morfología típica; existen variantes (p. ej. piramidales invertidas o modificadas) no representadas.
+    competingExplanations: No aplica.
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Redacción a partir de conocimiento de manual; fuente asignada como candidata sin consultar el texto.
+  display: { label: observation }
+- id: claim.cell.morphology_not_type
+  version: 1
+  proposition:
+    es: >-
+      "Piramidal" es una clase morfológica que agrupa neuronas con propiedades moleculares, eléctricas
+      y de conectividad diversas; un esquema morfológico no determina esas propiedades.
+  kind: inference
+  subjectIds: [ent.generic.pyramidal_neuron]
+  predicate: has_limitation
+  object: { type: text, text: la morfología no fija el tipo molecular ni los parámetros eléctricos }
+  contextId: ctx.schematic.pyramidal_neuron_generic
+  measurement: not_applicable
+  modelId: null
+  evidence:
+    - sourceId: src.harris_shepherd_2015
+      locator: pending
+      locatorVerified: false
+      relation: supports
+      methodLimitations: Revisión.
+    - sourceId: src.biccn_bican
+      locator: pending
+      locatorVerified: false
+      relation: contextualizes
+      methodLimitations: Taxonomías multimodales; elegir release y especie antes de citar clases concretas.
+  uncertainty:
+    measurement: no_aplica
+    samplingGeneralization: No aplica.
+    competingExplanations: No aplica.
+  status: draft
+  provenance:
+    author: NeuroAtlas (sesión de arquitectura)
+    extractor: llm:claude
+    createdOn: 2026-10-04
+    method: Redacción a partir de conocimiento de revisiones; fuentes asignadas como candidatas sin consultar el texto.
+  display: { label: inference }

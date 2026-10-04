@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "types": ["node", "vite/client"]
+  },
+  "include": [
+    "packages/*/src",
+    "apps/*/src",
+    "apps/*/vite.config.ts",
+    "tools",
+    "e2e",
+    "vitest.config.ts",
+    "playwright.config.ts"
+  ]
+}

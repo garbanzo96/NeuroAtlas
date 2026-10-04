@@ -1,0 +1,13 @@
+{
+  "name": "@neuroatlas/lessons",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Motor de recorridos guiados (lecciones) independiente de la interfaz.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@neuroatlas/schemas": "0.1.0"
+  }
+}
