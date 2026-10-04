@@ -1,6 +1,7 @@
 import type { SimulationInput } from '@neuroatlas/schemas';
 import { ColorScaleLegend, TimeSeriesChart, nearestIndex } from '@neuroatlas/viewer-2d';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { DOWNLOADS_SUPPORTED } from '../runtime';
 import { useSimulationStore } from '../simulation/simulation-store';
 import { useAppStore } from '../state/store';
 import type { SimulationProtocolState } from '../state/url';
@@ -245,7 +246,16 @@ export function SimulationPanel() {
               Ejecutar simulación
             </button>
           )}
-          <button type="button" onClick={exportRun} disabled={!result}>
+          <button
+            type="button"
+            onClick={exportRun}
+            disabled={!result || !DOWNLOADS_SUPPORTED}
+            title={
+              DOWNLOADS_SUPPORTED
+                ? undefined
+                : 'Esta vista previa no permite descargas; usa la versión local o GitHub Pages.'
+            }
+          >
             Exportar experimento (JSON)
           </button>
         </div>

@@ -22,11 +22,23 @@ identificadores y selección compartidos.
 | Aplicación           | 5 escenas, ficha científica con evidencia, capas con opacidad, búsqueda, avisos de cambio de contexto, escena bloqueada explícita, recorrido guiado de 8 pasos, URL reproducible, teclado y móvil (`apps/web`). |
 | Calidad              | 75 pruebas unitarias, 9 e2e (Playwright, escritorio y móvil), verificación de fronteras entre módulos, CI en GitHub Actions.                                                                                    |
 
-## Arranque rápido
+## Ver y ejecutar la app
+
+| Opción                                         | Enlace                                                                                                                       | Qué hace falta                                                                                                                                                                                |
+| ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Web pública (GitHub Pages)**                 | <https://garbanzo96.github.io/NeuroAtlas/>                                                                                   | Activarlo una vez: _Settings → Pages → Source: GitHub Actions_ y ejecutar el workflow **Pages** (_Actions → Pages → Run workflow_). Después se actualiza con cada push a la rama por defecto. |
+| **Ejecutar el código en la nube (Codespaces)** | [![Abrir en Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/garbanzo96/NeuroAtlas?quickstart=1) | Una cuenta de GitHub. El entorno instala dependencias y arranca `npm run dev`; la app se abre en el puerto 5173.                                                                              |
+| **En tu computador**                           | `http://localhost:5173`                                                                                                      | Node.js ≥ 22.12 y los comandos de abajo.                                                                                                                                                      |
+
+`npm run build:artifact` genera además una vista previa autocontenida (`apps/web/dist-artifact/`) para
+publicarla como página de claude.ai; ahí la exportación JSON queda desactivada porque ese marco bloquea descargas.
+
+## Arranque rápido (local)
 
 Requisitos: Node.js ≥ 22.12 (ver `.nvmrc`) y npm.
 
 ```bash
+git clone https://github.com/garbanzo96/NeuroAtlas.git && cd NeuroAtlas
 npm ci            # instala dependencias (usa package-lock.json)
 npm run dev       # construye los paquetes de datos y abre http://localhost:5173
 ```

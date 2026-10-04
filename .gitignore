@@ -13,3 +13,5 @@ blob-report/
 # Editor
 .idea/
 *.swp
+# Vista previa para claude.ai (npm run build:artifact)
+dist-artifact/

@@ -1,0 +1,23 @@
+{
+  "name": "NeuroAtlas",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "postCreateCommand": "npm ci",
+  "postAttachCommand": {
+    "app": "npm run dev"
+  },
+  "forwardPorts": [5173],
+  "portsAttributes": {
+    "5173": {
+      "label": "NeuroAtlas",
+      "onAutoForward": "openPreview"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": ["redhat.vscode-yaml", "dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
+    },
+    "codespaces": {
+      "openFiles": ["README.md"]
+    }
+  }
+}

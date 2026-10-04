@@ -8,6 +8,7 @@ export default tseslint.config(
     ignores: [
       '**/node_modules/**',
       '**/dist/**',
+      '**/dist-artifact/**',
       'apps/web/public/packs/**',
       'docs/plan-original/**',
       'test-results/**',

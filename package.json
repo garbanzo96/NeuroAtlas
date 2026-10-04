@@ -15,6 +15,7 @@
   "scripts": {
     "dev": "npm run packs && npm run dev -w @neuroatlas/web",
     "build": "npm run packs && npm run build -w @neuroatlas/web",
+    "build:artifact": "npm run packs && tsx tools/build-artifact.ts",
     "preview": "npm run preview -w @neuroatlas/web",
     "packs": "tsx packages/data-pipeline/src/cli.ts build",
     "validate": "tsx packages/data-pipeline/src/cli.ts validate",

@@ -156,7 +156,7 @@ select {
     'header header header'
     'explore stage info'
     'explore bottom info';
-  height: 100vh;
+  height: 100%;
 }
 .na-header {
   grid-area: header;

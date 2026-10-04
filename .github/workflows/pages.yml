@@ -1,0 +1,76 @@
+name: Pages
+
+# Publica la app en GitHub Pages (https://<usuario>.github.io/<repositorio>/) desde la rama por defecto.
+# Requiere activar Pages una vez: Settings → Pages → Build and deployment → Source: "GitHub Actions".
+# Mientras no esté activado, el workflow termina en verde con un aviso y no despliega.
+
+on:
+  push:
+    branches: [main, 'claude/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Construir sitio
+    if: github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      enabled: ${{ steps.pages.outputs.enabled }}
+    steps:
+      - name: Comprobar que Pages usa GitHub Actions
+        id: pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          build_type=$(gh api "repos/${{ github.repository }}/pages" --jq '.build_type' 2>/dev/null || echo none)
+          if [ "$build_type" = "workflow" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=GitHub Pages no activado::Activa Settings → Pages → Source: GitHub Actions y vuelve a ejecutar este workflow (estado actual: $build_type)."
+          fi
+      - uses: actions/checkout@v4
+        if: steps.pages.outputs.enabled == 'true'
+      - uses: actions/setup-node@v4
+        if: steps.pages.outputs.enabled == 'true'
+        with:
+          node-version: 22
+          cache: npm
+      - name: Instalar y comprobar
+        if: steps.pages.outputs.enabled == 'true'
+        run: |
+          npm ci
+          npm run check
+      - name: Construir con la ruta base del repositorio
+        if: steps.pages.outputs.enabled == 'true'
+        env:
+          NEUROATLAS_BASE: /${{ github.event.repository.name }}/
+        run: npm run build
+      - uses: actions/configure-pages@v5
+        if: steps.pages.outputs.enabled == 'true'
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.pages.outputs.enabled == 'true'
+        with:
+          path: apps/web/dist
+
+  deploy:
+    name: Desplegar
+    needs: build
+    if: needs.build.outputs.enabled == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

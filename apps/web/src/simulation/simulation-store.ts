@@ -28,26 +28,43 @@ interface SimulationState {
 let worker: Worker | null = null;
 let workerFailed = false;
 let controller: AbortController | null = null;
+/** Se invoca si el Worker falla al cargar o al ejecutarse (p. ej. entornos con CSP estricta). */
+let onWorkerFailure: (() => void) | null = null;
+
+function createWorker(): Worker | null {
+  try {
+    const w = new Worker(new URL('./simulation.worker.ts', import.meta.url), { type: 'module' });
+    w.addEventListener('error', (event) => {
+      event.preventDefault();
+      workerFailed = true;
+      w.terminate();
+      if (worker === w) worker = null;
+      onWorkerFailure?.();
+    });
+    return w;
+  } catch {
+    workerFailed = true;
+    return null;
+  }
+}
 
 function getAdapter(spec: ModelSpecification): {
   adapter: SimulationAdapter;
   backend: 'worker' | 'main-thread';
 } {
   if (!workerFailed && typeof Worker !== 'undefined') {
-    try {
-      worker ??= new Worker(new URL('./simulation.worker.ts', import.meta.url), { type: 'module' });
+    worker ??= createWorker();
+    if (worker) {
       return {
         adapter: createWorkerAdapter(spec, worker as unknown as MessagePortLike),
         backend: 'worker',
       };
-    } catch {
-      workerFailed = true;
     }
   }
   return { adapter: createInProcessAdapter(spec), backend: 'main-thread' };
 }
 
-export const useSimulationStore = create<SimulationState>((set) => ({
+export const useSimulationStore = create<SimulationState>((set, get) => ({
   status: 'idle',
   error: null,
   input: null,
@@ -67,6 +84,15 @@ export const useSimulationStore = create<SimulationState>((set) => ({
       return;
     }
     set({ status: 'running', error: null, input, backend });
+    // Si el Worker falla durante esta ejecución, se cancela y se repite en el hilo principal.
+    let workerBroke = false;
+    onWorkerFailure =
+      backend === 'worker'
+        ? () => {
+            workerBroke = true;
+            local.abort();
+          }
+        : null;
     const started = performance.now();
     const chunks: SimulationChunk[] = [];
     try {
@@ -81,6 +107,10 @@ export const useSimulationStore = create<SimulationState>((set) => ({
         elapsedMs: performance.now() - started,
       });
     } catch (error) {
+      if (workerBroke && controller === local) {
+        await get().run(spec, input);
+        return;
+      }
       if (local.signal.aborted || (error instanceof Error && error.name === 'AbortError')) {
         if (controller === local) set({ status: 'cancelled' });
       } else {

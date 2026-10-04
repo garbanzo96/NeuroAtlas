@@ -14,13 +14,13 @@ Cada WP es un encargo acotado y verificable. Los marcados con 📄 tienen especi
 
 ## Operación (fase 0–1)
 
-| ID        | Título                                                                         | Ejecutor | Depende de | Estado    |
-| --------- | ------------------------------------------------------------------------------ | -------- | ---------- | --------- |
-| WP-001    | Resolver decisiones de arranque ([decisions-pending.md](decisions-pending.md)) | U        | —          | pendiente |
-| WP-002 📄 | [Activar CI, rama principal y protección de rama](work-packages/WP-002.md)     | U + C    | —          | pendiente |
-| WP-003 📄 | [Vista previa pública en GitHub Pages](work-packages/WP-003.md)                | M        | DEC-007    | pendiente |
-| WP-004    | Licencias del proyecto: `LICENSE` (código) y aviso de licencia del contenido   | U → M    | DEC-008    | pendiente |
-| WP-005    | Revisión humana de ingeniería de la arquitectura (1–2 h, generalista web/3D)   | H        | —          | pendiente |
+| ID        | Título                                                                         | Ejecutor | Depende de | Estado                                  |
+| --------- | ------------------------------------------------------------------------------ | -------- | ---------- | --------------------------------------- |
+| WP-001    | Resolver decisiones de arranque ([decisions-pending.md](decisions-pending.md)) | U        | —          | pendiente                               |
+| WP-002 📄 | [Activar CI, rama principal y protección de rama](work-packages/WP-002.md)     | U + C    | —          | pendiente                               |
+| WP-003 📄 | [Vista previa pública en GitHub Pages](work-packages/WP-003.md)                | M        | DEC-007    | hecho (falta activar Pages en Settings) |
+| WP-004    | Licencias del proyecto: `LICENSE` (código) y aviso de licencia del contenido   | U → M    | DEC-008    | pendiente                               |
+| WP-005    | Revisión humana de ingeniería de la arquitectura (1–2 h, generalista web/3D)   | H        | —          | pendiente                               |
 
 ## Evidencia y contenido de la unidad visual
 

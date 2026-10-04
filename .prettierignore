@@ -7,3 +7,4 @@ test-results
 playwright-report
 docs/plan-original
 packages/schemas/json
+dist-artifact

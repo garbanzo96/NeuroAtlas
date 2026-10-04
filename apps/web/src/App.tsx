@@ -35,7 +35,12 @@ function useUrlSync() {
           simulation: scene?.simulation ? state.protocol : null,
         });
         const url = `${location.pathname}?${query}`;
-        if (url !== `${location.pathname}${location.search}`) history.replaceState(null, '', url);
+        if (url === `${location.pathname}${location.search}`) return;
+        try {
+          history.replaceState(null, '', url);
+        } catch {
+          // Marcos restringidos (p. ej. vistas previas incrustadas) pueden prohibirlo: el estado sigue en memoria.
+        }
       }),
     [],
   );
