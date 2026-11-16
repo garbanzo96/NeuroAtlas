@@ -47,6 +47,9 @@ un prompt contradice este archivo, gana este archivo; avisa de la contradicción
 - **Dependencias nuevas**: no añadas paquetes npm sin que el WP lo autorice. Decláralos en el
   `package.json` del paquete que los usa (`npm i <pkg> -w @neuroatlas/<paquete>`).
 - **Datos fuera de la UI**: textos científicos, parámetros y geometrías van en `content/`, nunca en componentes.
+  **Excepción (ADR-0011):** en el atlas (`apps/web/src/atlas/`), las escenas procedurales pueden contener su
+  geometría, parámetros de animación y fichas breves de sus partes; los datos importados viven en
+  `apps/web/public/atlas/`. Un WP que autoriza archivos del atlas autoriza esto.
 - **Pruebas**: añade pruebas que comprueben comportamiento (no que repitan la implementación). La interfaz se
   prueba con Playwright (`e2e/`).
 - **Estilo**: TypeScript estricto, Prettier (`npm run format`), ESLint. Código e identificadores en inglés;
