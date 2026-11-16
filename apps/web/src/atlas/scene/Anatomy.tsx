@@ -3,6 +3,7 @@ import { type ThreeEvent, useFrame } from '@react-three/fiber';
 import { useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { type AtlasData, assetUrl, baseKey, sideOf } from '../data';
+import { builtinOverlays, overlayStyle } from '../overlays';
 import { type HoloLook, type HoloMaterial, approach, holoMaterial } from '../holo';
 import type { LevelId } from '../levels';
 import { type Hover, type LayerId, isLayerShown, layerOfGroup, useAtlas } from '../store';
@@ -38,6 +39,8 @@ interface Part {
   mat: HoloMaterial;
   layer: LayerId;
   isBrain: boolean;
+  look: HoloLook;
+  brainMesh: boolean;
   keys: Record<'sistema' | 'encefalo' | 'areas', string>;
 }
 
@@ -65,13 +68,22 @@ function buildParts(
       const g = (kind === 'body' ? meta?.g : info?.g) ?? (kind === 'nerves' ? 'raices' : 'gb');
       const layer = layerOfGroup(g);
       if (!mesh.geometry.attributes.normal) mesh.geometry.computeVertexNormals();
-      const mat = holoMaterial(LOOKS[layer]);
+      // idempotente: StrictMode llama dos veces a buildParts y la malla debe conservar el material animado
+      const mat = (mesh.userData.holo ??= holoMaterial(LOOKS[layer])) as HoloMaterial;
       mesh.material = mat;
       mesh.renderOrder = kind === 'brain' ? 2 : 1;
       const isBrain = kind === 'brain' || g === 'bp_encefalo';
       const lobeKey = isBrain ? `g:${g}` : name;
       const keys = { sistema: isBrain ? 'g:encefalo' : name, encefalo: lobeKey, areas: name };
-      parts.push({ mesh, mat, layer, isBrain, keys });
+      parts.push({
+        mesh,
+        mat,
+        layer,
+        isBrain,
+        keys,
+        look: LOOKS[layer],
+        brainMesh: kind === 'brain',
+      });
 
       const c = meta ? new THREE.Vector3(...meta.c) : new THREE.Vector3();
       const box = meta
@@ -134,6 +146,9 @@ export function Anatomy({ data, onIndex }: { data: AtlasData; onIndex(i: HoverIn
     queueMicrotask(() => onIndex(built.index));
   }
 
+  const overlays = useMemo(() => builtinOverlays(data), [data]);
+  const colorTarget = useMemo(() => new THREE.Color(), []);
+  const reducedMotion = useMemo(() => matchMedia('(prefers-reduced-motion: reduce)'), []);
   const hoverKey = useRef<string | null>(null);
   // Resalte sutil del área más cercana al punto que mira la cámara (nivel áreas).
   const focus = useRef<{ part: Part | null; frame: number }>({ part: null, frame: 0 });
@@ -165,6 +180,7 @@ export function Anatomy({ data, onIndex }: { data: AtlasData; onIndex(i: HoverIn
     const t = clock.elapsedTime;
     const hk = s.hover?.key ?? null;
     const sel = s.selected;
+    const overlay = overlays.find((o) => o.id === s.overlay);
     for (const p of built.parts) {
       const u = p.mat.uniforms;
       const shown = isLayerShown(s.layers, s.peel, p.layer);
@@ -188,12 +204,33 @@ export function Anatomy({ data, onIndex }: { data: AtlasData; onIndex(i: HoverIn
         dt,
         hk !== null && k === hk ? 14 : 3,
       );
-      u.uSelect!.value = approach(u.uSelect!.value as number, isSel ? 1 : 0, dt, 8);
+      const style =
+        p.brainMesh && overlay ? overlayStyle(overlay, s.overlaySolo, p.mesh.name) : null;
+      const artery =
+        overlay?.id === 'territorios' &&
+        s.overlaySolo === 'acm' &&
+        p.mesh.name.startsWith('a_cerebral_media_');
+      u.uSelect!.value = approach(u.uSelect!.value as number, isSel || artery ? 1 : 0, dt, 8);
+      const rate = reducedMotion.matches ? Infinity : 5;
+      colorTarget.set(style?.color ?? p.look.color);
+      const color = u.uColor!.value as THREE.Color;
+      color.r = approach(color.r, colorTarget.r, dt, rate);
+      color.g = approach(color.g, colorTarget.g, dt, rate);
+      color.b = approach(color.b, colorTarget.b, dt, rate);
+      u.uFill!.value = approach(
+        u.uFill!.value as number,
+        style ? THREE.MathUtils.clamp(p.look.fill * 2, 0.035, 0.09) * style.w : p.look.fill,
+        dt,
+        rate,
+      );
       u.uDim!.value = approach(
         u.uDim!.value as number,
-        sel && !isSel && s.level === 'areas' ? 0.7 : 0,
+        Math.max(
+          sel && !isSel && s.level === 'areas' ? 0.7 : 0,
+          overlay && s.overlaySolo && p.brainMesh && !isSel && (!style || !style.w) ? 0.75 : 0,
+        ),
         dt,
-        6,
+        overlay ? rate : 6,
       );
       u.uNear!.value = isSel ? 0 : near;
       u.uTime!.value = t;

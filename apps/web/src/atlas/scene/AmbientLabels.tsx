@@ -21,6 +21,7 @@ const BODY_LANDMARKS: [string, string][] = [
  */
 export function AmbientLabels({ data }: { data: AtlasData }) {
   const level = useAtlas((s) => s.level);
+  const overlay = useAtlas((s) => s.overlay);
   const hasPanel = useAtlas((s) => !!s.pathway);
 
   const lobes = useMemo(() => {
@@ -51,7 +52,22 @@ export function AmbientLabels({ data }: { data: AtlasData }) {
     [data],
   );
 
-  const items = level === 'encefalo' ? lobes : level === 'sistema' && !hasPanel ? landmarks : [];
+  const areas = useMemo(
+    () =>
+      Object.entries(data.meshes.brain).flatMap(([name, meta]) => {
+        const ba = data.structures[baseKey(name)]?.ba;
+        return ba ? [{ key: name, name: `BA ${ba}`, pos: new THREE.Vector3(...meta.c) }] : [];
+      }),
+    [data],
+  );
+  const items =
+    level === 'areas' && overlay === 'brodmann'
+      ? areas
+      : level === 'encefalo'
+        ? lobes
+        : level === 'sistema' && !hasPanel
+          ? landmarks
+          : [];
   return (
     <>
       {items.map((it) => (

@@ -35,7 +35,16 @@ export function Search() {
         id: mesh,
         title: s.n,
         sub: s.la ?? '',
-        hay: norm(`${s.n} ${s.la ?? ''}`),
+        hay: norm(
+          `${s.n} ${s.la ?? ''} ${
+            s.ba
+              ? s.ba
+                  .split(',')
+                  .map((n) => `area ${n.trim()}`)
+                  .join(' ')
+              : ''
+          } ${s.a ?? ''}`,
+        ),
       });
     }
     for (const p of data.pathways.pathways)
