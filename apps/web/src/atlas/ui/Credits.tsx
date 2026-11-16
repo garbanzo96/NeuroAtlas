@@ -42,10 +42,12 @@ export function Credits({ onClose }: { onClose(): void }) {
         </ul>
         <h3>Contenido reutilizado</h3>
         <p>
-          Mallas preparadas, fichas de 332 estructuras y 22 vías provienen de{' '}
+          Mallas preparadas, fichas de 332 estructuras, 22 vías, curso, preguntas y casos clínicos
+          provienen de{' '}
           <a href="https://github.com/ontoterrorist/neuroanatomia">ontoterrorist/neuroanatomia</a>{' '}
-          (código MIT, textos CC BY-SA 4.0). Los textos derivados en NeuroAtlas se distribuyen bajo
-          CC BY-SA 4.0.
+          (código MIT, textos adaptados de la fuente bajo{' '}
+          <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>). Los textos
+          derivados en NeuroAtlas se distribuyen bajo CC BY-SA 4.0.
         </p>
         <h3>Modelos computacionales</h3>
         <p>
