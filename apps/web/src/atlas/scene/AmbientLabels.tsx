@@ -22,7 +22,9 @@ const BODY_LANDMARKS: [string, string][] = [
 export function AmbientLabels({ data }: { data: AtlasData }) {
   const level = useAtlas((s) => s.level);
   const overlay = useAtlas((s) => s.overlay);
-  const hasPanel = useAtlas((s) => !!s.pathway || !!s.circuit);
+  const hasPanel = useAtlas(
+    (s) => !!s.pathway || !!s.circuit || (s.overlay === 'neurotransmisores' && !!s.overlaySolo),
+  );
 
   const lobes = useMemo(() => {
     const acc = new Map<string, THREE.Vector3[]>();

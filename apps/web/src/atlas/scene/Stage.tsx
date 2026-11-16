@@ -12,6 +12,7 @@ import { Anatomy, type HoverIndex } from './Anatomy';
 import { MicroScenes } from '../micro';
 import { Pathways } from './Pathways';
 import { Circuits } from './Circuits';
+import { Neuromod } from './Neuromod';
 
 /** Fondo: azul marino que cae a negro, dibujado en pantalla completa (el bloom necesita un fondo propio). */
 function Backdrop() {
@@ -292,6 +293,7 @@ export function Stage({ data }: { data: AtlasData }) {
           </Bvh>
           <Pathways data={data} />
           <Circuits data={data} />
+          <Neuromod data={data} />
           {!micro && <AmbientLabels data={data} />}
         </Suspense>
       </group>
