@@ -8,9 +8,9 @@ import type { LevelId } from '../levels';
  * de radio ~10 unidades y declara su encuadre inicial en `MICRO_VIEWS`.
  */
 const SCENES: Partial<Record<LevelId, ComponentType>> = {
-  // circuito: lazy(() => import('./ColumnScene')),
+  circuito: lazy(() => import('./ColumnScene')),
   neurona: lazy(() => import('./NeuronScene')),
-  // sinapsis: lazy(() => import('./SynapseScene')),
+  sinapsis: lazy(() => import('./SynapseScene')),
   molecula: lazy(() => import('./MembraneScene')),
 };
 

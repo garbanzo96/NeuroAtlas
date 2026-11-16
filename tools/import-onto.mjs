@@ -1,3 +1,4 @@
+/* global process, console */
 // Importa mallas y textos del proyecto abierto ontoterrorist/neuroanatomia (código MIT, textos CC BY-SA 4.0,
 // mallas Allen HRA CC BY 4.0 y BodyParts3D CC BY-SA 2.1 JP) a apps/web/public/atlas/.
 // Uso: node tools/import-onto.mjs <ruta al clon de github.com/ontoterrorist/neuroanatomia>
