@@ -5,6 +5,7 @@ import { useAtlas } from './store';
 import { Dock } from './ui/Dock';
 import { HoverLabel } from './ui/HoverLabel';
 import { InfoSheet } from './ui/InfoSheet';
+import { MicroBar } from './ui/MicroBar';
 import { PathwayPanel } from './ui/PathwayPanel';
 import { ScaleRail, goToLevel } from './ui/ScaleRail';
 import { Search } from './ui/Search';
@@ -112,6 +113,7 @@ export function AtlasApp() {
       <ScaleRail />
       <LevelToast />
       {data && !micro && <Dock />}
+      {micro && <MicroBar />}
       {data && <PathwayPanel open={vias} onClose={() => setVias(false)} />}
       <InfoSheet />
       {lab && (

@@ -1032,3 +1032,61 @@ body,
   margin-top: 8px;
   overflow: auto;
 }
+
+/* ── micro scene variants ────────────────────────────────────── */
+.na-microbar {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 4px;
+  padding: 5px;
+  border-radius: 14px;
+  border: 1px solid var(--na-line);
+  background: var(--na-glass);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  z-index: 16;
+  animation: na-rise 0.5s var(--na-ease);
+  max-width: calc(100vw - 480px);
+  overflow-x: auto;
+}
+.na-microbar button {
+  height: 32px;
+  padding: 0 13px;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  color: var(--na-fg2);
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition:
+    background 0.25s var(--na-ease),
+    color 0.2s;
+}
+.na-microbar button:hover {
+  color: var(--na-fg);
+}
+.na-microbar button[aria-checked='true'] {
+  color: #eaf6ff;
+  background: rgba(115, 197, 255, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(140, 210, 255, 0.4);
+}
+/* rótulos 3D dentro de escenas micro (drei <Html>) */
+.na-scene-tag {
+  font: 11px var(--na-font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--na-fg2);
+  white-space: nowrap;
+  pointer-events: none;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+}
+@media (max-width: 900px) {
+  .na-microbar {
+    bottom: 84px;
+    max-width: calc(100vw - 16px);
+  }
+}

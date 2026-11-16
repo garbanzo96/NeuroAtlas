@@ -55,6 +55,16 @@ export interface Hover {
   anchor: [number, number, number];
 }
 
+/** Ficha de una parte de una escena micro (la registra la propia escena). */
+export interface PartInfo {
+  title: string;
+  kicker?: string;
+  body: string;
+  items?: string[];
+  /** id de simulador del laboratorio relacionado */
+  model?: string;
+}
+
 export type CameraCommand =
   | { type: 'level'; level: LevelId }
   | { type: 'mesh'; name: string }
@@ -73,6 +83,12 @@ interface AtlasState {
   peel: number;
   camera: { command: CameraCommand; nonce: number } | null;
   sheet: 'structure' | 'level' | null;
+  /** Partes con ficha de la escena micro activa. */
+  parts: Record<string, PartInfo>;
+  /** Variante elegida en la escena micro activa (p. ej. tipo de neurona). */
+  variant: string | null;
+  setParts(parts: Record<string, PartInfo>): void;
+  setVariant(variant: string | null): void;
   setData(data: AtlasData): void;
   setLevel(level: LevelId): void;
   setHover(hover: Hover | null): void;
@@ -98,8 +114,22 @@ export const useAtlas = create<AtlasState>((set) => ({
   peel: 0,
   camera: null,
   sheet: null,
+  parts: {},
+  variant: null,
+  setParts: (parts) => set({ parts }),
+  setVariant: (variant) => set({ variant }),
   setData: (data) => set({ data }),
-  setLevel: (level) => set((s) => (s.level === level ? s : { level, hover: null })),
+  setLevel: (level) =>
+    set((s) =>
+      s.level === level
+        ? s
+        : {
+            level,
+            hover: null,
+            variant: null,
+            ...(s.selected && !s.parts[s.selected] ? {} : { selected: null }),
+          },
+    ),
   setHover: (hover) => set({ hover }),
   select: (selected) => set({ selected, sheet: selected ? 'structure' : null }),
   setPathway: (pathway) => set({ pathway, pathwayStep: 0 }),

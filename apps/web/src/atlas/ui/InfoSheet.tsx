@@ -232,6 +232,43 @@ function LevelSheet() {
   );
 }
 
+function PartSheet({ id }: { id: string }) {
+  const part = useAtlas((s) => s.parts[id])!;
+  let i = 0;
+  return (
+    <article className="na-sheet__body" key={id}>
+      <p className="na-kicker" style={stagger(i++)}>
+        {part.kicker ?? 'Parte'}
+      </p>
+      <h2 className="na-sheet__title" style={stagger(i++)}>
+        {part.title}
+      </h2>
+      <section style={stagger(i++)}>
+        <p>{part.body}</p>
+      </section>
+      {part.items && (
+        <section style={stagger(i++)}>
+          <ul>
+            {part.items.map((it) => (
+              <li key={it}>{it}</li>
+            ))}
+          </ul>
+        </section>
+      )}
+      {part.model && (
+        <button
+          type="button"
+          className="na-cta"
+          style={stagger(i)}
+          onClick={() => window.dispatchEvent(new CustomEvent('na:lab', { detail: part.model }))}
+        >
+          Simularlo en el laboratorio <span aria-hidden="true">→</span>
+        </button>
+      )}
+    </article>
+  );
+}
+
 export function startPathway(id: string) {
   window.dispatchEvent(new CustomEvent('na:pathway', { detail: id }));
 }
@@ -239,6 +276,7 @@ export function startPathway(id: string) {
 export function InfoSheet() {
   const sheet = useAtlas((s) => s.sheet);
   const selected = useAtlas((s) => s.selected);
+  const isPart = useAtlas((s) => !!s.selected && !!s.parts[s.selected]);
   const close = () => {
     const s = useAtlas.getState();
     s.setSheet(null);
