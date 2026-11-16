@@ -1275,3 +1275,25 @@ body,
     font-size: 24px;
   }
 }
+
+.na-circuit .na-path__groups > button {
+  margin: 0.2rem;
+}
+.na-circuit label {
+  display: block;
+  margin: 0.45rem 0;
+}
+.na-circuit input[type='range'] {
+  width: 100%;
+}
+.na-circuit__ticks {
+  position: relative;
+  height: 0.5rem;
+  margin: 0 0.5rem;
+}
+.na-circuit__ticks span {
+  position: absolute;
+  height: 0.4rem;
+  width: 1px;
+  background: #a9e9ff;
+}

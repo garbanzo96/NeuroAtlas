@@ -10,3 +10,4 @@ export * from './kuramoto';
 export * from './stdp';
 export * from './axonChain';
 export * from './hhPoint';
+export * from './signedGraph';

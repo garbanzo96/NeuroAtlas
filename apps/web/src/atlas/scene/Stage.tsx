@@ -11,6 +11,7 @@ import { AmbientLabels } from './AmbientLabels';
 import { Anatomy, type HoverIndex } from './Anatomy';
 import { MicroScenes } from '../micro';
 import { Pathways } from './Pathways';
+import { Circuits } from './Circuits';
 
 /** Fondo: azul marino que cae a negro, dibujado en pantalla completa (el bloom necesita un fondo propio). */
 function Backdrop() {
@@ -290,6 +291,7 @@ export function Stage({ data }: { data: AtlasData }) {
             <Anatomy data={data} onIndex={setIndex} />
           </Bvh>
           <Pathways data={data} />
+          <Circuits data={data} />
           {!micro && <AmbientLabels data={data} />}
         </Suspense>
       </group>

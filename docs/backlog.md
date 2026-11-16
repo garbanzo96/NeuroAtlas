@@ -76,14 +76,14 @@ Cada WP es un encargo acotado y verificable. Los marcados con 📄 tienen especi
 
 ## Atlas: conocimiento y experiencia (plan en `docs/atlas/plan-de-conocimiento.md` §8)
 
-| ID         | Título                                                                                   | Ejecutor | Depende de | Estado    |
-| ---------- | ---------------------------------------------------------------------------------------- | -------- | ---------- | --------- |
-| WP-060     | Contratos del atlas, validación de datos y pruebas de humo                               | C        | —          | hecho     |
-| WP-061 📄  | [Capas de lectura I](work-packages/WP-061.md)                                            | Codex    | WP-060     | pendiente |
-| WP-062 📄  | [Motor de circuitos con signo y tres circuitos semilla](work-packages/WP-062.md)         | Codex    | WP-060     | pendiente |
-| WP-063 📄  | [Vista en la URL y enlaces compartibles](work-packages/WP-063.md)                        | Codex    | WP-060     | pendiente |
-| WP-064 📄  | [Importar curso, preguntas y casos](work-packages/WP-064.md)                             | Codex    | WP-060     | pendiente |
-| WP-065–084 | Recorridos, evaluación, simulación en escena, circuitos, moléculas, arte (ver plan §8.3) | varios   | —          | pendiente |
+| ID         | Título                                                                                   | Ejecutor | Depende de | Estado             |
+| ---------- | ---------------------------------------------------------------------------------------- | -------- | ---------- | ------------------ |
+| WP-060     | Contratos del atlas, validación de datos y pruebas de humo                               | C        | —          | hecho              |
+| WP-061 📄  | [Capas de lectura I](work-packages/WP-061.md)                                            | Codex    | WP-060     | pendiente          |
+| WP-062 📄  | [Motor de circuitos con signo y tres circuitos semilla](work-packages/WP-062.md)         | Codex    | WP-060     | en revisión visual |
+| WP-063 📄  | [Vista en la URL y enlaces compartibles](work-packages/WP-063.md)                        | Codex    | WP-060     | pendiente          |
+| WP-064 📄  | [Importar curso, preguntas y casos](work-packages/WP-064.md)                             | Codex    | WP-060     | pendiente          |
+| WP-065–084 | Recorridos, evaluación, simulación en escena, circuitos, moléculas, arte (ver plan §8.3) | varios   | —          | pendiente          |
 
 ## Expansión (fase 4, tras el piloto)
 

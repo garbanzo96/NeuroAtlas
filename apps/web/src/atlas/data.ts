@@ -93,6 +93,7 @@ export interface Overlay {
 export interface AtlasData {
   meshes: Record<'brain' | 'body' | 'nerves', Record<string, MeshMeta>>;
   structures: Record<string, Structure>;
+  circuits: Circuit[];
   pathways: { groups: [string, string][]; pathways: Pathway[] };
   taxonomy: {
     regions: Record<string, [string, string]>;
@@ -109,13 +110,14 @@ async function getJson<T>(path: string): Promise<T> {
 }
 
 export async function loadAtlasData(): Promise<AtlasData> {
-  const [meshes, structures, pathways, taxonomy] = await Promise.all([
+  const [meshes, structures, pathways, taxonomy, circuits] = await Promise.all([
     getJson<AtlasData['meshes']>('meshes.json'),
     getJson<AtlasData['structures']>('structures.json'),
     getJson<AtlasData['pathways']>('pathways.json'),
     getJson<AtlasData['taxonomy']>('taxonomy.json'),
+    getJson<{ circuits: Circuit[] }>('circuits.json'),
   ]);
-  return { meshes, structures, pathways, taxonomy };
+  return { meshes, structures, pathways, taxonomy, circuits: circuits.circuits };
 }
 
 /** `putamen_L` → `putamen`. */
