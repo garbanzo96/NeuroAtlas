@@ -3,6 +3,7 @@ import { dynamics as d } from '@neuroatlas/simulation';
 import { Plot, RasterPlot, type Series } from '../Plot';
 import { Slider } from '../Slider';
 import { Heatmap } from '../Heatmap';
+import { clearSignals, publish } from '../../signals';
 
 const seq = (n: number, f: (i: number) => number) => Array.from({ length: n }, (_, i) => f(i));
 function useDelay<T>(value: T) {
@@ -12,6 +13,24 @@ function useDelay<T>(value: T) {
     return () => clearTimeout(timer);
   }, [value]);
   return result;
+}
+// Playback uses simulation time, independently of React renders and the numerical solver.
+function usePlayback(update: (seconds: number) => void, deps: React.DependencyList) {
+  useEffect(() => {
+    let frame = 0;
+    const start = performance.now();
+    const tick = (now: number) => {
+      update((now - start) / 1000);
+      frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(frame);
+      clearSignals();
+    };
+    // The supplied dependencies identify the simulation result.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
 }
 function Control({
   name,
@@ -69,6 +88,16 @@ export function HH() {
   const aa = useDelay(a),
     dd = useDelay(duration);
   const r = useMemo(() => d.simulateHHPoint(aa, dd), [aa, dd]);
+  usePlayback(
+    (seconds) => {
+      const i = Math.floor(((seconds * 20) % 60) / 0.01);
+      publish('hh.V', r.v[i]!);
+      publish('hh.m', r.m[i]!);
+      publish('hh.h', r.h[i]!);
+      publish('hh.n', r.n[i]!);
+    },
+    [r],
+  );
   return (
     <Frame
       equation="C dV/dt = I − Iₙₐ − Iₖ − Iₗ"
@@ -164,6 +193,14 @@ export function WilsonCowan() {
         { tMax: 40, dt: 0.02, E0: 0.1, I0: 0.1 },
       ),
     [pp, cc],
+  );
+  usePlayback(
+    (seconds) => {
+      const i = Math.floor(((seconds * 4) % 40) / 0.02);
+      publish('wc.E', r.E[i]!);
+      publish('wc.I', r.I[i]!);
+    },
+    [r],
   );
   return (
     <Frame
@@ -266,6 +303,27 @@ export function TsodyksMarkram() {
       x.map((i) => ((i - 1) * 1000) / f),
       d.TM_PRESETS[preset],
     );
+  usePlayback(
+    (seconds) => {
+      const p = d.TM_PRESETS[preset];
+      const interval = 1000 / f;
+      const time = (seconds * 250) % (12 * interval + 1000);
+      let resource = 1,
+        utilization = 0,
+        last = 0;
+      for (let i = 0; i < 12 && i * interval <= time; i++) {
+        const delta = i === 0 ? Infinity : interval;
+        resource = 1 - (1 - resource) * Math.exp(-delta / p.tauRec);
+        utilization = p.tauFacil > 0 ? utilization * Math.exp(-delta / p.tauFacil) : 0;
+        utilization += p.U * (1 - utilization);
+        resource *= 1 - utilization;
+        last = i * interval;
+      }
+      publish('tm.x', 1 - (1 - resource) * Math.exp(-(time - last) / p.tauRec));
+      publish('tm.u', utilization * (p.tauFacil > 0 ? Math.exp(-(time - last) / p.tauFacil) : 1));
+    },
+    [preset, f],
+  );
   return (
     <Frame
       equation="Aₙ = uₙRₙ"
@@ -413,6 +471,7 @@ export function NakPump() {
     return () => clearInterval(id);
   }, []);
   const phase = d.pumpPhase(time, rate);
+  usePlayback(() => publish('pump.rate', rate), [rate]);
   return (
     <Frame
       equation="3 Na⁺ fuera : 2 K⁺ dentro : 1 ATP"
@@ -465,6 +524,13 @@ export function Axon() {
   const a = useDelay(amp);
   const r = useMemo(() => d.simulateAxon({ tMax: 20, stimAmp: a }), [a]);
   const sample = seq(r.vSnapshots.length / r.n, (i) => i * 0.05);
+  usePlayback(
+    (seconds) => {
+      const sampleIndex = Math.floor(((seconds * 10) % 20) / 0.05);
+      for (let i = 0; i < r.n; i++) publish(`axon.V[${i}]`, r.vSnapshots[sampleIndex * r.n + i]!);
+    },
+    [r],
+  );
   return (
     <Frame
       equation="C dV/dt = Iᵢₒₙ + Iₐₓᵢₐₗ + Iₑₓₜ"

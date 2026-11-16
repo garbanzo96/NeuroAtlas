@@ -1,3 +1,4 @@
+import { read } from '../signals';
 import { Html } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { dynamics } from '@neuroatlas/simulation';
@@ -187,7 +188,31 @@ function Channel({
   const material = useMemo(() => holoMaterial({ color, fill: 0.04, rim: 0.5 }), [color]);
   useEffect(() => () => material.dispose(), [material]);
   const ion = useRef<THREE.Mesh>(null);
-  useFrame(({ clock }) => {
+  const gate = useRef<THREE.Group>(null);
+  const opening = useRef(0);
+  useFrame(({ clock }, dt) => {
+    const m = read('hh.m', NaN),
+      h = read('hh.h', NaN),
+      n = read('hh.n', NaN);
+    const live =
+      id === 'nav'
+        ? Number.isNaN(m) || Number.isNaN(h)
+          ? NaN
+          : m ** 3 * h
+        : id === 'kv'
+          ? n ** 4
+          : NaN;
+    const fallback = Math.max(
+      0,
+      1 - Math.abs((clock.elapsedTime % 4) - (id === 'nav' ? 0.9 : 1.8)),
+    );
+    opening.current = approach(
+      opening.current,
+      active ? (Number.isNaN(live) ? fallback : live) : 0,
+      dt,
+      10,
+    );
+    if (gate.current) gate.current.scale.setScalar(1 + opening.current * 0.7);
     const t = reducedMotion() ? 0 : clock.elapsedTime % 4;
     const start = id === 'nav' ? 0.5 : 1.4;
     const progress = (t - start) / 0.8;
@@ -195,23 +220,25 @@ function Channel({
       ion.current.visible = active && id !== 'fuga' && progress >= 0 && progress <= 1;
       ion.current.position.y = (id === 'nav' ? 1 : -1) * (2 - progress * 4);
     }
-    material.uniforms.uHover.value = active && progress >= 0 && progress <= 1 ? 0.8 : 0;
+    material.uniforms.uHover.value = opening.current * 0.8;
   });
   return (
     <Interactive id={id} anchor={[x, 0, 0]}>
-      {(id === 'fuga' ? [0, 1] : [0, 1, 2, 3]).map((i) => {
-        const count = id === 'fuga' ? 2 : 4;
-        const angle = (i * Math.PI * 2) / count;
-        return (
-          <mesh
-            key={i}
-            position={[x + Math.cos(angle) * 0.48, 0, Math.sin(angle) * 0.48]}
-            material={material}
-          >
-            <capsuleGeometry args={[0.3, 1.8, 8, 16]} />
-          </mesh>
-        );
-      })}
+      <group ref={gate} position={[x, 0, 0]}>
+        {(id === 'fuga' ? [0, 1] : [0, 1, 2, 3]).map((i) => {
+          const count = id === 'fuga' ? 2 : 4;
+          const angle = (i * Math.PI * 2) / count;
+          return (
+            <mesh
+              key={i}
+              position={[Math.cos(angle) * 0.48, 0, Math.sin(angle) * 0.48]}
+              material={material}
+            >
+              <capsuleGeometry args={[0.3, 1.8, 8, 16]} />
+            </mesh>
+          );
+        })}
+      </group>
       <mesh ref={ion} position={[x, 2, 0]}>
         <sphereGeometry args={[0.13, 16, 12]} />
         <meshBasicMaterial color={id === 'nav' ? '#ffb057' : '#5ee6ff'} />
@@ -228,9 +255,14 @@ function Pump() {
   const obj = useMemo(() => new THREE.Object3D(), []);
   const material = useMemo(() => holoMaterial({ color: '#86d6ff', fill: 0.04, rim: 0.5 }), []);
   useEffect(() => () => material.dispose(), [material]);
-  useFrame(({ clock }) => {
+  const pumpTime = useRef(0),
+    pumpRate = useRef(0.1);
+  useFrame(({ clock }, dt) => {
+    const rate = read('pump.rate', NaN);
+    pumpRate.current = approach(pumpRate.current, Number.isNaN(rate) ? 0.1 : rate, dt, 4);
+    if (!reducedMotion()) pumpTime.current += dt * pumpRate.current;
     const t = reducedMotion() ? 0 : clock.elapsedTime;
-    const phase = dynamics.pumpPhase(t, 0.1);
+    const phase = dynamics.pumpPhase(pumpTime.current, 1);
     const state = dynamics.NAK_PUMP_STATES[phase.stateIndex]!;
     if (label.current) label.current.textContent = state.label;
     if (phosphate.current) phosphate.current.visible = state.phosphorylated;

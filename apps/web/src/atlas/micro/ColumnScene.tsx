@@ -1,3 +1,5 @@
+import { read } from '../signals';
+import { approach } from '../holo';
 import { useMemo, useRef } from 'react';
 import { useFrame, type ThreeEvent } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
@@ -131,7 +133,19 @@ function Cells() {
     g.setAttribute('position', new THREE.Float32BufferAttribute(v, 3));
     return g;
   }, [data]);
-  useFrame(({ clock }) => {
+  const liveE = useRef(0),
+    liveI = useRef(0);
+  useFrame(({ clock }, dt) => {
+    const e = read('wc.E', NaN),
+      inhibition = read('wc.I', NaN);
+    const wi = Math.floor(((reduced ? 0 : clock.elapsedTime) * 50) % wc.E.length);
+    liveE.current = approach(liveE.current, Number.isNaN(e) ? wc.E[wi]! : e, dt, 8);
+    liveI.current = approach(
+      liveI.current,
+      Number.isNaN(inhibition) ? wc.I[wi]! : inhibition,
+      dt,
+      8,
+    );
     if (!bodies.current[0] || !bodies.current[1] || !bodies.current[2] || !flashes.current) return;
     const t = reduced ? 0 : clock.elapsedTime;
     const ms = (t * 120) % 1200;
@@ -154,8 +168,7 @@ function Cells() {
         obj.scale.set(c.size, c.size * (c.inhibitory || c.star ? 1 : 1.6), c.size);
         obj.updateMatrix();
       });
-      const wi = Math.floor((t * 50) % wc.E.length);
-      const activity = c.inhibitory ? wc.I[wi]! : wc.E[wi]!;
+      const activity = c.inhibitory ? liveI.current : liveE.current;
       const on =
         !reduced &&
         (variant === 'oscilacion'
