@@ -59,7 +59,8 @@ function useKeys(toggleVias: () => void) {
         if (s.sheet) {
           s.setSheet(null);
           s.select(null);
-        } else if (s.pathway) s.setPathway(null);
+        } else if (s.circuit) s.setCircuit(null);
+        else if (s.pathway) s.setPathway(null);
       } else if (e.key === 'v') toggleVias();
       else if (e.key === 'i') s.setSheet(s.sheet === 'level' ? null : 'level');
       else if (e.key === 'h') s.command({ type: 'home' });
@@ -75,6 +76,7 @@ export function AtlasApp() {
   const data = useAtlas((s) => s.data);
   const level = useAtlas((s) => s.level);
   const pathway = useAtlas((s) => s.pathway);
+  const circuit = useAtlas((s) => s.circuit);
   const [error, setError] = useState<string | null>(null);
   const [vias, setVias] = useState(false);
   const [lab, setLab] = useState<string | null>(null);
@@ -123,7 +125,11 @@ export function AtlasApp() {
         </a>
         {data && <Search />}
         <nav className="na-actions" aria-label="Herramientas">
-          <button type="button" aria-pressed={vias || !!pathway} onClick={() => setVias((v) => !v)}>
+          <button
+            type="button"
+            aria-pressed={vias || !!pathway || !!circuit}
+            onClick={() => setVias((v) => !v)}
+          >
             Vías
           </button>
           <button

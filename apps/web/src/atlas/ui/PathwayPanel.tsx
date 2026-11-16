@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { CircuitPanel } from './CircuitPanel';
 import { DIRECTION_COLOR, directionOf, pathwayBox } from '../scene/Pathways';
 import { useAtlas } from '../store';
 
@@ -18,6 +19,8 @@ export function activatePathway(id: string | null) {
 /** Catálogo de vías y recorrido paso a paso de la vía activa. */
 export function PathwayPanel({ open, onClose }: { open: boolean; onClose(): void }) {
   const data = useAtlas((s) => s.data)!;
+  const [tab, setTab] = useState<'vias' | 'circuitos'>('vias');
+  const circuit = useAtlas((s) => s.circuit);
   const active = useAtlas((s) => s.pathway);
   const step = useAtlas((s) => s.pathwayStep);
   const setStep = useAtlas((s) => s.setPathwayStep);
@@ -28,6 +31,8 @@ export function PathwayPanel({ open, onClose }: { open: boolean; onClose(): void
     window.addEventListener('na:pathway', on);
     return () => window.removeEventListener('na:pathway', on);
   }, []);
+
+  if (circuit) return <CircuitPanel onClose={() => useAtlas.getState().setCircuit(null)} />;
 
   if (pathway) {
     const paso = pathway.pasos[step];
@@ -97,7 +102,19 @@ export function PathwayPanel({ open, onClose }: { open: boolean; onClose(): void
     <section className="na-path na-path--list" aria-label="Vías y circuitos">
       <header>
         <p className="na-kicker">22 vías y circuitos</p>
-        <h2>Vías aferentes y eferentes</h2>
+        <h2>Vías y circuitos</h2>
+        <div className="na-path__nav">
+          <button type="button" aria-pressed={tab === 'vias'} onClick={() => setTab('vias')}>
+            Vías
+          </button>
+          <button
+            type="button"
+            aria-pressed={tab === 'circuitos'}
+            onClick={() => setTab('circuitos')}
+          >
+            Circuitos
+          </button>
+        </div>
         <div className="na-legend">
           {(['aferente', 'eferente', 'modulador'] as const).map((d) => (
             <span key={d} style={{ '--c': DIRECTION_COLOR[d] } as React.CSSProperties}>
@@ -110,23 +127,48 @@ export function PathwayPanel({ open, onClose }: { open: boolean; onClose(): void
         </button>
       </header>
       <div className="na-path__groups">
-        {data.pathways.groups.map(([g, name]) => (
-          <div key={g}>
-            <h3>{name}</h3>
+        {tab === 'circuitos' ? (
+          <div>
+            <h3>Circuitos con signo</h3>
             <ul>
-              {data.pathways.pathways
-                .filter((p) => p.g === g)
-                .map((p) => (
-                  <li key={p.id}>
-                    <button type="button" onClick={() => activatePathway(p.id)}>
-                      <span>{p.n}</span>
-                      {p.sub && <small>{p.sub}</small>}
-                    </button>
-                  </li>
-                ))}
+              {data.circuits.map((c) => (
+                <li key={c.id}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const state = useAtlas.getState();
+                      state.setPathway(null);
+                      state.setLevel('encefalo');
+                      state.setCircuit(c.id);
+                      state.runCircuit(c.scenarios[0]!.id);
+                    }}
+                  >
+                    <span>{c.n}</span>
+                    <small>{c.sub}</small>
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
-        ))}
+        ) : (
+          data.pathways.groups.map(([g, name]) => (
+            <div key={g}>
+              <h3>{name}</h3>
+              <ul>
+                {data.pathways.pathways
+                  .filter((p) => p.g === g)
+                  .map((p) => (
+                    <li key={p.id}>
+                      <button type="button" onClick={() => activatePathway(p.id)}>
+                        <span>{p.n}</span>
+                        {p.sub && <small>{p.sub}</small>}
+                      </button>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          ))
+        )}
       </div>
     </section>
   );
