@@ -1,7 +1,9 @@
 import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { assetUrl, loadAtlasData } from './data';
 import { LEVELS, levelIndex } from './levels';
-import { useAtlas } from './store';
+import { useAtlas, type CameraCommand } from './store';
+import { applyView, currentView, queryToView, viewToQuery, viewUrl } from './view';
+import { ShareButton } from './ui/ShareButton';
 import { Credits } from './ui/Credits';
 import { Dock } from './ui/Dock';
 import { HoverLabel } from './ui/HoverLabel';
@@ -93,14 +95,47 @@ export function AtlasApp() {
   const [lab, setLab] = useState<string | null>(null);
   const [touched, setTouched] = useState(false);
   const [credits, setCredits] = useState(false);
+  const cameraPose = useRef<(() => CameraCommand | null) | null>(null);
+  const labRef = useRef<string | null>(null);
+  useEffect(() => {
+    labRef.current = lab;
+  }, [lab]);
 
   useEffect(() => {
+    let unsubscribe = () => {};
+    let timer: number | undefined;
+    let cancelled = false;
     loadAtlasData()
-      .then((d) => useAtlas.getState().setData(d))
+      .then((d) => {
+        if (cancelled) return;
+        useAtlas.getState().setData(d);
+        applyView(queryToView(window.location.search));
+        let previous = viewToQuery({ ...currentView(), lab: labRef.current });
+        unsubscribe = useAtlas.subscribe(() => {
+          const next = viewToQuery({ ...currentView(), lab: labRef.current });
+          if (next === previous) return;
+          previous = next;
+          window.clearTimeout(timer);
+          timer = window.setTimeout(
+            () =>
+              history.replaceState(
+                history.state,
+                '',
+                viewUrl({ ...currentView(), lab: labRef.current }),
+              ),
+            300,
+          );
+        });
+      })
       .catch((e: unknown) => setError(e instanceof Error ? e.message : String(e)));
     const onLab = (e: Event) => setLab((e as CustomEvent<string>).detail ?? 'hh');
     window.addEventListener('na:lab', onLab);
-    return () => window.removeEventListener('na:lab', onLab);
+    return () => {
+      cancelled = true;
+      unsubscribe();
+      window.clearTimeout(timer);
+      window.removeEventListener('na:lab', onLab);
+    };
   }, []);
   useKeys(() => setVias((v) => !v));
 
@@ -122,7 +157,7 @@ export function AtlasApp() {
             </div>
           }
         >
-          <Stage data={data} />
+          <Stage data={data} cameraPose={cameraPose} />
         </Suspense>
       ) : (
         <div className="na-boot" style={bootStyle}>
@@ -158,6 +193,7 @@ export function AtlasApp() {
           >
             Laboratorio
           </button>
+          {data && <ShareButton cameraPose={cameraPose} lab={lab} />}
           <button type="button" onClick={() => setCredits(true)}>
             Créditos
           </button>

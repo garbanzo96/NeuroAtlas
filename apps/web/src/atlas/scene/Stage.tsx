@@ -1,12 +1,12 @@
 import { Bvh, CameraControls, PerformanceMonitor, Sparkles } from '@react-three/drei';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Bloom, EffectComposer, Vignette } from '@react-three/postprocessing';
-import { Suspense, useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState, type RefObject } from 'react';
 import * as THREE from 'three';
 import { type AtlasData, baseKey, resolvePoint } from '../data';
 import { LEVELS, levelForDistance, levelIndex } from '../levels';
 import { goToLevel } from '../ui/ScaleRail';
-import { useAtlas } from '../store';
+import { useAtlas, type CameraCommand } from '../store';
 import { AmbientLabels } from './AmbientLabels';
 import { Anatomy, type HoverIndex } from './Anatomy';
 import { MicroScenes } from '../micro';
@@ -61,7 +61,15 @@ function diveTarget(data: AtlasData, dir: 1 | -1) {
   return i < LEVELS.length - 1 ? LEVELS[i + 1]!.id : null;
 }
 
-function CameraRig({ index, data }: { index: HoverIndex | null; data: AtlasData }) {
+function CameraRig({
+  index,
+  data,
+  cameraPose,
+}: {
+  index: HoverIndex | null;
+  data: AtlasData;
+  cameraPose: RefObject<(() => CameraCommand | null) | null>;
+}) {
   const ref = useRef<CameraControls>(null);
   const camera = useAtlas((s) => s.camera);
   const pathway = useAtlas((s) => s.pathway);
@@ -69,6 +77,19 @@ function CameraRig({ index, data }: { index: HoverIndex | null; data: AtlasData 
   const level = useAtlas((s) => s.level);
   const gl = useThree((s) => s.gl);
   const micro = LEVELS.find((l) => l.id === level)?.scene === 'micro';
+
+  useEffect(() => {
+    cameraPose.current = () => {
+      const c = ref.current;
+      if (!c) return null;
+      const pos = c.camera.position;
+      const target = c.getTarget(new THREE.Vector3(), false);
+      return { type: 'pose', pos: [pos.x, pos.y, pos.z], target: [target.x, target.y, target.z] };
+    };
+    return () => {
+      cameraPose.current = null;
+    };
+  }, [cameraPose]);
 
   // Con un panel lateral abierto, el centro de interés se corre a la izquierda para no quedar debajo.
   const panelOpen = useAtlas((s) => !!s.sheet || !!s.pathway);
@@ -150,6 +171,7 @@ function CameraRig({ index, data }: { index: HoverIndex | null; data: AtlasData 
     const c = ref.current;
     if (!c || intro.current) return;
     intro.current = true;
+    if (useAtlas.getState().camera) return;
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     void c.setLookAt(...VIEWS.sistema.pos, ...VIEWS.sistema.target, false);
     if (!reduced) {
@@ -161,13 +183,16 @@ function CameraRig({ index, data }: { index: HoverIndex | null; data: AtlasData 
     } else void c.setLookAt(...VIEWS.encefalo.pos, ...VIEWS.encefalo.target, false);
   }, []);
 
+  const appliedPose = useRef<number | null>(null);
   useEffect(() => {
     const c = ref.current;
     if (!c || !camera) return;
     const cmd = camera.command;
+    if (cmd.type === 'pose' && appliedPose.current === camera.nonce) return;
+    if (cmd.type === 'pose') appliedPose.current = camera.nonce;
     if (cmd.type === 'home')
       void c.setLookAt(...VIEWS.encefalo.pos, ...VIEWS.encefalo.target, true);
-    if (cmd.type === 'pose') void c.setLookAt(...cmd.pos, ...cmd.target, true);
+    if (cmd.type === 'pose') void c.setLookAt(...cmd.pos, ...cmd.target, false);
     if (cmd.type === 'level') {
       const v = VIEWS[cmd.level as keyof typeof VIEWS];
       if (v) void c.setLookAt(...v.pos, ...v.target, true);
@@ -255,7 +280,13 @@ function LabelTracker() {
   return null;
 }
 
-export function Stage({ data }: { data: AtlasData }) {
+export function Stage({
+  data,
+  cameraPose,
+}: {
+  data: AtlasData;
+  cameraPose: RefObject<(() => CameraCommand | null) | null>;
+}) {
   const [index, setIndex] = useState<HoverIndex | null>(null);
   const [dpr, setDpr] = useState(Math.min(2, window.devicePixelRatio || 1));
   const select = useAtlas((s) => s.select);
@@ -296,7 +327,7 @@ export function Stage({ data }: { data: AtlasData }) {
         </Suspense>
       </group>
       {micro && <MicroScenes level={level} />}
-      <CameraRig index={index} data={data} />
+      <CameraRig index={index} data={data} cameraPose={cameraPose} />
       <LabelTracker />
       <FovRig />
       <EffectComposer multisampling={4}>

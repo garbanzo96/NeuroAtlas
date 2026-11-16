@@ -133,3 +133,31 @@ export function applyView(v: AtlasView): void {
   if (v.camera) s.command(v.camera);
   if (v.lab) window.dispatchEvent(new CustomEvent('na:lab', { detail: v.lab }));
 }
+
+/** Captura el estado compartible sin incluir una orden de cámara pendiente. */
+export function currentView(): AtlasView {
+  const s = useAtlas.getState();
+  return {
+    level: s.level,
+    select: s.selected,
+    overlay: s.overlay,
+    overlaySolo: s.overlaySolo,
+    layers: s.layers,
+    peel: s.peel,
+    pathway: s.pathway,
+    pathwayStep: s.pathwayStep,
+    circuit: s.circuit,
+    scenario: s.circuitRun?.scenario,
+    lesions: s.circuitRun?.lesions,
+    variant: s.variant,
+  };
+}
+
+/** Reemplaza solo los parámetros del atlas y conserva los ajenos. */
+export function viewUrl(view: AtlasView): string {
+  const url = new URL(window.location.href);
+  for (const key of Object.values(K)) url.searchParams.delete(key);
+  const query = new URLSearchParams(viewToQuery(view));
+  query.forEach((value, key) => url.searchParams.set(key, value));
+  return url.href;
+}
