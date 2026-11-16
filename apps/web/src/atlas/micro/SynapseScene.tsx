@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
 import { dynamics } from '@neuroatlas/simulation';
 import * as THREE from 'three';
-import { approach } from '../holo';
+import { holoMaterial } from '../holo';
 import { useAtlas, type PartInfo } from '../store';
 import { handlers, random, useHolo, useParts, useReducedMotion, type Point } from './geom2';
 
@@ -59,16 +59,16 @@ function Shape({
   id,
   position,
   size,
-  color = '#5ca4ff',
   shape = 'sphere',
+  color = '#6bb3ff',
 }: {
   id: string;
   position: Point;
   size: Point;
+  shape?: 'sphere' | 'cylinder';
   color?: string;
-  shape?: 'sphere' | 'box';
 }) {
-  const { material, hot } = useHolo(id, color, 0.08, 0.65);
+  const { material, hot } = useHolo(id, color, 0.035, 0.42);
   return (
     <mesh
       position={position}
@@ -76,136 +76,217 @@ function Shape({
       material={material}
       {...handlers(id, parts[id]!.title, position, hot)}
     >
-      {shape === 'box' ? <boxGeometry /> : <sphereGeometry args={[1, 24, 16]} />}
+      {shape === 'cylinder' ? (
+        <cylinderGeometry args={[1, 1, 1, 24]} />
+      ) : (
+        <sphereGeometry args={[1, 32, 24]} />
+      )}
     </mesh>
   );
 }
-function Particles({ variant }: { variant: string }) {
-  const mesh = useRef<THREE.InstancedMesh>(null);
+function Chemical({ variant }: { variant: string }) {
   const reduced = useReducedMotion();
-  const hot = useRef(false);
-  const data = useMemo(() => {
+  const signal = useRef<THREE.Mesh>(null);
+  const cloud = useRef<THREE.InstancedMesh>(null);
+  const ions = useRef<THREE.InstancedMesh>(null);
+  const fusion = useRef<THREE.Mesh>(null);
+  const calcium = useRef<THREE.InstancedMesh>(null);
+  const recovery = useRef<THREE.Mesh>(null);
+  const receptors = useRef<THREE.Group>(null);
+  const receptorHot = useRef(false);
+  const randData = useMemo(() => {
     const rand = random(84);
-    return Array.from({ length: 72 }, (_, i) => ({
-      x: (rand() - 0.5) * 3.8,
-      y: rand(),
-      z: (rand() - 0.5) * 2.6,
-      kind: i < 36 ? 0 : i < 48 ? 1 : i < 60 ? 2 : 3,
+    return Array.from({ length: 90 }, () => ({
+      x: (rand() - 0.5) * 2.3,
+      z: (rand() - 0.5) * 1.3,
+      delay: rand() * 0.2,
     }));
   }, []);
+  const vesicles = useMemo(() => {
+    const rand = random(71);
+    return Array.from({ length: 40 }, (_, i) => ({
+      p: [(rand() - 0.5) * 2.7, i < 6 ? 0.73 : 1.0 + rand() * 1.65, (rand() - 0.5) * 1.35] as Point,
+    }));
+  }, []);
+  const vesMat = useMemo(() => holoMaterial({ color: '#8bd8ff', fill: 0.025, rim: 0.48 }), []);
   const obj = useMemo(() => new THREE.Object3D(), []);
-  const color = useMemo(() => new THREE.Color(), []);
-  const responses = useMemo(
-    () =>
-      dynamics.tmResponses(
-        Array.from({ length: 8 }, (_, i) => i * 50),
-        dynamics.TM_PRESETS.depressing,
-      ),
-    [],
-  );
   useFrame(({ clock }) => {
-    if (!mesh.current) return;
-    const time = reduced ? 0 : clock.elapsedTime;
-    const phase = (time % 2.4) / 2.4;
-    const spike = Math.floor((time / 2.4) % 8);
-    const release = variant === 'plasticidad' ? Math.ceil(responses[spike]! * 12) : 5;
-    data.forEach((p, i) => {
-      let x = p.x,
-        y = 1.1 + p.y * 2.4,
-        z = p.z,
-        scale = 0.12,
-        tint = '#7ab6ff';
-      if (variant === 'electrica') {
-        x = ((i % 6) - 2.5) * 0.55;
-        y = (((phase + i / 72) % 1) - 0.5) * 1.5;
-        z = ((Math.floor(i / 6) % 4) - 1.5) * 0.5;
-        scale = 0.055;
-        tint = '#5ee6ff';
-      } else if (p.kind === 0) {
-        if (i < release && phase > 0.35 && phase < 0.7) {
-          y = 0.65 - (phase - 0.35) * 1.7;
-          scale = 0.09;
-        }
-      } else if (p.kind === 1) {
-        y = 0.6 + ((p.y + phase) % 1) * 1.1;
-        scale = phase > 0.18 && phase < 0.52 ? 0.07 : 0.001;
-        tint = '#ff8ad8';
-      } else if (p.kind === 2) {
-        y = 0.35 - ((p.y + phase) % 1) * 0.8;
-        scale = phase > 0.4 && phase < 0.8 ? 0.065 : 0.001;
-        tint = '#d8f4ff';
-      } else {
-        y = -0.5 - ((p.y + phase) % 1) * 1.1;
-        scale = phase > 0.6 ? 0.07 : 0.001;
-        tint = variant === 'inhibitoria' ? '#8fe3b0' : '#ffb057';
+    const phase = reduced ? 0 : (clock.elapsedTime % 3) / 3;
+    if (signal.current) {
+      signal.current.position.set(0, 5.1 - Math.min(phase / 0.19, 1) * 2.1, 0);
+      signal.current.scale.setScalar(phase < 0.19 ? 0.14 : 0.0001);
+    }
+    if (fusion.current) {
+      fusion.current.scale.set(
+        phase > 0.32 && phase < 0.43 ? 0.25 : 0.0001,
+        phase > 0.32 && phase < 0.43 ? 0.05 : 0.0001,
+        0.25,
+      );
+    }
+    if (calcium.current) {
+      for (let i = 0; i < 12; i++) {
+        const q = (phase - 0.2 - i * 0.006) / 0.14;
+        obj.position.set(
+          i % 2 ? 1 : -1,
+          0.45 + Math.max(0, Math.min(1, q)) * 0.65,
+          0.45 + ((i % 3) - 1) * 0.08,
+        );
+        obj.scale.setScalar(q > 0 && q < 1 ? 0.045 : 0.0001);
+        obj.updateMatrix();
+        calcium.current.setMatrixAt(i, obj.matrix);
       }
-      obj.position.set(x, y, z);
-      obj.scale.setScalar(scale);
-      obj.updateMatrix();
-      mesh.current!.setMatrixAt(i, obj.matrix);
-      color.set(tint);
-      mesh.current!.setColorAt(i, color);
-    });
-    mesh.current.instanceMatrix.needsUpdate = true;
-    if (mesh.current.instanceColor) mesh.current.instanceColor.needsUpdate = true;
-  });
-  return (
-    <instancedMesh
-      ref={mesh}
-      args={[undefined, undefined, data.length]}
-      {...handlers('vesicle', parts.vesicle!.title, [0, 2, 0], hot)}
-    >
-      <sphereGeometry args={[1, 8, 6]} />
-      <meshBasicMaterial
-        transparent
-        opacity={0.85}
-        blending={THREE.AdditiveBlending}
-        depthWrite={false}
-      />
-    </instancedMesh>
-  );
-}
-function Transition({ visible, children }: { visible: boolean; children: React.ReactNode }) {
-  const ref = useRef<THREE.Group>(null);
-  const value = useRef(visible ? 1 : 0);
-  useFrame((_, dt) => {
-    value.current = approach(value.current, visible ? 1 : 0, dt, 5);
-    if (ref.current) {
-      ref.current.scale.setScalar(Math.max(0.001, value.current));
-      ref.current.visible = value.current > 0.01;
+      calcium.current.instanceMatrix.needsUpdate = true;
+    }
+    if (recovery.current) {
+      const q = (phase - 0.8) / 0.16;
+      recovery.current.position.set(1.35, 0.53 + Math.max(0, Math.min(1, q)) * 0.6, 0.4);
+      recovery.current.scale.setScalar(q > 0 && q < 1 ? 0.12 : 0.0001);
+    }
+    if (receptors.current)
+      receptors.current.children.forEach((c) => {
+        const m = (c as THREE.Mesh).material as THREE.MeshBasicMaterial;
+        m.opacity = phase > 0.57 && phase < 0.82 ? 0.85 : 0.22;
+      });
+    if (cloud.current) {
+      randData.forEach((p, i) => {
+        const progress = (phase - 0.39 - p.delay) / 0.25;
+        obj.position.set(p.x * 0.55, 0.47 - Math.max(0, Math.min(1, progress)) * 0.65, p.z * 0.55);
+        obj.scale.setScalar(progress > 0 && progress < 1 ? 0.035 : 0.0001);
+        obj.updateMatrix();
+        cloud.current!.setMatrixAt(i, obj.matrix);
+      });
+      cloud.current.instanceMatrix.needsUpdate = true;
+    }
+    if (ions.current) {
+      for (let i = 0; i < 18; i++) {
+        const q = (phase - 0.6 - i * 0.006) / 0.22;
+        obj.position.set(
+          ((i % 6) - 2.5) * 0.3,
+          -0.35 - Math.max(0, Math.min(1, q)) * 0.85,
+          (Math.floor(i / 6) - 1) * 0.25,
+        );
+        obj.scale.setScalar(q > 0 && q < 1 ? 0.045 : 0.0001);
+        obj.updateMatrix();
+        ions.current.setMatrixAt(i, obj.matrix);
+      }
+      ions.current.instanceMatrix.needsUpdate = true;
     }
   });
-  return <group ref={ref}>{children}</group>;
-}
-function Signal() {
-  const ref = useRef<THREE.Mesh>(null);
-  const reduced = useReducedMotion();
-  useFrame(({ clock }) => {
-    if (!ref.current) return;
-    const phase = reduced ? 0 : (clock.elapsedTime % 2.4) / 2.4;
-    ref.current.position.set(
-      -5 + Math.min(phase / 0.3, 1) * 4,
-      4 - Math.min(phase / 0.3, 1) * 1.5,
-      0,
-    );
-    ref.current.scale.setScalar(phase < 0.3 ? 1 : 0.001);
-  });
   return (
-    <mesh ref={ref}>
-      <sphereGeometry args={[0.25, 12, 8]} />
-      <meshBasicMaterial
-        color="#d8f4ff"
-        transparent
-        opacity={0.9}
-        blending={THREE.AdditiveBlending}
-        depthWrite={false}
-      />
-    </mesh>
+    <group>
+      <Shape id="bouton" position={[0, 4.15, 0]} size={[0.22, 1.3, 0.22]} shape="cylinder" />
+      <Shape id="bouton" position={[0, 1.95, 0]} size={[2, 1.55, 1.3]} />
+      <Shape id="vesicle" position={[0.75, 2.35, -0.35]} size={[0.75, 0.22, 0.25]} />
+      {[-0.35, 0, 0.35].map((x) => (
+        <mesh key={x} position={[0.75 + x, 2.35, -0.1]} rotation={[0, 0, 0.35]}>
+          <torusGeometry args={[0.15, 0.018, 6, 16, Math.PI]} />
+          <meshBasicMaterial color="#75bfff" transparent opacity={0.4} />
+        </mesh>
+      ))}
+      {vesicles.map((v, i) => (
+        <mesh key={i} position={v.p} material={vesMat}>
+          <sphereGeometry args={[0.115, 16, 12]} />
+        </mesh>
+      ))}
+      <Shape id="active" position={[0, 0.52, 0]} size={[1.45, 0.09, 0.85]} shape="cylinder" />
+      {[-0.9, -0.45, 0, 0.45, 0.9].flatMap((x) =>
+        [-0.45, 0, 0.45].map((z) => (
+          <mesh key={`${x}-${z}`} position={[x, 0.49, z]}>
+            <sphereGeometry args={[0.045, 8, 6]} />
+            <meshBasicMaterial color="#6db9e9" transparent opacity={0.5} />
+          </mesh>
+        )),
+      )}
+      {[-1, 1].map((x) => (
+        <Shape
+          key={x}
+          id="calcium"
+          position={[x, 0.55, 0.45]}
+          size={[0.07, 0.2, 0.07]}
+          shape="cylinder"
+          color="#cf9aff"
+        />
+      ))}
+      <Shape id="cleft" position={[0, 0.18, 0]} size={[1.4, 0.18, 0.8]} shape="cylinder" />
+      <Shape id="density" position={[0, -0.22, 0]} size={[1.4, 0.14, 0.8]} shape="cylinder" />
+      <Shape id="density" position={[0, -0.95, 0]} size={[1.65, 0.8, 1.1]} />
+      <Shape id="density" position={[0, -2.05, 0]} size={[0.32, 0.8, 0.32]} shape="cylinder" />
+      <mesh position={[0, -2.95, 0]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.65, 0.65, 5.4, 32]} />
+        <primitive object={vesMat} attach="material" />
+      </mesh>
+      <group ref={receptors}>
+        {[-0.9, -0.45, 0, 0.45, 0.9].map((x, i) => (
+          <mesh
+            key={x}
+            position={[x, -0.12, 0.45]}
+            {...handlers(
+              variant === 'inhibitoria' ? 'gaba' : i % 2 ? 'nmda' : 'ampa',
+              parts[variant === 'inhibitoria' ? 'gaba' : i % 2 ? 'nmda' : 'ampa']!.title,
+              [x, -0.12, 0.45],
+              receptorHot,
+            )}
+          >
+            <cylinderGeometry args={[0.085, 0.085, 0.4, 12]} />
+            <meshBasicMaterial
+              color={variant === 'inhibitoria' ? '#bc9aff' : i % 2 ? '#91dfff' : '#6d9fff'}
+              transparent
+              opacity={0.22}
+            />
+          </mesh>
+        ))}
+      </group>
+      <Html position={[0, -0.5, 1.1]} center>
+        <span className="na-scene-tag">{variant === 'inhibitoria' ? 'GABA_A' : 'AMPA · NMDA'}</span>
+      </Html>
+      <mesh ref={signal}>
+        <sphereGeometry args={[1, 16, 12]} />
+        <meshBasicMaterial color="#d7faff" />
+      </mesh>
+      <mesh ref={fusion} position={[0, 0.5, 0.5]}>
+        <sphereGeometry args={[1, 16, 12]} />
+        <meshBasicMaterial color="#eaffff" />
+      </mesh>
+      <instancedMesh ref={calcium} args={[undefined, undefined, 12]}>
+        <sphereGeometry args={[1, 8, 6]} />
+        <meshBasicMaterial color="#e8a4ff" />
+      </instancedMesh>
+      <mesh ref={recovery} material={vesMat}>
+        <sphereGeometry args={[1, 16, 12]} />
+      </mesh>
+      <instancedMesh ref={cloud} args={[undefined, undefined, 90]}>
+        <sphereGeometry args={[1, 8, 6]} />
+        <meshBasicMaterial color="#d8f8ff" transparent opacity={0.85} />
+      </instancedMesh>
+      <instancedMesh ref={ions} args={[undefined, undefined, 18]}>
+        <sphereGeometry args={[1, 8, 6]} />
+        <meshBasicMaterial
+          color={variant === 'inhibitoria' ? '#9cf1be' : '#ffb978'}
+          transparent
+          opacity={0.85}
+        />
+      </instancedMesh>
+    </group>
+  );
+}
+function Electrical() {
+  return (
+    <group>
+      <Shape id="connexon" position={[0, 0.65, 0]} size={[2.3, 0.13, 1.2]} shape="cylinder" />
+      <Shape id="connexon" position={[0, -0.65, 0]} size={[2.3, 0.13, 1.2]} shape="cylinder" />
+      {[-1, -0.5, 0, 0.5, 1].map((x) => (
+        <Shape
+          key={x}
+          id="connexon"
+          position={[x, 0, 0]}
+          size={[0.15, 1.2, 0.15]}
+          shape="cylinder"
+        />
+      ))}
+    </group>
   );
 }
 function Bars() {
-  const refs = useRef<(HTMLSpanElement | null)[]>([]);
-  const reduced = useReducedMotion();
   const responses = useMemo(
     () =>
       dynamics.tmResponses(
@@ -214,24 +295,15 @@ function Bars() {
       ),
     [],
   );
-  useFrame(({ clock }) => {
-    const step = reduced ? 8 : Math.floor((clock.elapsedTime / 2.4) % 8) + 1;
-    refs.current.forEach((el, i) => {
-      if (el) el.style.height = `${i < step ? responses[i]! * 80 : 2}px`;
-    });
-  });
   return (
-    <Html position={[4, 0, 0]} center>
+    <Html position={[3, 0, 0]} center>
       <div className="na-scene-tag">
         Respuesta relativa
         <div style={{ display: 'flex', alignItems: 'end', gap: 3, height: 44 }}>
-          {responses.map((_, i) => (
+          {responses.map((r, i) => (
             <span
               key={i}
-              ref={(el) => {
-                refs.current[i] = el;
-              }}
-              style={{ display: 'block', width: 7, background: '#86d6ff' }}
+              style={{ display: 'block', width: 7, height: r * 80, background: '#86d6ff' }}
             />
           ))}
         </div>
@@ -242,53 +314,13 @@ function Bars() {
 export default function SynapseScene() {
   useParts(parts);
   const variant = useAtlas((s) => s.variant) ?? 'quimica';
-  const electrical = variant === 'electrica';
   return (
     <group>
-      <Transition visible={!electrical}>
-        <Signal />
-        <Shape id="bouton" position={[0, 2.2, 0]} size={[3, 2.2, 2.3]} />
-        <Shape id="bouton" position={[-3, 4, 0]} size={[2.5, 0.65, 0.65]} />
-        <Shape id="active" position={[0, 0.45, 0]} size={[4.1, 0.16, 2.7]} shape="box" />
-        <Shape id="cleft" position={[0, 0, 0]} size={[3.8, 0.45, 2.5]} shape="box" />
-        <Shape id="density" position={[0, -0.55, 0]} size={[4.1, 0.18, 2.7]} shape="box" />
-        <Shape id="density" position={[0, -2, 0]} size={[2.8, 1.4, 2.2]} />
-        <Shape id="calcium" position={[-1.6, 0.5, 1]} size={[0.18, 0.4, 0.18]} color="#ff8ad8" />
-        <Shape
-          id={variant === 'inhibitoria' ? 'gaba' : 'ampa'}
-          position={[-1, -0.5, 1]}
-          size={[0.25, 0.45, 0.25]}
-        />
-        <Shape
-          id={variant === 'inhibitoria' ? 'gaba' : 'nmda'}
-          position={[1, -0.5, 1]}
-          size={[0.25, 0.45, 0.25]}
-        />
-        {variant !== 'inhibitoria' && (
-          <Html position={[1, -1.1, 1]} center>
-            <span className="na-scene-tag">NMDA · Mg²⁺</span>
-          </Html>
-        )}
-        <Shape id="vesicle" position={[0.8, 2.4, 0]} size={[0.75, 0.35, 0.35]} color="#86d6ff" />
-      </Transition>
-      <Transition visible={electrical}>
-        <Shape id="connexon" position={[0, 0.65, 0]} size={[5, 0.18, 3]} shape="box" />
-        <Shape id="connexon" position={[0, -0.65, 0]} size={[5, 0.18, 3]} shape="box" />
-        {[-1.5, -0.5, 0.5, 1.5].map((x) => (
-          <Shape
-            key={x}
-            id="connexon"
-            position={[x, 0, 0]}
-            size={[0.22, 0.7, 0.22]}
-            color="#86d6ff"
-          />
-        ))}
-      </Transition>
-      <Particles variant={variant} />
+      {variant === 'electrica' ? <Electrical /> : <Chemical variant={variant} />}{' '}
       {variant === 'plasticidad' && <Bars />}
-      <Html position={[0, 5, 0]} center>
+      <Html position={[0, 5.35, 0]} center>
         <span className="na-scene-tag">
-          {electrical ? 'Unión en hendidura · esquema' : 'Sinapsis · esquema'}
+          {variant === 'electrica' ? 'Unión en hendidura · esquema' : 'Sinapsis · esquema'}
         </span>
       </Html>
     </group>

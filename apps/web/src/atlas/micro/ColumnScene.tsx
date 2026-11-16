@@ -3,7 +3,6 @@ import { useFrame, type ThreeEvent } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
 import { dynamics } from '@neuroatlas/simulation';
 import * as THREE from 'three';
-import { approach } from '../holo';
 import { useAtlas, type PartInfo } from '../store';
 import { handlers, random, useHolo, useParts, useReducedMotion, type Point } from './geom2';
 
@@ -45,19 +44,19 @@ const parts: Record<string, PartInfo> = {
   column: {
     title: 'Columna y minicolumna',
     model: 'network',
-    body: 'La organización en columnas es una forma de describir regularidades verticales de conectividad y respuesta en ciertas áreas de la corteza. Las definiciones de columna y minicolumna, su extensión y su generalidad varían entre estudios y regiones. Este bloque no delimita una unidad anatómica universal: es un esquema didáctico de capas y conexiones posibles. La red simulada contiene neuronas puntuales idealizadas y no pretende reconstruir el conectoma de una columna cortical real.',
+    body: 'La organización en columnas es una forma de describir regularidades verticales de conectividad y respuesta en ciertas áreas de la corteza. Las definiciones de columna y minicolumna, su extensión y su generalidad varían entre estudios y regiones. Los grosores representan de forma esquemática una corteza sensorial típica, con capa IV desarrollada. Este bloque no delimita una unidad anatómica universal: es un esquema didáctico de capas y conexiones posibles. La red simulada contiene neuronas puntuales idealizadas y no pretende reconstruir el conectoma de una columna cortical real.',
   },
 };
 const layers = [
-  { key: 'layer1', label: 'I', y: 3.35, h: 0.65 },
-  { key: 'layer23', label: 'II/III', y: 2.2, h: 1.65 },
-  { key: 'layer4', label: 'IV', y: 0.75, h: 1.15 },
-  { key: 'layer5', label: 'V', y: -0.65, h: 1.65 },
-  { key: 'layer6', label: 'VI', y: -2.15, h: 1.35 },
-  { key: 'column', label: 'SB', y: -3.35, h: 1 },
+  { key: 'layer1', label: 'I · molecular', y: 3.55, h: 0.5 },
+  { key: 'layer23', label: 'II/III · piramidal externa', y: 2.35, h: 1.9 },
+  { key: 'layer4', label: 'IV · granular interna', y: 0.7, h: 1.4 },
+  { key: 'layer5', label: 'V · piramidal interna', y: -0.75, h: 1.5 },
+  { key: 'layer6', label: 'VI · multiforme', y: -2.2, h: 1.4 },
+  { key: 'column', label: 'Sustancia blanca', y: -3.45, h: 1.1 },
 ];
-function Slab({ layer, index }: { layer: (typeof layers)[number]; index: number }) {
-  const { material, hot } = useHolo(layer.key, '#3a86ff', 0.035 + index * 0.006, 0.22);
+function Slab({ layer }: { layer: (typeof layers)[number] }) {
+  const { material, hot } = useHolo(layer.key, '#478bda', 0.015, 0.16);
   const anchor: Point = [0, layer.y, 0];
   return (
     <group>
@@ -66,37 +65,43 @@ function Slab({ layer, index }: { layer: (typeof layers)[number]; index: number 
         material={material}
         {...handlers(layer.key, parts[layer.key]!.title, anchor, hot)}
       >
-        <boxGeometry args={[4, layer.h, 3.4]} />
+        <boxGeometry args={[3.8, layer.h, 2.8]} />
       </mesh>
-      <Html position={[2.5, layer.y, 0]} center>
-        <span className="na-scene-tag">{layer.label}</span>
+      <lineSegments position={anchor}>
+        <edgesGeometry args={[new THREE.BoxGeometry(3.8, layer.h, 2.8)]} />
+        <lineBasicMaterial color="#78b9ff" transparent opacity={0.28} />
+      </lineSegments>
+      <Html position={[-2.45, layer.y, 0]} center>
+        <span className="na-scene-tag" style={{ whiteSpace: 'nowrap' }}>
+          {layer.label}
+        </span>
       </Html>
     </group>
   );
 }
+type Cell = { p: Point; inhibitory: boolean; star: boolean; size: number; networkId: number };
 function Cells() {
   const variant = useAtlas((s) => s.variant);
   const reduced = useReducedMotion();
-  const mesh = useRef<THREE.InstancedMesh>(null);
-  const hot = useRef(false);
+  const bodies = useRef<(THREE.InstancedMesh | null)[]>([]);
+  const flashes = useRef<THREE.InstancedMesh>(null);
   const data = useMemo(() => {
     const rand = random(54);
-    const points: { p: Point; inhibitory: boolean; size: number }[] = [];
-    [3, 26, 35, 20, 18].forEach((count, layer) => {
-      const l = layers[layer]!;
-      for (let i = 0; i < count; i++)
-        points.push({
-          p: [(rand() - 0.5) * 3.6, l.y + (rand() - 0.5) * l.h * 0.8, (rand() - 0.5) * 3],
-          inhibitory: false,
-          size: layer === 3 ? 0.13 : 0.085,
+    const cells: Cell[] = [];
+    [5, 115, 110, 90, 80].forEach((count, li) => {
+      const l = layers[li]!;
+      for (let i = 0; i < count; i++) {
+        const inhibitory = rand() < 0.2;
+        cells.push({
+          p: [(rand() - 0.5) * 3.45, l.y + (rand() - 0.5) * l.h * 0.85, (rand() - 0.5) * 2.45],
+          inhibitory,
+          star: li === 2,
+          size: li === 3 ? 0.075 : 0.052,
+          networkId: inhibitory ? 80 + Math.floor(rand() * 22) : Math.floor(rand() * 80),
         });
+      }
     });
-    const ids = Array.from({ length: points.length }, (_, i) => i);
-    for (let i = ids.length - 1; i > 0; i--) {
-      const j = Math.floor(rand() * (i + 1));
-      [ids[i], ids[j]] = [ids[j]!, ids[i]!];
-    }
-    return points.map((p, i) => ({ ...p, networkId: ids[i]!, inhibitory: ids[i]! >= 80 }));
+    return cells;
   }, []);
   const network = useMemo(
     () => dynamics.simulateNetwork({ ne: 80, ni: 22, tMax: 1200, seed: 54 }),
@@ -112,161 +117,227 @@ function Cells() {
       }),
     [],
   );
-  const kura = useMemo(
-    () => dynamics.simulateKuramoto({ n: 102, K: 4, tMax: 12, dt: 0.05, seed: 54 }),
-    [],
-  );
   const obj = useMemo(() => new THREE.Object3D(), []);
   const color = useMemo(() => new THREE.Color(), []);
-  useFrame(({ clock }) => {
-    if (!mesh.current) return;
-    const time = reduced ? 0 : clock.elapsedTime;
-    const ms = (time * 120) % 1200;
-    const active = new Set<number>();
-    for (let i = 0; i < network.spikeTimes.length; i++)
-      if (Math.abs(network.spikeTimes[i]! - ms) < 28) active.add(network.spikeIds[i]!);
-    const wi = Math.floor((time * 50) % wc.E.length);
-    const ki = Math.floor((time * 10) % kura.r.length);
-    const sync = kura.r[ki]!;
-    data.forEach((cell, i) => {
-      let pulse = active.has(cell.networkId) ? 2.5 : 0.65;
-      if (variant === 'oscilacion') pulse = 0.5 + (cell.inhibitory ? wc.I[wi]! : wc.E[wi]!) * 5;
-      if (variant === 'red')
-        pulse = 0.6 + Math.max(0, Math.sin(time * 4 + i * (1 - sync))) ** 12 * 2;
-      obj.position.set(...cell.p);
-      obj.scale.setScalar(cell.size * (1 + (pulse - 0.6) * 0.3));
-      obj.updateMatrix();
-      mesh.current!.setMatrixAt(i, obj.matrix);
-      color.set(cell.inhibitory ? '#c49bff' : '#86d6ff').multiplyScalar(pulse);
-      mesh.current!.setColorAt(i, color);
-    });
-    mesh.current.instanceMatrix.needsUpdate = true;
-    if (mesh.current.instanceColor) mesh.current.instanceColor.needsUpdate = true;
-  });
-  return (
-    <instancedMesh
-      ref={mesh}
-      args={[undefined, undefined, data.length]}
-      onPointerOver={(e: ThreeEvent<PointerEvent>) => {
-        e.stopPropagation();
-        const cell = data[e.instanceId ?? 0]!;
-        const key = cell.inhibitory ? 'interneuron' : 'pyramidal';
-        hot.current = true;
-        useAtlas.getState().setHover({
-          key,
-          title: parts[key]!.title,
-          subtitle: 'Esquema didáctico',
-          anchor: cell.p,
-        });
-      }}
-      onPointerOut={() => {
-        hot.current = false;
-        useAtlas.getState().setHover(null);
-      }}
-      onClick={(e: ThreeEvent<MouseEvent>) => {
-        e.stopPropagation();
-        useAtlas
-          .getState()
-          .select(data[e.instanceId ?? 0]!.inhibitory ? 'interneuron' : 'pyramidal');
-      }}
-    >
-      <icosahedronGeometry args={[1, 0]} />
-      <meshBasicMaterial
-        transparent
-        opacity={0.85}
-        blending={THREE.AdditiveBlending}
-        depthWrite={false}
-      />
-    </instancedMesh>
-  );
-}
-function Feature({ id, position, size }: { id: string; position: Point; size: Point }) {
-  const { material, hot } = useHolo(id, id === 'interneuron' ? '#c49bff' : '#86d6ff', 0.12, 0.7);
-  return (
-    <mesh
-      position={position}
-      scale={size}
-      material={material}
-      {...handlers(id, parts[id]!.title, position, hot)}
-    >
-      {id === 'pyramidal' ? (
-        <coneGeometry args={[1, 2, 3]} />
-      ) : (
-        <sphereGeometry args={[1, 16, 12]} />
-      )}
-    </mesh>
-  );
-}
-function Dendrites() {
-  const geometry = useMemo(() => {
-    const vertices: number[] = [];
-    [-1.4, -0.8, 0, 0.8, 1.4].forEach((x, i) => {
-      const base = i % 2 ? -0.8 : 1.4;
-      vertices.push(x, base, 0, x, 3.4, 0, x, 3.1, 0, x - 0.35, 3.6, 0, x, 2.6, 0, x + 0.3, 3.2, 0);
+  const dendrites = useMemo(() => {
+    const v: number[] = [];
+    data.forEach((c) => {
+      if (!c.inhibitory && !c.star && c.p[1] < 3.1) {
+        const [x, y, z] = c.p;
+        v.push(x, y, z, x, 3.55, z, x, 3.3, z, x - 0.13, 3.65, z);
+      }
     });
     const g = new THREE.BufferGeometry();
-    g.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+    g.setAttribute('position', new THREE.Float32BufferAttribute(v, 3));
     return g;
-  }, []);
-  return (
-    <lineSegments geometry={geometry}>
-      <lineBasicMaterial
-        color="#7ab6ff"
-        transparent
-        opacity={0.45}
-        blending={THREE.AdditiveBlending}
-        depthWrite={false}
-      />
-    </lineSegments>
-  );
-}
-function Flow() {
-  const variant = useAtlas((s) => s.variant);
-  const reduced = useReducedMotion();
-  const ref = useRef<THREE.Group>(null);
-  const alpha = useRef(0);
-  useFrame(({ clock }, dt) => {
-    if (!ref.current) return;
-    alpha.current = approach(alpha.current, variant === 'microcircuito' ? 1 : 0.15, dt, 3);
-    ref.current.scale.setScalar(0.8 + alpha.current * 0.2);
-    ref.current.children.forEach((c, i) => {
-      const m = (c as THREE.Mesh).material as THREE.MeshBasicMaterial;
-      m.opacity =
-        alpha.current *
-        (reduced ? 0.5 : 0.3 + 0.7 * Math.max(0, Math.sin(clock.elapsedTime * 2 - i)));
+  }, [data]);
+  useFrame(({ clock }) => {
+    if (!bodies.current[0] || !bodies.current[1] || !bodies.current[2] || !flashes.current) return;
+    const t = reduced ? 0 : clock.elapsedTime;
+    const ms = (t * 120) % 1200;
+    const active = new Set<number>();
+    for (let i = 0; i < network.spikeTimes.length; i++)
+      if (Math.abs(network.spikeTimes[i]! - ms) < 3.6) active.add(network.spikeIds[i]!);
+    data.forEach((c, i) => {
+      obj.position.set(...c.p);
+      obj.rotation.set(0, 0, 0);
+      obj.scale.set(c.size, c.size * (c.inhibitory || c.star ? 1 : 1.6), c.size);
+      obj.updateMatrix();
+      const kind = c.inhibitory ? 2 : c.star ? 1 : 0;
+      bodies.current.forEach((mesh, k) => {
+        if (!mesh) return;
+        if (k !== kind) {
+          obj.scale.setScalar(0.0001);
+          obj.updateMatrix();
+        }
+        mesh.setMatrixAt(i, obj.matrix);
+        obj.scale.set(c.size, c.size * (c.inhibitory || c.star ? 1 : 1.6), c.size);
+        obj.updateMatrix();
+      });
+      const wi = Math.floor((t * 50) % wc.E.length);
+      const activity = c.inhibitory ? wc.I[wi]! : wc.E[wi]!;
+      const on =
+        !reduced &&
+        (variant === 'oscilacion'
+          ? Math.sin(t * 5 + i * 0.37) > 1 - activity * 0.15
+          : active.has(c.networkId) || (variant === 'red' && Math.sin(t * 3 + i * 0.07) > 0.995));
+      obj.scale.setScalar(on ? c.size * 2.3 : 0.0001);
+      obj.updateMatrix();
+      flashes.current!.setMatrixAt(i, obj.matrix);
+      color.set(c.inhibitory ? '#c49bff' : '#a4efff');
+      flashes.current!.setColorAt(i, color);
     });
+    bodies.current.forEach((mesh) => {
+      if (mesh) mesh.instanceMatrix.needsUpdate = true;
+    });
+    flashes.current.instanceMatrix.needsUpdate = true;
+    if (flashes.current.instanceColor) flashes.current.instanceColor.needsUpdate = true;
   });
   return (
-    <group ref={ref}>
-      {[-2.8, -1.4, 0, 1.4, 2.8].map((y) => (
-        <mesh key={y} position={[1.55, y, 0]}>
-          <coneGeometry args={[0.13, 0.35, 8]} />
+    <group>
+      <lineSegments geometry={dendrites}>
+        <lineBasicMaterial color="#70b6f0" transparent opacity={0.16} />
+      </lineSegments>
+      {[0, 1, 2].map((kind) => (
+        <instancedMesh
+          key={kind}
+          ref={(el) => {
+            bodies.current[kind] = el;
+          }}
+          args={[undefined, undefined, data.length]}
+          onPointerOver={(e: ThreeEvent<PointerEvent>) => {
+            e.stopPropagation();
+            const c = data[e.instanceId ?? 0]!;
+            const key = c.inhibitory ? 'interneuron' : 'pyramidal';
+            useAtlas.getState().setHover({
+              key,
+              title: parts[key]!.title,
+              subtitle: 'Esquema didáctico',
+              anchor: c.p,
+            });
+          }}
+          onPointerOut={() => useAtlas.getState().setHover(null)}
+          onClick={(e: ThreeEvent<MouseEvent>) => {
+            e.stopPropagation();
+            useAtlas
+              .getState()
+              .select(data[e.instanceId ?? 0]!.inhibitory ? 'interneuron' : 'pyramidal');
+          }}
+        >
+          {kind === 0 ? (
+            <tetrahedronGeometry args={[1, 0]} />
+          ) : kind === 1 ? (
+            <octahedronGeometry args={[1, 0]} />
+          ) : (
+            <sphereGeometry args={[1, 10, 8]} />
+          )}
           <meshBasicMaterial
-            color="#d8f4ff"
+            color={kind === 2 ? '#b69ada' : '#78b5d8'}
             transparent
-            opacity={0}
-            blending={THREE.AdditiveBlending}
+            opacity={0.38}
             depthWrite={false}
           />
+        </instancedMesh>
+      ))}
+      <instancedMesh ref={flashes} args={[undefined, undefined, data.length]}>
+        <sphereGeometry args={[1, 8, 6]} />
+        <meshBasicMaterial
+          transparent
+          opacity={0.85}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
+      </instancedMesh>
+    </group>
+  );
+}
+function Connections() {
+  const variant = useAtlas((s) => s.variant);
+  const reduced = useReducedMotion();
+  const pulse = useRef<THREE.Mesh>(null);
+  const curves = useMemo(
+    () => [
+      new THREE.CatmullRomCurve3([
+        new THREE.Vector3(-0.7, -3.8, 0.6),
+        new THREE.Vector3(-0.8, -1, 0.6),
+        new THREE.Vector3(-0.5, 0.7, 0.6),
+      ]),
+      new THREE.CatmullRomCurve3([
+        new THREE.Vector3(-0.5, 0.7, 0.6),
+        new THREE.Vector3(0.1, 1.1, 0.7),
+        new THREE.Vector3(0.5, 2.3, 0.6),
+      ]),
+      new THREE.CatmullRomCurve3([
+        new THREE.Vector3(0.5, 2.3, 0.6),
+        new THREE.Vector3(1, 1, 0.7),
+        new THREE.Vector3(0.6, -0.8, 0.6),
+      ]),
+      new THREE.CatmullRomCurve3([
+        new THREE.Vector3(0.6, -0.8, 0.6),
+        new THREE.Vector3(0.1, -1.5, 0.7),
+        new THREE.Vector3(0.3, -2.4, 0.6),
+      ]),
+    ],
+    [],
+  );
+  useFrame(({ clock }) => {
+    if (pulse.current) {
+      const t = reduced ? 0 : clock.elapsedTime;
+      const index = variant === 'microcircuito' ? Math.floor(t / 0.8) % 4 : 0;
+      pulse.current.position.copy(curves[index]!.getPoint((t % 0.8) / 0.8));
+    }
+  });
+  return (
+    <group>
+      {curves.map(
+        (curve, i) =>
+          (i === 0 || variant === 'microcircuito') && (
+            <group key={i}>
+              <mesh>
+                <tubeGeometry args={[curve, 32, 0.018, 6, false]} />
+                <meshBasicMaterial color="#73cfff" transparent opacity={i === 0 ? 0.4 : 0.55} />
+              </mesh>
+              {i > 0 && (
+                <mesh
+                  position={curve.getPoint(0.9)}
+                  quaternion={new THREE.Quaternion().setFromUnitVectors(
+                    new THREE.Vector3(0, 1, 0),
+                    curve.getTangent(0.9).normalize(),
+                  )}
+                >
+                  <coneGeometry args={[0.08, 0.22, 8]} />
+                  <meshBasicMaterial color="#a7eaff" />
+                </mesh>
+              )}
+            </group>
+          ),
+      )}
+      {[-0.5, 0, 0.5].map((x) => (
+        <mesh key={x}>
+          <tubeGeometry
+            args={[
+              new THREE.CatmullRomCurve3([
+                new THREE.Vector3(-0.5, 0.7, 0.6),
+                new THREE.Vector3(x, 1, 0.4),
+                new THREE.Vector3(x, 1.2, 0.1),
+              ]),
+              12,
+              0.012,
+              5,
+              false,
+            ]}
+          />
+          <meshBasicMaterial color="#70baff" transparent opacity={0.35} />
         </mesh>
       ))}
+      <mesh ref={pulse}>
+        <sphereGeometry args={[0.09, 12, 8]} />
+        <meshBasicMaterial color="#c9f9ff" />
+      </mesh>
     </group>
   );
 }
 function OrderTag() {
   const node = useRef<HTMLSpanElement>(null);
+  const bar = useRef<HTMLSpanElement>(null);
   const reduced = useReducedMotion();
   const data = useMemo(
     () => dynamics.simulateKuramoto({ n: 102, K: 4, tMax: 12, dt: 0.05, seed: 54 }),
     [],
   );
   useFrame(({ clock }) => {
-    if (node.current)
-      node.current.textContent = `Sincronía r = ${data.r[Math.floor((reduced ? 0 : clock.elapsedTime * 10) % data.r.length)]!.toFixed(2)}`;
+    const r = data.r[Math.floor((reduced ? 0 : clock.elapsedTime * 10) % data.r.length)]!;
+    if (node.current) node.current.textContent = `Sincronía r(t) = ${r.toFixed(2)}`;
+    if (bar.current) bar.current.style.width = `${r * 100}%`;
   });
   return (
-    <Html position={[0, 4.4, 0]} center>
-      <span ref={node} className="na-scene-tag" />
+    <Html position={[0, 4.45, 0]} center>
+      <div className="na-scene-tag">
+        <span ref={node} />
+        <div style={{ width: 100, height: 3, background: '#24405c', marginTop: 4 }}>
+          <span ref={bar} style={{ display: 'block', height: '100%', background: '#8ddfff' }} />
+        </div>
+      </div>
     </Html>
   );
 }
@@ -275,18 +346,14 @@ export default function ColumnScene() {
   const variant = useAtlas((s) => s.variant);
   return (
     <group>
-      {layers.map((l, i) => (
-        <Slab key={l.key} layer={l} index={i} />
+      {layers.map((l) => (
+        <Slab key={l.key} layer={l} />
       ))}
       <Cells />
+      <Connections />
       <Html position={[0, 4.3, 0]} center>
         <span className="na-scene-tag">Columna cortical · esquema</span>
       </Html>
-      <Dendrites />
-      <Feature id="pyramidal" position={[-1, -0.8, 1.4]} size={[0.25, 0.35, 0.2]} />
-      <Feature id="interneuron" position={[1, 1.8, 1.4]} size={[0.2, 0.2, 0.2]} />
-      <Feature id="thalamus" position={[0, -3.3, 1.5]} size={[0.25, 0.65, 0.2]} />
-      <Flow />
       {variant === 'red' && <OrderTag />}
     </group>
   );

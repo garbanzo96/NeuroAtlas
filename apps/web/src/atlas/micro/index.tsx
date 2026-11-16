@@ -17,9 +17,9 @@ const SCENES: Partial<Record<LevelId, ComponentType>> = {
 export const MICRO_VIEWS: Partial<
   Record<LevelId, { pos: [number, number, number]; target: [number, number, number] }>
 > = {
-  circuito: { pos: [16, 6, 22], target: [0, 0, 0] },
+  circuito: { pos: [9, 4, 16], target: [-0.5, 0, 0] },
   neurona: { pos: [0, 2, 26], target: [0, 0, 0] },
-  sinapsis: { pos: [10, 4, 18], target: [0, 0, 0] },
+  sinapsis: { pos: [5, 3, 17], target: [0, 0.8, 0] },
   molecula: { pos: [12, 6, 16], target: [0, 0, 0] },
 };
 
