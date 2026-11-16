@@ -17,3 +17,4 @@ aceptada solo se cambia con un ADR nuevo que la sustituya (no se reescribe la an
 | [0010](0010-distribucion-y-ejecucion.md)       | Distribución y ejecución: GitHub Pages, Codespaces y vista previa en claude.ai | Aceptada |
 
 Plantilla: [template.md](template.md).
+| [0011](0011-atlas-multiescala.md) | Atlas multiescala holográfico como portada | aceptada |
