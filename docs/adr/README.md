@@ -15,6 +15,6 @@ aceptada solo se cambia con un ADR nuevo que la sustituya (no se reescribe la an
 | [0008](0008-rotulos-3d.md)                     | Rótulos 3D proyectados con control de densidad                                 | Aceptada |
 | [0009](0009-fronteras-y-agentes.md)            | Fronteras verificadas y trabajo por paquetes con varios modelos                | Aceptada |
 | [0010](0010-distribucion-y-ejecucion.md)       | Distribución y ejecución: GitHub Pages, Codespaces y vista previa en claude.ai | Aceptada |
+| [0011](0011-atlas-multiescala.md)              | Atlas multiescala holográfico como portada                                     | Aceptada |
 
 Plantilla: [template.md](template.md).
-| [0011](0011-atlas-multiescala.md) | Atlas multiescala holográfico como portada | aceptada |
