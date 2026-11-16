@@ -21,7 +21,8 @@ const DRAFT = 'borrador — sin revisión experta';
 
 const meshes = load('meshes.json');
 const meshNames = new Set(Object.values(meshes).flatMap((g) => Object.keys(g)));
-const pathways = new Set(load('pathways.json').pathways.map((p) => p.id));
+const pathwayData = load('pathways.json').pathways;
+const pathways = new Set(pathwayData.map((p) => p.id));
 const levels = new Set([
   'sistema',
   'encefalo',
@@ -104,10 +105,41 @@ if (circuits) {
 const overlays = load('overlays.json');
 if (overlays) {
   header('overlays', overlays);
+  only(overlays, ['status', 'overlays'], 'overlays');
   for (const o of overlays.overlays ?? []) {
     const at = `overlays[${o.id}]`;
+    only(o, ['id', 'n', 'kind', 'source', 'note', 'modes', 'classes', 'values'], at);
+    text(o, 'id', at);
     text(o, 'n', at);
+    text(o, 'note', at);
+    only(o.source, ['cite', 'license', 'method', 'url'], `${at}.source`);
     for (const k of ['cite', 'license', 'method']) text(o.source, k, `${at}.source`);
+    const ids = new Set();
+    for (const mode of o.modes ?? []) {
+      const mp = `${at}.modes.${mode.id}`;
+      only(mode, ['id', 'n', 'col', 'pathway', 'tramos', 'targets', 'origin'], mp);
+      for (const k of ['id', 'n', 'col', 'pathway']) text(mode, k, mp);
+      if (ids.has(mode.id)) fail(mp, 'id duplicado');
+      ids.add(mode.id);
+      if (!/^#[0-9a-f]{6}$/i.test(mode.col)) fail(`${mp}.col`, 'color inválido');
+      const pathway = pathwayData.find((p) => p.id === mode.pathway);
+      if (!pathway) fail(mp, `vía inexistente ${mode.pathway}`);
+      if (
+        !Array.isArray(mode.tramos) ||
+        mode.tramos.some((i) => !Number.isInteger(i) || !pathway?.tramos[i])
+      )
+        fail(`${mp}.tramos`, 'tramo inexistente');
+      if (!Array.isArray(mode.targets) || !mode.targets.length)
+        fail(`${mp}.targets`, 'dianas vacías');
+      for (const [i, target] of (mode.targets ?? []).entries())
+        point(target, `${mp}.targets[${i}]`);
+      if (mode.origin) {
+        only(mode.origin, ['n', 'at', 'marker'], `${mp}.origin`);
+        text(mode.origin, 'n', `${mp}.origin`);
+        if (mode.origin.marker !== true) fail(`${mp}.origin.marker`, 'debe ser true');
+        point(mode.origin.at, `${mp}.origin.at`);
+      }
+    }
     for (const [key, v] of Object.entries(o.values ?? {})) {
       if (!meshNames.has(key) && !meshNames.has(`${key}_L`))
         fail(`${at}.values`, `clave inexistente «${key}»`);

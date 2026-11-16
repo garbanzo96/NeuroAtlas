@@ -120,6 +120,20 @@ export function builtinOverlays(data: AtlasData): Overlay[] {
     lateral_hemisphere_of_cerebellum: 'lateral',
   };
   return [
+    ...(data.authorOverlays ?? []).map((o) => ({
+      ...o,
+      classes: o.modes?.map(({ id, n, col }) => ({ id, n, col })),
+      values: Object.fromEntries(
+        (o.modes ?? [])
+          .flatMap((mode) => mode.targets.map((key) => [key, key] as const))
+          .map(([key]) => [
+            key,
+            Object.fromEntries(
+              (o.modes ?? []).filter((m) => m.targets.includes(key)).map((m) => [m.id, 1]),
+            ),
+          ]),
+      ),
+    })),
     make(
       'lobulos',
       'Lóbulos y regiones',

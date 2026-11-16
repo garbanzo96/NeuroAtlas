@@ -88,12 +88,24 @@ export interface Overlay {
   values: Record<string, number | Record<string, number>>;
   source: { cite: string; license: string; url?: string; method: string };
   note?: string;
+  modes?: NeuromodMode[];
+}
+
+export interface NeuromodMode {
+  id: string;
+  n: string;
+  col: string;
+  pathway: string;
+  tramos: number[];
+  targets: string[];
+  origin?: { n: string; at: PathPoint; marker: boolean };
 }
 
 export interface AtlasData {
   meshes: Record<'brain' | 'body' | 'nerves', Record<string, MeshMeta>>;
   structures: Record<string, Structure>;
   circuits: Circuit[];
+  authorOverlays: Overlay[];
   pathways: { groups: [string, string][]; pathways: Pathway[] };
   taxonomy: {
     regions: Record<string, [string, string]>;
@@ -110,14 +122,22 @@ async function getJson<T>(path: string): Promise<T> {
 }
 
 export async function loadAtlasData(): Promise<AtlasData> {
-  const [meshes, structures, pathways, taxonomy, circuits] = await Promise.all([
+  const [meshes, structures, pathways, taxonomy, circuits, overlays] = await Promise.all([
     getJson<AtlasData['meshes']>('meshes.json'),
     getJson<AtlasData['structures']>('structures.json'),
     getJson<AtlasData['pathways']>('pathways.json'),
     getJson<AtlasData['taxonomy']>('taxonomy.json'),
     getJson<{ circuits: Circuit[] }>('circuits.json'),
+    getJson<{ overlays: Overlay[] }>('overlays.json'),
   ]);
-  return { meshes, structures, pathways, taxonomy, circuits: circuits.circuits };
+  return {
+    meshes,
+    structures,
+    pathways,
+    taxonomy,
+    circuits: circuits.circuits,
+    authorOverlays: overlays.overlays,
+  };
 }
 
 /** `putamen_L` → `putamen`. */
