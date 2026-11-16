@@ -1,3 +1,5 @@
+import { assetUrl } from '../data';
+
 /** Créditos y licencias: obligatorios por CC BY 4.0 (Allen HRA) y CC BY-SA (BodyParts3D, textos). */
 export function Credits({ onClose }: { onClose(): void }) {
   return (
@@ -50,6 +52,11 @@ export function Credits({ onClose }: { onClose(): void }) {
           Hodgkin y Huxley (1952), Izhikevich (2003), Wilson y Cowan (1972), Tsodyks y Markram
           (1997), Kuramoto, Song, Miller y Abbott (2000), entre otros; cada simulador declara su
           alcance.
+        </p>
+        <h3>Ilustraciones</h3>
+        <p>
+          Esquemas generados con IA (OpenAI); no son anatomía. Consulta el{' '}
+          <a href={assetUrl('img/manifest.json')}>manifiesto de ilustraciones</a>.
         </p>
         <h3>Software</h3>
         <p>

@@ -1,3 +1,4 @@
+import { assetUrl } from '../data';
 import { LEVELS, type LevelId, levelIndex } from '../levels';
 import { useAtlas } from '../store';
 
@@ -36,6 +37,13 @@ export function ScaleRail() {
               title={`${l.name} · ${l.space} · tecla ${i + 1}`}
             >
               <span className="na-rail__dot" />
+              <img
+                className="na-rail__icon"
+                src={assetUrl(`img/nivel-${l.id}.webp`)}
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
               <span className="na-rail__text">
                 <span className="na-rail__name">{l.name}</span>
                 <span className="na-rail__scale">

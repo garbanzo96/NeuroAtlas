@@ -1,5 +1,5 @@
 import { Suspense, lazy, useEffect, useRef, useState } from 'react';
-import { loadAtlasData } from './data';
+import { assetUrl, loadAtlasData } from './data';
 import { LEVELS, levelIndex } from './levels';
 import { useAtlas } from './store';
 import { Credits } from './ui/Credits';
@@ -16,13 +16,24 @@ import './atlas.css';
 const Stage = lazy(() => import('./scene/Stage').then((m) => ({ default: m.Stage })));
 const LabDrawer = lazy(() => import('./ui/LabDrawer').then((m) => ({ default: m.LabDrawer })));
 
+const bootStyle = { backgroundImage: `url("${assetUrl('img/bg-carga.webp')}")` };
+
 function LevelToast() {
   const level = useAtlas((s) => s.level);
   const l = LEVELS.find((x) => x.id === level)!;
   return (
     <div className="na-toast" key={level} aria-live="polite">
-      <span className="na-toast__n">{l.name}</span>
-      <span className="na-toast__s">{l.space}</span>
+      <img
+        className="na-toast__icon"
+        src={assetUrl(`img/nivel-${level}.webp`)}
+        alt=""
+        loading="lazy"
+        decoding="async"
+      />
+      <span className="na-toast__label">
+        <span className="na-toast__n">{l.name}</span>
+        <span className="na-toast__s">{l.space}</span>
+      </span>
     </div>
   );
 }
@@ -95,7 +106,7 @@ export function AtlasApp() {
 
   if (error)
     return (
-      <div className="na-atlas na-boot" role="alert">
+      <div className="na-atlas na-boot" style={bootStyle} role="alert">
         <p>No se pudo cargar el atlas: {error}</p>
       </div>
     );
@@ -104,11 +115,19 @@ export function AtlasApp() {
   return (
     <div className="na-atlas" data-level={level} onPointerDown={() => setTouched(true)}>
       {data ? (
-        <Suspense fallback={<div className="na-boot">Encendiendo el atlas…</div>}>
+        <Suspense
+          fallback={
+            <div className="na-boot" style={bootStyle}>
+              Encendiendo el atlas…
+            </div>
+          }
+        >
           <Stage data={data} />
         </Suspense>
       ) : (
-        <div className="na-boot">Cargando el atlas…</div>
+        <div className="na-boot" style={bootStyle}>
+          Cargando el atlas…
+        </div>
       )}
       <Warp />
       <HoverLabel />
