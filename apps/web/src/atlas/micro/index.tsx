@@ -18,9 +18,9 @@ export const MICRO_VIEWS: Partial<
   Record<LevelId, { pos: [number, number, number]; target: [number, number, number] }>
 > = {
   circuito: { pos: [16, 6, 22], target: [0, 0, 0] },
-  neurona: { pos: [0, 2, 26], target: [0, 0, 0] },
+  neurona: { pos: [5, 1, 36], target: [2, 0, 0] },
   sinapsis: { pos: [10, 4, 18], target: [0, 0, 0] },
-  molecula: { pos: [12, 6, 16], target: [0, 0, 0] },
+  molecula: { pos: [12, 17, 35], target: [3, 0, 0] },
 };
 
 export const hasMicroScene = (level: LevelId) => !!SCENES[level];
