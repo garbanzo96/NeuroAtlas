@@ -1,4 +1,4 @@
-import { Bvh, CameraControls, Sparkles } from '@react-three/drei';
+import { Bvh, CameraControls, PerformanceMonitor, Sparkles } from '@react-three/drei';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Bloom, EffectComposer, Vignette } from '@react-three/postprocessing';
 import { Suspense, useEffect, useRef, useState } from 'react';
@@ -67,6 +67,15 @@ function CameraRig({ index, data }: { index: HoverIndex | null; data: AtlasData 
   const level = useAtlas((s) => s.level);
   const gl = useThree((s) => s.gl);
   const micro = LEVELS.find((l) => l.id === level)?.scene === 'micro';
+
+  // Con un panel lateral abierto, el centro de interés se corre a la izquierda para no quedar debajo.
+  const panelOpen = useAtlas((s) => !!s.sheet || !!s.pathway);
+  useEffect(() => {
+    const c = ref.current;
+    if (!c) return;
+    const wide = window.innerWidth > 900;
+    void c.setFocalOffset(panelOpen && wide ? Math.min(c.distance, 30) * 0.075 : 0, 0, 0, true);
+  }, [panelOpen, camera]);
 
   // La cámara acompaña el recorrido de una vía, paso a paso.
   const lastStep = useRef<string | null>(null);
@@ -173,7 +182,7 @@ function CameraRig({ index, data }: { index: HoverIndex | null; data: AtlasData 
       const dist =
         cmd.type === 'box'
           ? THREE.MathUtils.clamp(size * 2.4, 12, 280)
-          : THREE.MathUtils.clamp(size * 1.9, 7, 24);
+          : THREE.MathUtils.clamp(size * 2.5, 9, 26);
       const pos = center.clone().addScaledVector(dir, dist);
       void c.setLookAt(pos.x, pos.y, pos.z, center.x, center.y, center.z, true);
     }
@@ -229,17 +238,25 @@ function LabelTracker() {
 
 export function Stage({ data }: { data: AtlasData }) {
   const [index, setIndex] = useState<HoverIndex | null>(null);
+  const [dpr, setDpr] = useState(Math.min(2, window.devicePixelRatio || 1));
   const select = useAtlas((s) => s.select);
   const level = useAtlas((s) => s.level);
   const micro = LEVELS.find((l) => l.id === level)?.scene === 'micro';
   return (
     <Canvas
       className="na-canvas"
-      dpr={[1, 2]}
+      dpr={dpr}
       camera={{ fov: 32, near: 0.1, far: 2000, position: [120, -25, 200] }}
       gl={{ antialias: false, powerPreference: 'high-performance' }}
       onPointerMissed={() => select(null)}
     >
+      {/* baja la resolución si los fps caen, la sube si sobra margen */}
+      <PerformanceMonitor
+        onDecline={() => setDpr((d) => Math.max(0.75, d - 0.25))}
+        onIncline={() =>
+          setDpr((d) => Math.min(Math.min(2, window.devicePixelRatio || 1), d + 0.25))
+        }
+      />
       <Backdrop />
       <Sparkles
         count={260}

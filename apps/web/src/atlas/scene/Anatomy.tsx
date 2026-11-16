@@ -135,10 +135,30 @@ export function Anatomy({ data, onIndex }: { data: AtlasData; onIndex(i: HoverIn
   }
 
   const hoverKey = useRef<string | null>(null);
+  // Resalte sutil del área más cercana al punto que mira la cámara (nivel áreas).
+  const focus = useRef<{ part: Part | null; frame: number }>({ part: null, frame: 0 });
+  const target = useRef(new THREE.Vector3());
+  const anchor = useRef(new THREE.Vector3());
 
   useFrame(({ camera, controls, clock }, dt) => {
     const s = useAtlas.getState();
-    const ctl = controls as unknown as { distance?: number } | null;
+    const ctl = controls as unknown as {
+      distance?: number;
+      getTarget?: (v: THREE.Vector3) => THREE.Vector3;
+    } | null;
+    if (s.level === 'areas' && ctl?.getTarget && focus.current.frame++ % 6 === 0) {
+      ctl.getTarget(target.current);
+      let best: Part | null = null;
+      let bestD = 2.2 ** 2; // solo si el foco está realmente dentro o junto a la estructura (cm²)
+      for (const p of built.parts) {
+        if (!p.isBrain || (p.mat.uniforms.uVisible!.value as number) < 0.5) continue;
+        const h = built.index.hovers.get(p.mesh.name);
+        if (!h) continue;
+        const d = anchor.current.set(...h.anchor).distanceToSquared(target.current);
+        if (d < bestD) [best, bestD] = [p, d];
+      }
+      focus.current.part = best;
+    } else if (s.level !== 'areas') focus.current.part = null;
     const dist = ctl?.distance ?? camera.position.length();
     const bodyFade = THREE.MathUtils.smoothstep(dist, 28, 80);
     const near = Math.max(0.6, dist * 0.28);
@@ -164,9 +184,9 @@ export function Anatomy({ data, onIndex }: { data: AtlasData; onIndex(i: HoverIn
       u.uVisible!.value = approach(u.uVisible!.value as number, vis, dt, 6);
       u.uHover!.value = approach(
         u.uHover!.value as number,
-        hk !== null && k === hk ? 1 : 0,
+        hk !== null && k === hk ? 1 : focus.current.part === p ? 0.38 : 0,
         dt,
-        14,
+        hk !== null && k === hk ? 14 : 3,
       );
       u.uSelect!.value = approach(u.uSelect!.value as number, isSel ? 1 : 0, dt, 8);
       u.uDim!.value = approach(

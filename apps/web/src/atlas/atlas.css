@@ -1224,3 +1224,13 @@ body,
 .na-modal__card a {
   color: var(--na-acc);
 }
+.na-hover__card--out {
+  animation: na-label-out 0.24s var(--na-ease) forwards;
+}
+@keyframes na-label-out {
+  to {
+    opacity: 0;
+    transform: translate(4px, -6px);
+    filter: blur(4px);
+  }
+}
