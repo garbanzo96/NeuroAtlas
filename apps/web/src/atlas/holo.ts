@@ -41,10 +41,12 @@ const fragmentShader = /* glsl */ `
   varying vec3 vV;
   varying vec3 vW;
   void main() {
-    float d = length(vV);
+    float d = max(length(vV), 1e-4);
     vec3 V = vV / d;
-    float ndv = abs(dot(normalize(vN), V));
-    float fres = pow(1.0 - ndv, uPower);
+    vec3 N = vN / max(length(vN), 1e-4);
+    // clamp: sin él, la imprecisión deja bases negativas en pow() → NaN, y el bloom lo esparce por la pantalla
+    float ndv = clamp(abs(dot(N, V)), 0.0, 1.0);
+    float fres = pow(max(1.0 - ndv, 1e-4), uPower);
     // pelado por proximidad: lo que queda pegado a la cámara se apaga
     float prox = smoothstep(uNear, uNear * 2.4, d);
     // respiración lenta de la luz a lo largo del eje rostrocaudal
@@ -53,6 +55,7 @@ const fragmentShader = /* glsl */ `
     vec3 col = mix(uColor, uHot, clamp(heat, 0.0, 1.0));
     float a = (uFill * (1.0 + heat * 2.2) + fres * uRim * (1.0 + heat * 0.9)) * shimmer;
     a *= uVisible * prox * (1.0 - uDim * 0.82);
+    a = clamp(a, 0.0, 4.0);
     gl_FragColor = vec4(col * a, a);
   }
 `;
