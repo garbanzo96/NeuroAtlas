@@ -183,6 +183,7 @@ export function Anatomy({ data, onIndex }: { data: AtlasData; onIndex(i: HoverIn
 
   const pick = (e: ThreeEvent<PointerEvent | MouseEvent>) => {
     const s = useAtlas.getState();
+    if (!['sistema', 'encefalo', 'areas'].includes(s.level)) return null;
     for (const hit of e.intersections) {
       const mesh = hit.object as THREE.Mesh;
       const mat = mesh.material as HoloMaterial;

@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { loadAtlasData } from './data';
 import { LEVELS, levelIndex } from './levels';
 import { useAtlas } from './store';
@@ -22,6 +22,24 @@ function LevelToast() {
       <span className="na-toast__n">{l.name}</span>
       <span className="na-toast__s">{l.space}</span>
     </div>
+  );
+}
+
+/** Destello de transición al cruzar entre escalas (zoom semántico o riel). */
+function Warp() {
+  const [w, setW] = useState<{ n: number; dir: number }>({ n: 0, dir: 1 });
+  const level = useAtlas((s) => s.level);
+  const family = LEVELS.find((l) => l.id === level)!.scene;
+  const prev = useRef({ family, i: levelIndex(level) });
+  useEffect(() => {
+    const i = levelIndex(level);
+    if (prev.current.family !== family)
+      setW((x) => ({ n: x.n + 1, dir: i > prev.current.i ? 1 : -1 }));
+    prev.current = { family, i };
+  }, [family, level]);
+  if (!w.n) return null;
+  return (
+    <div className="na-warp" key={w.n} data-dir={w.dir > 0 ? 'in' : 'out'} aria-hidden="true" />
   );
 }
 
@@ -87,7 +105,14 @@ export function AtlasApp() {
       ) : (
         <div className="na-boot">Cargando el atlas…</div>
       )}
+      <Warp />
       <HoverLabel />
+      <div id="na-dive" className="na-dive" aria-hidden="true">
+        <svg viewBox="0 0 44 44">
+          <circle cx="22" cy="22" r="19" pathLength="1" />
+        </svg>
+        <span />
+      </div>
       <header className="na-top">
         <a className="na-brand" href="./" aria-label="NeuroAtlas, inicio">
           <span className="na-brand__mark" aria-hidden="true" />

@@ -3,8 +3,9 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Bloom, EffectComposer, Vignette } from '@react-three/postprocessing';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import type { AtlasData } from '../data';
-import { LEVELS, levelForDistance } from '../levels';
+import { type AtlasData, baseKey, resolvePoint } from '../data';
+import { LEVELS, levelForDistance, levelIndex } from '../levels';
+import { goToLevel } from '../ui/ScaleRail';
 import { useAtlas } from '../store';
 import { Anatomy, type HoverIndex } from './Anatomy';
 import { MicroScenes } from '../micro';
@@ -43,9 +44,95 @@ const VIEWS: Record<'sistema' | 'encefalo' | 'areas', { pos: V3; target: V3 }> =
   areas: { pos: [14, 5, 12.5], target: [0, -0.5, 0] },
 };
 
-function CameraRig({ index }: { index: HoverIndex | null }) {
+/** Presión acumulada de la rueda en el tope del zoom: al llenarse, se cruza al nivel vecino. */
+const DIVE_THRESHOLD = 700;
+
+function diveTarget(data: AtlasData, dir: 1 | -1) {
+  const s = useAtlas.getState();
+  const i = levelIndex(s.level);
+  if (dir === -1) return i > 0 ? LEVELS[i - 1]!.id : null;
+  if (s.level === 'areas') {
+    const key = s.hover?.key ?? s.selected;
+    const g = key ? data.structures[baseKey(key)]?.g : undefined;
+    return g?.startsWith('ctx') ? 'circuito' : 'neurona';
+  }
+  return i < LEVELS.length - 1 ? LEVELS[i + 1]!.id : null;
+}
+
+function CameraRig({ index, data }: { index: HoverIndex | null; data: AtlasData }) {
   const ref = useRef<CameraControls>(null);
   const camera = useAtlas((s) => s.camera);
+  const pathway = useAtlas((s) => s.pathway);
+  const step = useAtlas((s) => s.pathwayStep);
+  const level = useAtlas((s) => s.level);
+  const gl = useThree((s) => s.gl);
+  const micro = LEVELS.find((l) => l.id === level)?.scene === 'micro';
+
+  // La cámara acompaña el recorrido de una vía, paso a paso.
+  const lastStep = useRef<string | null>(null);
+  useEffect(() => {
+    const c = ref.current;
+    const key = `${pathway}:${step}`;
+    const prev = lastStep.current;
+    lastStep.current = key;
+    if (!c || !pathway || !prev?.startsWith(`${pathway}:`)) return;
+    const p = data.pathways.pathways.find((x) => x.id === pathway)?.pasos[step]?.en;
+    const v = p ? resolvePoint(data, p) : null;
+    if (v) void c.moveTo(v.x, v.y, v.z, true);
+  }, [data, pathway, step]);
+
+  // Zoom semántico: insistir con la rueda en el tope del zoom cruza de nivel.
+  useEffect(() => {
+    const el = gl.domElement;
+    let pressure = 0;
+    let dir: 1 | -1 = 1;
+    let decay = 0;
+    let cooldownUntil = 0;
+    const gauge = () => document.getElementById('na-dive');
+    const onWheel = (e: WheelEvent) => {
+      const c = ref.current;
+      if (!c || performance.now() < cooldownUntil) return;
+      const d = e.deltaY < 0 ? 1 : -1;
+      const atMin = c.distance <= c.minDistance * 1.12;
+      const atMax = c.distance >= c.maxDistance * 0.9;
+      const s = useAtlas.getState();
+      const isMicro = LEVELS.find((l) => l.id === s.level)?.scene === 'micro';
+      const pushing = (d === 1 && atMin) || (d === -1 && isMicro && atMax);
+      const target = pushing ? diveTarget(data, d) : null;
+      const g = gauge();
+      if (!target || d !== dir) {
+        pressure = 0;
+        dir = d;
+      }
+      if (!target) {
+        g?.removeAttribute('data-on');
+        return;
+      }
+      pressure += Math.min(Math.abs(e.deltaY), 120);
+      if (g) {
+        g.setAttribute('data-on', '');
+        g.style.setProperty('--p', String(Math.min(1, pressure / DIVE_THRESHOLD)));
+        g.style.setProperty('--x', `${e.clientX}px`);
+        g.style.setProperty('--y', `${e.clientY}px`);
+        const label = g.querySelector('span');
+        if (label)
+          label.textContent = `${d === 1 ? 'Entrar a' : 'Subir a'} ${LEVELS.find((l) => l.id === target)!.name}`;
+      }
+      clearTimeout(decay);
+      decay = window.setTimeout(() => {
+        pressure = 0;
+        g?.removeAttribute('data-on');
+      }, 700);
+      if (pressure >= DIVE_THRESHOLD) {
+        pressure = 0;
+        cooldownUntil = performance.now() + 1800;
+        g?.removeAttribute('data-on');
+        goToLevel(target);
+      }
+    };
+    el.addEventListener('wheel', onWheel, { passive: true });
+    return () => el.removeEventListener('wheel', onWheel);
+  }, [gl, data]);
   const intro = useRef(false);
 
   useEffect(() => {
@@ -83,7 +170,10 @@ function CameraRig({ index }: { index: HoverIndex | null }) {
       const center = box.getCenter(new THREE.Vector3());
       const size = box.getSize(new THREE.Vector3()).length();
       const dir = c.camera.position.clone().sub(c.getTarget(new THREE.Vector3())).normalize();
-      const dist = THREE.MathUtils.clamp(size * 1.9, 7, cmd.type === 'box' ? 260 : 24);
+      const dist =
+        cmd.type === 'box'
+          ? THREE.MathUtils.clamp(size * 2.4, 12, 280)
+          : THREE.MathUtils.clamp(size * 1.9, 7, 24);
       const pos = center.clone().addScaledVector(dir, dist);
       void c.setLookAt(pos.x, pos.y, pos.z, center.x, center.y, center.z, true);
     }
@@ -102,8 +192,8 @@ function CameraRig({ index }: { index: HoverIndex | null }) {
     <CameraControls
       ref={ref}
       makeDefault
-      minDistance={2.5}
-      maxDistance={320}
+      minDistance={micro ? 5 : 2.5}
+      maxDistance={micro ? 70 : 320}
       dollyToCursor
       smoothTime={0.45}
       draggingSmoothTime={0.12}
@@ -168,7 +258,7 @@ export function Stage({ data }: { data: AtlasData }) {
         </Suspense>
       </group>
       {micro && <MicroScenes level={level} />}
-      <CameraRig index={index} />
+      <CameraRig index={index} data={data} />
       <LabelTracker />
       <EffectComposer multisampling={4}>
         <Bloom

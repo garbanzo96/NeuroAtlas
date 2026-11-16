@@ -1090,3 +1090,87 @@ body,
     max-width: calc(100vw - 16px);
   }
 }
+
+/* ── semantic zoom gauge & warp ──────────────────────────────── */
+.na-dive {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(calc(var(--x, -999px) - 22px), calc(var(--y, -999px) - 22px));
+  pointer-events: none;
+  z-index: 25;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.na-dive[data-on] {
+  opacity: 1;
+}
+.na-dive svg {
+  width: 44px;
+  height: 44px;
+  transform: rotate(-90deg);
+  filter: drop-shadow(0 0 6px rgba(110, 195, 255, 0.8));
+}
+.na-dive circle {
+  fill: none;
+  stroke: #dff3ff;
+  stroke-width: 2;
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--p, 0));
+  transition: stroke-dashoffset 0.12s linear;
+}
+.na-dive span {
+  position: absolute;
+  left: 54px;
+  top: 12px;
+  white-space: nowrap;
+  font: 600 12px var(--na-font-ui);
+  color: var(--na-fg);
+  text-shadow: 0 0 12px rgba(0, 0, 0, 0.9);
+}
+.na-warp {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 30;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(190, 230, 255, 0.55),
+    rgba(40, 110, 255, 0.18) 35%,
+    transparent 70%
+  );
+  animation: na-warp-in 1s var(--na-ease) forwards;
+}
+.na-warp[data-dir='out'] {
+  animation-name: na-warp-out;
+}
+@keyframes na-warp-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.2);
+  }
+}
+@keyframes na-warp-out {
+  0% {
+    opacity: 0;
+    transform: scale(2.2);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+.na-layer[aria-pressed='false'] {
+  border-style: dashed;
+  opacity: 0.55;
+}

@@ -51,7 +51,7 @@ const fragmentShader = /* glsl */ `
     float prox = smoothstep(uNear, uNear * 2.4, d);
     // respiración lenta de la luz a lo largo del eje rostrocaudal
     float shimmer = 0.88 + 0.12 * sin(vW.z * 0.9 + vW.y * 0.6 - uTime * 1.1);
-    float heat = uHover * 0.75 + uSelect;
+    float heat = uHover * 0.6 + uSelect;
     vec3 col = mix(uColor, uHot, clamp(heat, 0.0, 1.0));
     float a = (uFill * (1.0 + heat * 2.2) + fres * uRim * (1.0 + heat * 0.9)) * shimmer;
     a *= uVisible * prox * (1.0 - uDim * 0.82);
@@ -87,7 +87,7 @@ export function holoMaterial(look: HoloLook): HoloMaterial {
     blending: THREE.AdditiveBlending,
     uniforms: {
       uColor: { value: new THREE.Color(look.color) },
-      uHot: { value: new THREE.Color('#d8f4ff') },
+      uHot: { value: new THREE.Color('#c4e6ff') },
       uFill: { value: look.fill },
       uRim: { value: look.rim },
       uPower: { value: look.power ?? 2.2 },
