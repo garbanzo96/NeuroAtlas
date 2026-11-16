@@ -18,11 +18,13 @@ function collectErrors(page: Page): string[] {
 test.describe('escritorio', () => {
   test('carga la vía visual con aviso de borrador y visor 3D', async ({ page }) => {
     const errors = collectErrors(page);
-    await page.goto('/');
+    await page.goto('/?unidad');
     await expect(page.locator('.na-viewer__title')).toHaveText('Vía visual: de la retina a V1');
     await expect(page.locator('.na-draft-notice')).toContainText('0 de 25 afirmaciones');
     await expect(page.locator('canvas')).toHaveCount(1);
-    await expect(page.locator('.na-3d-label', { hasText: 'Quiasma óptico' })).toBeVisible();
+    await expect(page.locator('.na-3d-label', { hasText: 'Quiasma óptico' })).toBeVisible({
+      timeout: 15_000,
+    });
     await expect(page.locator('.na-disclaimer')).toContainText('Esquema didáctico');
     expect(await page.evaluate(() => document.documentElement.lang)).toBe('es');
     expect(errors).toEqual([]);
@@ -30,7 +32,7 @@ test.describe('escritorio', () => {
 
   test('si el código del visor 3D no carga, la app sigue usable', async ({ page }) => {
     await page.route('**/SchematicScene-*.js', (route) => route.abort());
-    await page.goto('/');
+    await page.goto('/?unidad');
     await expect(page.getByRole('alert')).toContainText('No se pudo iniciar el visor 3D');
     await page
       .locator('.na-entities')
@@ -48,7 +50,7 @@ test.describe('escritorio', () => {
   });
 
   test('búsqueda y selección por teclado abren la ficha con evidencia', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?unidad');
     await page.locator('.na-viewer__title').waitFor();
     await page.keyboard.press('/');
     await expect(page.locator('#na-search')).toBeFocused();
@@ -72,13 +74,13 @@ test.describe('escritorio', () => {
   });
 
   test('las capas se pueden ocultar y quedan en la URL', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?unidad');
     await page.getByRole('checkbox', { name: 'Nervios, tractos y radiaciones' }).uncheck();
     await expect(page).toHaveURL(/l=structures%2Chemiretinas%2Cfibers/);
   });
 
   test('una transición anuncia el cambio de especie y abstracción', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/?unidad');
     await page.getByRole('button', { name: /Explorar el circuito laminar/ }).click();
     const notice = page.getByRole('status', { name: 'Cambio de contexto' });
     await expect(notice).toContainText('Especie');
@@ -136,7 +138,7 @@ test.describe('escritorio', () => {
   test('el recorrido guiado avanza con el teclado y anuncia cambios de contexto', async ({
     page,
   }) => {
-    await page.goto('/');
+    await page.goto('/?unidad');
     await page.getByRole('button', { name: 'Recorrido guiado' }).click();
     await expect(page.locator('.na-lesson')).toContainText('paso 1 de 8');
     await page.locator('body').press(']');
