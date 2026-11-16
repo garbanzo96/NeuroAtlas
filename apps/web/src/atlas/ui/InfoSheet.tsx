@@ -302,7 +302,11 @@ export function InfoSheet() {
           </button>
           <div className="na-sheet__scroll">
             {sheet === 'structure' && selected ? (
-              <StructureSheet name={selected} />
+              isPart ? (
+                <PartSheet id={selected} />
+              ) : (
+                <StructureSheet name={selected} />
+              )
             ) : (
               <LevelSheet />
             )}
