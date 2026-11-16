@@ -1246,3 +1246,32 @@ body,
   pointer-events: none;
   user-select: none;
 }
+@media (max-width: 600px) {
+  .na-top {
+    padding: 0 6px 0 12px;
+    gap: 6px;
+  }
+  .na-brand {
+    font-size: 18px;
+  }
+  .na-brand em,
+  .na-search kbd {
+    display: none;
+  }
+  .na-search {
+    min-width: 0;
+  }
+  .na-actions {
+    gap: 0;
+  }
+  .na-actions button {
+    padding: 0 8px;
+    font-size: 12px;
+  }
+  .na-actions button:nth-child(3) {
+    display: none;
+  }
+  .na-toast__n {
+    font-size: 24px;
+  }
+}

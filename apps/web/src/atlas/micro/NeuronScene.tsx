@@ -402,7 +402,7 @@ function Cell({ kind }: { kind: string }) {
         <sphereGeometry args={[0.19, 10, 8]} />
         <meshBasicMaterial color="#d8f4ff" />
       </mesh>
-      <Html position={[-3, -7.5, 0]} className="na-scene-tag">
+      <Html zIndexRange={[5, 0]} position={[-3, -7.5, 0]} className="na-scene-tag">
         Esquema neuronal · borrador sin revisión experta
       </Html>
     </group>

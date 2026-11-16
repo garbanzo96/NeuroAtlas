@@ -269,7 +269,7 @@ function Pump() {
         <sphereGeometry args={[0.13, 16, 12]} />
         <meshBasicMaterial />
       </instancedMesh>
-      <Html position={[1.3, 1.7, 0]} className="na-scene-tag">
+      <Html zIndexRange={[5, 0]} position={[1.3, 1.7, 0]} className="na-scene-tag">
         <div ref={label}>Unión de sodio citosólico</div>
       </Html>
     </Interactive>
@@ -313,17 +313,17 @@ export default function MembraneScene() {
       <Channel active={variant === 'canales'} id="fuga" x={7} color="#86d6ff" />
       <Ions id="na" color="#ffb057" />
       <Ions id="k" color="#5ee6ff" />
-      <Html position={[5, 4.5, 0]} className="na-scene-tag">
+      <Html zIndexRange={[5, 0]} position={[5, 4.5, 0]} className="na-scene-tag">
         <span style={{ color: '#ffb057' }}>● Na⁺</span> ·{' '}
         <span style={{ color: '#5ee6ff' }}>● K⁺</span>
       </Html>
-      <Html position={[-8, 4.5, 0]} className="na-scene-tag">
+      <Html zIndexRange={[5, 0]} position={[-8, 4.5, 0]} className="na-scene-tag">
         Medio extracelular
       </Html>
-      <Html position={[-8, -4.5, 0]} className="na-scene-tag">
+      <Html zIndexRange={[5, 0]} position={[-8, -4.5, 0]} className="na-scene-tag">
         Citosol
       </Html>
-      <Html position={[-8, -5.5, 0]} className="na-scene-tag">
+      <Html zIndexRange={[5, 0]} position={[-8, -5.5, 0]} className="na-scene-tag">
         Esquema · borrador sin revisión experta
         {variant === 'reposo' &&
           ` · Eₖ ${dynamics.nernst(1, c.K.out, c.K.in).toFixed(0)} mV · Eₙₐ ${dynamics.nernst(1, c.Na.out, c.Na.in).toFixed(0)} mV`}

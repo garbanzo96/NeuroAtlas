@@ -236,7 +236,7 @@ function Chemical({ variant }: { variant: string }) {
           </mesh>
         ))}
       </group>
-      <Html position={[0, -0.5, 1.1]} center>
+      <Html zIndexRange={[5, 0]} position={[0, -0.5, 1.1]} center>
         <span className="na-scene-tag">{variant === 'inhibitoria' ? 'GABA_A' : 'AMPA · NMDA'}</span>
       </Html>
       <mesh ref={signal}>
@@ -296,7 +296,7 @@ function Bars() {
     [],
   );
   return (
-    <Html position={[3, 0, 0]} center>
+    <Html zIndexRange={[5, 0]} position={[3, 0, 0]} center>
       <div className="na-scene-tag">
         Respuesta relativa
         <div style={{ display: 'flex', alignItems: 'end', gap: 3, height: 44 }}>
@@ -318,7 +318,7 @@ export default function SynapseScene() {
     <group>
       {variant === 'electrica' ? <Electrical /> : <Chemical variant={variant} />}{' '}
       {variant === 'plasticidad' && <Bars />}
-      <Html position={[0, 5.35, 0]} center>
+      <Html zIndexRange={[5, 0]} position={[0, 5.35, 0]} center>
         <span className="na-scene-tag">
           {variant === 'electrica' ? 'Unión en hendidura · esquema' : 'Sinapsis · esquema'}
         </span>

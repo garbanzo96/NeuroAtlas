@@ -211,6 +211,22 @@ function CameraRig({ index, data }: { index: HoverIndex | null; data: AtlasData 
   );
 }
 
+/** En pantallas verticales abre el campo visual para conservar el ancho de encuadre del escritorio. */
+function FovRig() {
+  const { camera, size } = useThree();
+  useEffect(() => {
+    const cam = camera as THREE.PerspectiveCamera;
+    const aspect = size.width / size.height;
+    const base = THREE.MathUtils.degToRad(32);
+    cam.fov =
+      aspect >= 0.75
+        ? 32
+        : THREE.MathUtils.radToDeg(2 * Math.atan((Math.tan(base / 2) * 0.75) / aspect));
+    cam.updateProjectionMatrix();
+  }, [camera, size]);
+  return null;
+}
+
 /** Proyecta el ancla del hover a pantalla y la escribe en variables CSS (sin re-render de React). */
 function LabelTracker() {
   const { camera, size } = useThree();
@@ -279,6 +295,7 @@ export function Stage({ data }: { data: AtlasData }) {
       {micro && <MicroScenes level={level} />}
       <CameraRig index={index} data={data} />
       <LabelTracker />
+      <FovRig />
       <EffectComposer multisampling={4}>
         <Bloom
           mipmapBlur

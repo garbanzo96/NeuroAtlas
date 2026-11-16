@@ -160,7 +160,7 @@ export function Anatomy({ data, onIndex }: { data: AtlasData; onIndex(i: HoverIn
       focus.current.part = best;
     } else if (s.level !== 'areas') focus.current.part = null;
     const dist = ctl?.distance ?? camera.position.length();
-    const bodyFade = THREE.MathUtils.smoothstep(dist, 28, 80);
+    const bodyFade = THREE.MathUtils.smoothstep(dist, 46, 95);
     const near = Math.max(0.6, dist * 0.28);
     const t = clock.elapsedTime;
     const hk = s.hover?.key ?? null;

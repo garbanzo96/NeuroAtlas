@@ -71,7 +71,7 @@ function Slab({ layer }: { layer: (typeof layers)[number] }) {
         <edgesGeometry args={[new THREE.BoxGeometry(3.8, layer.h, 2.8)]} />
         <lineBasicMaterial color="#78b9ff" transparent opacity={0.28} />
       </lineSegments>
-      <Html position={[-2.45, layer.y, 0]} center>
+      <Html zIndexRange={[5, 0]} position={[-2.45, layer.y, 0]} center>
         <span className="na-scene-tag" style={{ whiteSpace: 'nowrap' }}>
           {layer.label}
         </span>
@@ -331,7 +331,7 @@ function OrderTag() {
     if (bar.current) bar.current.style.width = `${r * 100}%`;
   });
   return (
-    <Html position={[0, 4.45, 0]} center>
+    <Html zIndexRange={[5, 0]} position={[0, 4.45, 0]} center>
       <div className="na-scene-tag">
         <span ref={node} />
         <div style={{ width: 100, height: 3, background: '#24405c', marginTop: 4 }}>
@@ -351,7 +351,7 @@ export default function ColumnScene() {
       ))}
       <Cells />
       <Connections />
-      <Html position={[0, 4.3, 0]} center>
+      <Html zIndexRange={[5, 0]} position={[0, 4.3, 0]} center>
         <span className="na-scene-tag">Columna cortical · esquema</span>
       </Html>
       {variant === 'red' && <OrderTag />}
