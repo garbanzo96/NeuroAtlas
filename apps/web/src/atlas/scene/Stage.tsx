@@ -166,6 +166,7 @@ function CameraRig({ index, data }: { index: HoverIndex | null; data: AtlasData 
     const cmd = camera.command;
     if (cmd.type === 'home')
       void c.setLookAt(...VIEWS.encefalo.pos, ...VIEWS.encefalo.target, true);
+    if (cmd.type === 'pose') void c.setLookAt(...cmd.pos, ...cmd.target, true);
     if (cmd.type === 'level') {
       const v = VIEWS[cmd.level as keyof typeof VIEWS];
       if (v) void c.setLookAt(...v.pos, ...v.target, true);

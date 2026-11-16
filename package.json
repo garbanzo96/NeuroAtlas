@@ -29,7 +29,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "e2e": "npm run build && playwright test",
-    "check": "npm run format:check && npm run lint && npm run typecheck && npm run boundaries && npm run validate && npm run test && npm run build"
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run boundaries && npm run validate && npm run atlas:check && npm run test && npm run build",
+    "atlas:check": "node tools/check-levels.mjs && node tools/check-atlas-data.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

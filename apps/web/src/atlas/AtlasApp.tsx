@@ -38,7 +38,7 @@ function Warp() {
       setW((x) => ({ n: x.n + 1, dir: i > prev.current.i ? 1 : -1 }));
     prev.current = { family, i };
   }, [family, level]);
-  if (!w.n) return null;
+  if (!w.n || matchMedia('(prefers-reduced-motion: reduce)').matches) return null;
   return (
     <div className="na-warp" key={w.n} data-dir={w.dir > 0 ? 'in' : 'out'} aria-hidden="true" />
   );

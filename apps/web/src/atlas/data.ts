@@ -37,6 +37,59 @@ export interface Pathway {
   clin?: string;
 }
 
+/** Circuito con signo (datos de autor, `circuits.json`, ADR-0012). */
+export interface CircuitNode {
+  id: string;
+  n: string;
+  at: PathPoint;
+  basal?: number;
+  marker?: boolean;
+}
+export interface CircuitEdge {
+  from: string;
+  to: string;
+  sign: 'exc' | 'inh' | 'mod' | 'horm';
+  nt?: string;
+  delay: number;
+  w?: number;
+  via?: PathPoint[];
+  modulates?: { edges: number[]; gain: number };
+}
+export interface Scenario {
+  id: string;
+  n: string;
+  d: string;
+  stim: { node: string; at: number; amp: number; dur: number }[];
+  lesions?: string[];
+}
+export interface Circuit {
+  id: string;
+  g: string;
+  n: string;
+  sub?: string;
+  res?: string;
+  nature: 'observacion' | 'modelo' | 'hipotesis';
+  species?: string;
+  nodes: CircuitNode[];
+  edges: CircuitEdge[];
+  scenarios: Scenario[];
+  steps?: { t: string; d: string; focus: string }[];
+  model?: string;
+  micro?: string;
+  refs?: string[];
+}
+
+/** Capa de lectura: asigna clase o valor a cada clave Allen (con `_L`/`_R` si es asimétrica). */
+export interface Overlay {
+  id: string;
+  n: string;
+  kind: 'categorical' | 'scalar';
+  classes?: { id: string; n: string; col: string; d?: string }[];
+  values: Record<string, number | Record<string, number>>;
+  source: { cite: string; license: string; url?: string; method: string };
+  note?: string;
+}
+
 export interface AtlasData {
   meshes: Record<'brain' | 'body' | 'nerves', Record<string, MeshMeta>>;
   structures: Record<string, Structure>;

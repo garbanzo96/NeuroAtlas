@@ -69,7 +69,14 @@ export type CameraCommand =
   | { type: 'level'; level: LevelId }
   | { type: 'mesh'; name: string }
   | { type: 'box'; min: [number, number, number]; max: [number, number, number] }
-  | { type: 'home' };
+  | { type: 'home' }
+  | { type: 'pose'; pos: [number, number, number]; target: [number, number, number] };
+
+export interface CircuitRun {
+  scenario: string;
+  lesions: string[];
+  nonce: number;
+}
 
 interface AtlasState {
   data: AtlasData | null;
@@ -87,6 +94,18 @@ interface AtlasState {
   parts: Record<string, PartInfo>;
   /** Variante elegida en la escena micro activa (p. ej. tipo de neurona). */
   variant: string | null;
+  /** Capa de lectura activa (recoloreo de la anatomía) y clase fijada en su leyenda. */
+  overlay: string | null;
+  overlaySolo: string | null;
+  /** Circuito con signo abierto y última orden de reproducción. */
+  circuit: string | null;
+  circuitRun: CircuitRun | null;
+  tour: { id: string; step: number } | null;
+  setOverlay(id: string | null): void;
+  setOverlaySolo(c: string | null): void;
+  setCircuit(id: string | null): void;
+  runCircuit(scenario: string, lesions?: string[]): void;
+  setTour(t: { id: string; step: number } | null): void;
   setParts(parts: Record<string, PartInfo>): void;
   setVariant(variant: string | null): void;
   setData(data: AtlasData): void;
@@ -116,6 +135,17 @@ export const useAtlas = create<AtlasState>((set) => ({
   sheet: null,
   parts: {},
   variant: null,
+  overlay: null,
+  overlaySolo: null,
+  circuit: null,
+  circuitRun: null,
+  tour: null,
+  setOverlay: (overlay) => set({ overlay, overlaySolo: null }),
+  setOverlaySolo: (overlaySolo) => set({ overlaySolo }),
+  setCircuit: (circuit) => set({ circuit, circuitRun: null }),
+  runCircuit: (scenario, lesions = []) =>
+    set((s) => ({ circuitRun: { scenario, lesions, nonce: (s.circuitRun?.nonce ?? 0) + 1 } })),
+  setTour: (tour) => set({ tour }),
   setParts: (parts) => set({ parts }),
   setVariant: (variant) => set({ variant }),
   setData: (data) => set({ data }),

@@ -43,4 +43,38 @@ test.describe('atlas multiescala', () => {
       'CC BY 4.0',
     );
   });
+
+  test('recorre los siete niveles con el teclado sin errores de consola', async ({ page }) => {
+    const errors: string[] = [];
+    page.on('pageerror', (e) => errors.push(e.message));
+    page.on('response', (r) => r.status() >= 400 && errors.push(r.url()));
+    page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
+    await page.goto('/');
+    await expect(page.locator('canvas')).toBeVisible({ timeout: 20_000 });
+    const current = page
+      .getByRole('navigation', { name: 'Niveles de organización' })
+      .locator('[aria-current="step"]');
+    await page.waitForTimeout(3000); // el vuelo de entrada (≈2,7 s) pisa órdenes de cámara anteriores
+    for (const [key, name] of [
+      ['1', 'Sistema nervioso'],
+      ['3', 'Áreas'],
+      ['4', 'Columnas'],
+      ['6', 'Sinapsis'],
+      ['7', 'Membrana'],
+      ['2', 'Encéfalo'],
+    ] as const) {
+      await page.keyboard.press(key);
+      await expect(current).toContainText(name, { ignoreCase: true });
+    }
+    expect(errors).toEqual([]);
+  });
+
+  test('con movimiento reducido no se monta el destello de transición', async ({ browser }) => {
+    const page = await browser.newPage({ reducedMotion: 'reduce' });
+    await page.goto('/');
+    await expect(page.locator('canvas')).toBeVisible({ timeout: 20_000 });
+    await page.keyboard.press('5');
+    await expect(page.locator('.na-warp')).toHaveCount(0);
+    await page.close();
+  });
 });
