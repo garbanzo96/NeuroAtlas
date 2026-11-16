@@ -152,7 +152,8 @@ function LevelSheet() {
       <header className="na-level-header" style={stagger(i++)}>
         <div>
           <p className="na-kicker">
-            {doc.kicker} · {meta.space} · {meta.time}
+            {doc.kicker} · <span className="na-unit">{meta.space}</span> ·{' '}
+            <span className="na-unit">{meta.time}</span>
           </p>
           <h2 className="na-sheet__title">{doc.title}</h2>
         </div>
