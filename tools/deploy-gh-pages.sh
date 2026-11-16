@@ -15,4 +15,6 @@ git -C "$tmp" add -A
 git -C "$tmp" -c user.name="$(git config user.name)" -c user.email="$(git config user.email)" commit -qm "Publicación de $sha"
 git -C "$tmp" push -qf "$(git remote get-url origin)" gh-pages
 rm -rf "$tmp"
+# el build lleva la base /NeuroAtlas/: si quedara, `npm run preview` (y las e2e) servirían 404 desde la raíz
+rm -rf apps/web/dist
 echo "Publicado $sha en gh-pages"
