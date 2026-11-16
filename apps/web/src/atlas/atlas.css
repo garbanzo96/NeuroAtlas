@@ -1174,3 +1174,53 @@ body,
   border-style: dashed;
   opacity: 0.55;
 }
+
+/* ── modal ───────────────────────────────────────────────────── */
+.na-modal {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0, 3, 12, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: na-fade 0.3s var(--na-ease);
+}
+@keyframes na-fade {
+  from {
+    opacity: 0;
+  }
+}
+.na-modal__card {
+  position: relative;
+  width: min(620px, 100%);
+  max-height: 86vh;
+  overflow: auto;
+  padding: 28px 30px;
+  border-radius: 18px;
+  border: 1px solid var(--na-line-hi);
+  background: var(--na-glass-hi);
+  animation: na-in 0.45s var(--na-ease);
+}
+.na-modal__card h3 {
+  margin: 22px 0 8px;
+  font: 600 11px var(--na-font-ui);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--na-fg3);
+}
+.na-modal__card p,
+.na-modal__card li {
+  color: #c5d4ee;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+.na-modal__card ul {
+  margin: 0;
+  padding-left: 18px;
+}
+.na-modal__card a {
+  color: var(--na-acc);
+}

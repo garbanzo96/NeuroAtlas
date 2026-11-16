@@ -4,7 +4,36 @@ Entorno docente interactivo y multiescala de neurociencia: atlas anatómico y co
 conocimiento con evidencia trazable y laboratorio de modelos computacionales, coordinados por
 identificadores y selección compartidos.
 
-> **Estado (2026-10-04): esqueleto de arquitectura funcional.** El primer recorrido (retina → NGL → V1 →
+**Abrir:** <https://garbanzo96.github.io/NeuroAtlas/>
+
+> **Estado (2026-11-16): atlas multiescala en construcción.** La portada es un atlas holográfico continuo:
+> cuerpo y vías aferentes/eferentes → encéfalo → áreas y núcleos (zoom semántico entre niveles), con láminas
+> por estructura y por nivel, 22 vías animadas y un laboratorio de 12 simuladores (Hodgkin–Huxley,
+> Izhikevich, LIF, Wilson–Cowan, Kuramoto, red de espigas, Tsodyks–Markram, STDP, Nernst, GHK, bomba
+> Na⁺/K⁺, axón). Las escenas de columna, neurona, sinapsis y membrana están en desarrollo. Todo el contenido
+> es borrador sin revisión experta. Decisión: [ADR-0011](docs/adr/0011-atlas-multiescala.md).
+> La unidad curada original (retina → potencial de acción, con evidencia por afirmación) sigue en `?unidad`.
+
+### Controles del atlas
+
+| Acción                                 | Cómo                                                                |
+| -------------------------------------- | ------------------------------------------------------------------- |
+| Rotar / acercar donde apunta el cursor | arrastrar / rueda                                                   |
+| Cruzar al nivel vecino                 | insistir con la rueda en el tope del zoom; teclas `[` `]` o `1`–`7` |
+| Ficha de una estructura                | clic; `Esc` cierra                                                  |
+| Lámina del nivel                       | botón del riel o `i`                                                |
+| Vías                                   | botón «Vías» o `v`                                                  |
+| Buscar                                 | `/` o `⌘K`                                                          |
+
+### Reutilización
+
+Mallas (Allen Human Reference Atlas 3D, CC BY 4.0; BodyParts3D, CC BY-SA 2.1 JP), fichas de 332 estructuras y
+22 vías vienen de [ontoterrorist/neuroanatomia](https://github.com/ontoterrorist/neuroanatomia) (código MIT,
+textos CC BY-SA 4.0) mediante `tools/import-onto.mjs`. Publicación: `tools/deploy-gh-pages.sh`.
+
+### Estado del esqueleto anterior (2026-10-04)
+
+> **Esqueleto de arquitectura funcional.** El primer recorrido (retina → NGL → V1 →
 > circuito laminar → neurona → potencial de acción) funciona de punta a punta, pero **todo su contenido
 > científico es borrador**: 0 de 25 afirmaciones tienen revisión experta, la escena anatómica de V1 está
 > bloqueada hasta disponer de un atlas con licencia verificada y la especie del circuito laminar está

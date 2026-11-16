@@ -2,6 +2,7 @@ import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { loadAtlasData } from './data';
 import { LEVELS, levelIndex } from './levels';
 import { useAtlas } from './store';
+import { Credits } from './ui/Credits';
 import { Dock } from './ui/Dock';
 import { HoverLabel } from './ui/HoverLabel';
 import { InfoSheet } from './ui/InfoSheet';
@@ -77,6 +78,7 @@ export function AtlasApp() {
   const [vias, setVias] = useState(false);
   const [lab, setLab] = useState<string | null>(null);
   const [touched, setTouched] = useState(false);
+  const [credits, setCredits] = useState(false);
 
   useEffect(() => {
     loadAtlasData()
@@ -130,6 +132,9 @@ export function AtlasApp() {
           >
             Laboratorio
           </button>
+          <button type="button" onClick={() => setCredits(true)}>
+            Créditos
+          </button>
           <a href="?unidad" className="na-actions__link">
             Unidad curada
           </a>
@@ -141,6 +146,7 @@ export function AtlasApp() {
       {micro && <MicroBar />}
       {data && <PathwayPanel open={vias} onClose={() => setVias(false)} />}
       <InfoSheet />
+      {credits && <Credits onClose={() => setCredits(false)} />}
       {lab && (
         <Suspense fallback={null}>
           <LabDrawer initial={lab} onClose={() => setLab(null)} />
