@@ -79,8 +79,10 @@ Cada WP es un encargo acotado y verificable. Los marcados con 📄 tienen especi
 | ID         | Título                                                                                   | Ejecutor | Depende de | Estado             |
 | ---------- | ---------------------------------------------------------------------------------------- | -------- | ---------- | ------------------ |
 | WP-060     | Contratos del atlas, validación de datos y pruebas de humo                               | C        | —          | hecho              |
-| WP-061 📄  | [Capas de lectura I](work-packages/WP-061.md)                                            | Codex    | WP-060     | pendiente          |
+| WP-061 📄  | [Capas de lectura I](work-packages/WP-061.md)                                            | Codex    | WP-060     | hecho              |
 | WP-062 📄  | [Motor de circuitos con signo y tres circuitos semilla](work-packages/WP-062.md)         | Codex    | WP-060     | en revisión visual |
+| WP-062b    | Pasada visual de circuitos (halos, rótulos, pulsos por signo, panel)                     | Codex    | WP-062     | hecho              |
+| WP-083a    | Ilustraciones base en riel, aviso, lámina, carga y metadatos                             | Codex    | —          | hecho              |
 | WP-063 📄  | [Vista en la URL y enlaces compartibles](work-packages/WP-063.md)                        | Codex    | WP-060     | pendiente          |
 | WP-064 📄  | [Importar curso, preguntas y casos](work-packages/WP-064.md)                             | Codex    | WP-060     | pendiente          |
 | WP-065–084 | Recorridos, evaluación, simulación en escena, circuitos, moléculas, arte (ver plan §8.3) | varios   | —          | pendiente          |

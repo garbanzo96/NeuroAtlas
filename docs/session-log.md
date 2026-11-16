@@ -5,6 +5,18 @@ resultados), qué quedó pendiente y cuál es el siguiente paso recomendado. Es 
 
 ---
 
+## 2026-11-16 (tarde) · Plan de conocimiento en marcha: contratos, capas, circuitos e ilustraciones
+
+- **Hecho:** plan de conocimiento (`docs/atlas/plan-de-conocimiento.md`, Fable). WP-060 (Claude): contratos
+  (`view.ts`, `signals.ts`, store), `tools/check-atlas-data.mjs` en `npm run check`, ADR-0012, e2e de humo.
+  WP-061 (capas de lectura), WP-062 y WP-062b (circuitos con signo y su pasada visual), WP-083a (12
+  ilustraciones generadas con IA, 147 kB + íconos con alfa) con Codex; integración y revisión con capturas.
+- **Corregido al integrar:** el material holográfico se duplicaba con StrictMode (el animado no era el
+  visible; afectaba también el resalte por foco en desarrollo); unidades en mayúsculas (µm → ΜM); favicon 404.
+- **Verificado:** `npm run check` verde; e2e del atlas 7/7; publicado en gh-pages.
+- **Pendiente:** WP-063 y WP-064 en curso con Codex; luego WP-065 (recorridos) y WP-068 (neuromoduladores).
+  Gemini sigue bloqueado hasta autenticar la cuenta Pro. Ilustraciones 4, 5 y 18 esperan aprobación del director.
+
 ## 2026-11-16 · Claude (con Codex) · Atlas multiescala holográfico
 
 **Hecho**
