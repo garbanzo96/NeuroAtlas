@@ -5,6 +5,33 @@ resultados), qué quedó pendiente y cuál es el siguiente paso recomendado. Es 
 
 ---
 
+## 2026-11-16 · Claude (con Codex) · Atlas multiescala holográfico
+
+**Hecho**
+
+- Portada nueva: atlas continuo cuerpo → encéfalo → áreas con shader holográfico Fresnel + bloom, hover por
+  lóbulo o área, pelado por proximidad, zoom semántico entre niveles, 22 vías aferentes/eferentes animadas,
+  láminas por estructura y por nivel, búsqueda, capas, créditos, rótulos de ambiente. ADR-0011.
+- Escenas micro (Codex, dos pasadas): columna cortical, neurona (7 tipos), sinapsis (4 variantes), membrana
+  (bomba Na⁺/K⁺, canales). Laboratorio con 12 simuladores (Codex) sobre `packages/simulation/src/dynamics`.
+- Publicación en gh-pages con `tools/deploy-gh-pages.sh`: https://garbanzo96.github.io/NeuroAtlas/
+- Unidad curada original en `?unidad`.
+
+**Verificado**
+
+- `npm run check` en verde (87 pruebas). e2e de escritorio: 14 de 15; la que falla («carga la vía visual»,
+  rótulo 3D) también falla en el código previo al atlas en este equipo (WebGL por software en macOS).
+- Revisión visual por capturas en escritorio y móvil de todos los niveles.
+
+**Pendiente**
+
+- Plan de conocimiento (agente de planificación) → WP-060+ para mapas, circuitos, animaciones y recorridos.
+- Láminas por nivel más ricas; revisión experta de todo el contenido.
+- Gemini CLI: la sesión usa una cuenta universitaria no elegible; hay que reautenticar con la cuenta Pro.
+- Rama por defecto del repo sigue siendo `claude/neuroscience-interactive-base-wgbx0a`; conviene cambiarla a `main`.
+
+---
+
 ## 2026-10-04 (2) · Claude · Enlaces para ver y ejecutar la app
 
 **Hecho**
