@@ -82,8 +82,10 @@ function CameraRig({
     cameraPose.current = () => {
       const c = ref.current;
       if (!c) return null;
-      const pos = c.camera.position;
-      const target = c.getTarget(new THREE.Vector3(), false);
+      // getPosition excluye el desplazamiento focal del panel (camera.position lo incluye y al restaurar se
+      // aplicaría dos veces); con `true` devuelve el destino aunque la cámara esté en vuelo
+      const pos = c.getPosition(new THREE.Vector3(), true);
+      const target = c.getTarget(new THREE.Vector3(), true);
       return { type: 'pose', pos: [pos.x, pos.y, pos.z], target: [target.x, target.y, target.z] };
     };
     return () => {
