@@ -147,6 +147,20 @@ export function Anatomy({ data, onIndex }: { data: AtlasData; onIndex(i: HoverIn
   }
 
   const overlays = useMemo(() => builtinOverlays(data), [data]);
+  const circuitMeshes = useMemo(
+    () =>
+      new Map(
+        data.circuits.map((c) => [
+          c.id,
+          new Set(
+            c.nodes.map((n) =>
+              typeof n.at === 'string' ? n.at : !Array.isArray(n.at) ? n.at.en : '',
+            ),
+          ),
+        ]),
+      ),
+    [data],
+  );
   const colorTarget = useMemo(() => new THREE.Color(), []);
   const reducedMotion = useMemo(() => matchMedia('(prefers-reduced-motion: reduce)'), []);
   const hoverKey = useRef<string | null>(null);
@@ -181,6 +195,7 @@ export function Anatomy({ data, onIndex }: { data: AtlasData; onIndex(i: HoverIn
     const hk = s.hover?.key ?? null;
     const sel = s.selected;
     const overlay = overlays.find((o) => o.id === s.overlay);
+    const circuit = s.circuit ? circuitMeshes.get(s.circuit) : undefined;
     for (const p of built.parts) {
       const u = p.mat.uniforms;
       const shown = isLayerShown(s.layers, s.peel, p.layer);
@@ -228,6 +243,7 @@ export function Anatomy({ data, onIndex }: { data: AtlasData; onIndex(i: HoverIn
         Math.max(
           sel && !isSel && s.level === 'areas' ? 0.7 : 0,
           overlay && s.overlaySolo && p.brainMesh && !isSel && (!style || !style.w) ? 0.75 : 0,
+          circuit && p.brainMesh ? (circuit.has(p.mesh.name) ? 0.2 : 0.7) : 0,
         ),
         dt,
         overlay ? rate : 6,
