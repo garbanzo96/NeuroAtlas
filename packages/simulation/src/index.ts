@@ -17,3 +17,5 @@ export {
   getImplementation,
 } from './models/registry';
 export type { CompiledModel, ModelImplementation } from './models/types';
+
+export * as dynamics from './dynamics';
