@@ -7,6 +7,7 @@ import { type AtlasData, baseKey, resolvePoint } from '../data';
 import { LEVELS, levelForDistance, levelIndex } from '../levels';
 import { goToLevel } from '../ui/ScaleRail';
 import { useAtlas } from '../store';
+import { AmbientLabels } from './AmbientLabels';
 import { Anatomy, type HoverIndex } from './Anatomy';
 import { MicroScenes } from '../micro';
 import { Pathways } from './Pathways';
@@ -39,7 +40,7 @@ function Backdrop() {
 
 type V3 = [number, number, number];
 const VIEWS: Record<'sistema' | 'encefalo' | 'areas', { pos: V3; target: V3 }> = {
-  sistema: { pos: [120, -25, 200], target: [0, -62, 0] },
+  sistema: { pos: [150, -40, 290], target: [0, -74, 0] },
   encefalo: { pos: [30, 9, 27], target: [0, 0, 0] },
   areas: { pos: [14, 5, 12.5], target: [0, -0.5, 0] },
 };
@@ -202,7 +203,7 @@ function CameraRig({ index, data }: { index: HoverIndex | null; data: AtlasData 
       ref={ref}
       makeDefault
       minDistance={micro ? 5 : 2.5}
-      maxDistance={micro ? 70 : 320}
+      maxDistance={micro ? 70 : 420}
       dollyToCursor
       smoothTime={0.45}
       draggingSmoothTime={0.12}
@@ -246,7 +247,7 @@ export function Stage({ data }: { data: AtlasData }) {
     <Canvas
       className="na-canvas"
       dpr={dpr}
-      camera={{ fov: 32, near: 0.1, far: 2000, position: [120, -25, 200] }}
+      camera={{ fov: 32, near: 0.1, far: 2000, position: [150, -40, 290] }}
       gl={{ antialias: false, powerPreference: 'high-performance' }}
       onPointerMissed={() => select(null)}
     >
@@ -272,6 +273,7 @@ export function Stage({ data }: { data: AtlasData }) {
             <Anatomy data={data} onIndex={setIndex} />
           </Bvh>
           <Pathways data={data} />
+          {!micro && <AmbientLabels data={data} />}
         </Suspense>
       </group>
       {micro && <MicroScenes level={level} />}
