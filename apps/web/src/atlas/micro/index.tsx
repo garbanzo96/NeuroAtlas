@@ -9,11 +9,10 @@ import type { LevelId } from '../levels';
  */
 const SCENES: Partial<Record<LevelId, ComponentType>> = {
   // circuito: lazy(() => import('./ColumnScene')),
-  // neurona: lazy(() => import('./NeuronScene')),
+  neurona: lazy(() => import('./NeuronScene')),
   // sinapsis: lazy(() => import('./SynapseScene')),
-  // molecula: lazy(() => import('./MembraneScene')),
+  molecula: lazy(() => import('./MembraneScene')),
 };
-void lazy;
 
 export const MICRO_VIEWS: Partial<
   Record<LevelId, { pos: [number, number, number]; target: [number, number, number] }>
