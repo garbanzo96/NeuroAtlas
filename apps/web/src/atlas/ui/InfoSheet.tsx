@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { assetUrl, baseKey, sideOf } from '../data';
+import { builtinOverlays } from '../overlays';
 import { LEVELS } from '../levels';
 import { useAtlas } from '../store';
 import { goToLevel } from './ScaleRail';
@@ -62,6 +63,18 @@ function StructureSheet({ name }: { name: string }) {
       )}
       <div className="na-chips" style={stagger(i++)}>
         {system && <span className="na-chip">{system}</span>}
+        {builtinOverlays(data)
+          .filter((o) => o.id !== 'sistemas' && o.id !== 'brodmann')
+          .flatMap((o) => {
+            const v = o.values[base];
+            return typeof v === 'object'
+              ? Object.keys(v).map((id) => (
+                  <span className="na-chip" key={o.id}>
+                    {o.classes?.find((c) => c.id === id)?.n}
+                  </span>
+                ))
+              : [];
+          })}
         {info?.ba && <span className="na-chip">Brodmann {info.ba}</span>}
       </div>
       {info?.d && (
