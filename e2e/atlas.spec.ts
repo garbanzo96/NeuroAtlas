@@ -36,6 +36,42 @@ test.describe('atlas multiescala', () => {
     await expect(page.getByRole('heading', { level: 2, name: /putamen/i })).toBeVisible();
   });
 
+  test('el enlace copiado reproduce selección, capa y cámara', async ({ browser }) => {
+    const context = await browser.newContext({
+      permissions: ['clipboard-read', 'clipboard-write'],
+      reducedMotion: 'reduce',
+    });
+    const page = await context.newPage();
+    await page.goto('/?n=areas&e=putamen_L&capa=sistemas&desconocido=1');
+    await expect(page.getByRole('heading', { level: 2, name: /putamen/i })).toBeVisible();
+    await expect(page.locator('canvas')).toBeVisible({ timeout: 20_000 });
+    await expect(page.locator('.na-atlas')).toHaveAttribute('data-level', 'areas', {
+      timeout: 15_000,
+    });
+    await page.waitForTimeout(3000); // espera el enfoque inicial antes de capturar la pose
+    await page.getByRole('button', { name: 'Copiar enlace' }).click();
+    await expect(page.getByRole('status').filter({ hasText: 'Enlace copiado' })).toBeVisible();
+    const link = await page.evaluate(() => navigator.clipboard.readText());
+    const url = new URL(link);
+    expect(url.searchParams.get('n')).toBe('areas');
+    expect(url.searchParams.get('e')).toBe('putamen_L');
+    expect(url.searchParams.get('capa')).toBe('sistemas');
+    expect(url.searchParams.get('cam')?.split(',')).toHaveLength(6);
+    await page.goto(link);
+    await expect(page.getByRole('heading', { level: 2, name: /putamen/i })).toBeVisible();
+    await expect(page.locator('.na-atlas')).toHaveAttribute('data-level', 'areas', {
+      timeout: 15_000,
+    });
+    await expect(page.locator('canvas')).toBeVisible({ timeout: 20_000 });
+    await page.waitForTimeout(3000); // la cámara vuela hasta la pose restaurada
+    await page.getByRole('button', { name: 'Copiar enlace' }).click();
+    await expect(page.getByRole('status').filter({ hasText: 'Enlace copiado' })).toBeVisible();
+    const restored = new URL(await page.evaluate(() => navigator.clipboard.readText()));
+    expect(restored.searchParams.get('cam')).toBe(url.searchParams.get('cam'));
+    expect(restored.searchParams.get('capa')).toBe('sistemas');
+    await context.close();
+  });
+
   test('los créditos acreditan las licencias de las mallas', async ({ page }) => {
     await page.goto('/');
     await page.getByRole('button', { name: 'Créditos' }).click();
