@@ -149,12 +149,21 @@ function LevelSheet() {
   const meta = LEVELS.find((l) => l.id === level)!;
   return (
     <article className="na-sheet__body" key={level}>
-      <p className="na-kicker" style={stagger(i++)}>
-        {doc.kicker} · {meta.space} · {meta.time}
-      </p>
-      <h2 className="na-sheet__title" style={stagger(i++)}>
-        {doc.title}
-      </h2>
+      <header className="na-level-header" style={stagger(i++)}>
+        <div>
+          <p className="na-kicker">
+            {doc.kicker} · {meta.space} · {meta.time}
+          </p>
+          <h2 className="na-sheet__title">{doc.title}</h2>
+        </div>
+        <img
+          className="na-level-header__icon"
+          src={assetUrl(`img/nivel-${level}.webp`)}
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+      </header>
       <p className="na-lead" style={stagger(i++)}>
         {doc.lead}
       </p>
