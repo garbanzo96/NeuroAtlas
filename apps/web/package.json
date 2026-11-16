@@ -16,8 +16,13 @@
     "@neuroatlas/simulation": "0.1.0",
     "@neuroatlas/viewer-2d": "0.1.0",
     "@neuroatlas/viewer-3d": "0.1.0",
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.2",
+    "@react-three/postprocessing": "^3.2.2",
+    "postprocessing": "^6.39.6",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
+    "three": "^0.186.1",
     "zustand": "^5.0.15"
   }
 }
