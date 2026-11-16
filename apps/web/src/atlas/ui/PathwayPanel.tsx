@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import * as THREE from 'three';
+import { resolvePoint } from '../data';
 import { CircuitPanel } from './CircuitPanel';
 import { DIRECTION_COLOR, directionOf, pathwayBox } from '../scene/Pathways';
 import { useAtlas } from '../store';
@@ -32,7 +34,16 @@ export function PathwayPanel({ open, onClose }: { open: boolean; onClose(): void
     return () => window.removeEventListener('na:pathway', on);
   }, []);
 
-  if (circuit) return <CircuitPanel onClose={() => useAtlas.getState().setCircuit(null)} />;
+  if (circuit)
+    return (
+      <CircuitPanel
+        onClose={() => {
+          const state = useAtlas.getState();
+          state.setCircuit(null);
+          state.command({ type: 'level', level: 'encefalo' });
+        }}
+      />
+    );
 
   if (pathway) {
     const paso = pathway.pasos[step];
@@ -140,6 +151,17 @@ export function PathwayPanel({ open, onClose }: { open: boolean; onClose(): void
                       state.setPathway(null);
                       state.setLevel('encefalo');
                       state.setCircuit(c.id);
+                      const points = c.nodes
+                        .map((node) => resolvePoint(data, node.at))
+                        .filter((point): point is THREE.Vector3 => !!point);
+                      if (points.length) {
+                        const box = new THREE.Box3().setFromPoints(points).expandByScalar(1.5);
+                        state.command({
+                          type: 'box',
+                          min: box.min.toArray(),
+                          max: box.max.toArray(),
+                        });
+                      }
                       state.runCircuit(c.scenarios[0]!.id);
                     }}
                   >

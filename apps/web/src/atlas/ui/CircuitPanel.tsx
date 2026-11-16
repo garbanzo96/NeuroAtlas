@@ -41,10 +41,19 @@ export function CircuitPanel({ onClose }: { onClose(): void }) {
         <p>Esquema de signos; no es una simulación biofísica.</p>
         <p>{circuit.res}</p>
         <p>Los marcadores indicados representan posiciones esquemáticas.</p>
-        <div className="na-legend">
-          <span style={{ '--c': '#7dffb2' } as React.CSSProperties}>Excitación · cometa</span>
-          <span style={{ '--c': '#ff5c8a' } as React.CSSProperties}>Inhibición · trazos</span>
-          <span style={{ '--c': '#c49bff' } as React.CSSProperties}>Modulación · halo</span>
+        <div className="na-circuit__legend">
+          <span>
+            <i className="na-circuit__comet" />
+            Excitación · cometa
+          </span>
+          <span>
+            <i className="na-circuit__dashes" />
+            Inhibición · trazos
+          </span>
+          <span>
+            <i className="na-circuit__halo" />
+            Modulación · halo
+          </span>
         </div>
         <button
           type="button"
@@ -57,16 +66,18 @@ export function CircuitPanel({ onClose }: { onClose(): void }) {
       </header>
       <div className="na-path__groups">
         <h3>Escenarios</h3>
-        {circuit.scenarios.map((s) => (
-          <button
-            key={s.id}
-            type="button"
-            aria-pressed={run?.scenario === s.id}
-            onClick={() => useAtlas.getState().runCircuit(s.id, lesions)}
-          >
-            {s.n}
-          </button>
-        ))}
+        <div className="na-circuit__scenarios">
+          {circuit.scenarios.map((s) => (
+            <button
+              key={s.id}
+              type="button"
+              aria-pressed={run?.scenario === s.id}
+              onClick={() => useAtlas.getState().runCircuit(s.id, lesions)}
+            >
+              {s.n}
+            </button>
+          ))}
+        </div>
         {scenario && <p>{scenario.d}</p>}
         <h3>Reproducción</h3>
         <p>Cámara lenta: 1 s ≈ 10 ms · escala ilustrativa</p>
@@ -86,7 +97,8 @@ export function CircuitPanel({ onClose }: { onClose(): void }) {
             onClick={() => {
               playback.playing = false;
               playback.time =
-                playback.arrivals.find((t) => t > playback.time + 0.01) ?? playback.duration;
+                playback.arrivals.find((t) => t.time > playback.time + 0.01)?.time ??
+                playback.duration;
               refresh((n) => n + 1);
             }}
           >
@@ -125,16 +137,28 @@ export function CircuitPanel({ onClose }: { onClose(): void }) {
         </label>
         <div className="na-circuit__ticks" aria-label={`${playback.arrivals.length} llegadas`}>
           {playback.arrivals.map((t, i) => (
-            <span key={i} style={{ left: `${(t / playback.duration) * 100}%` }} />
+            <span
+              key={i}
+              data-sign={t.sign}
+              style={{ left: `${(t.time / playback.duration) * 100}%` }}
+            />
           ))}
         </div>
         <h3>Lesiones</h3>
         {circuit.nodes.map((n) => (
-          <label key={n.id} className="na-circuit__lesion">
-            <input type="checkbox" checked={lesions.includes(n.id)} onChange={() => toggle(n.id)} />{' '}
-            {n.n}
-            {n.marker ? ' (posición esquemática)' : ''}
-          </label>
+          <button
+            type="button"
+            key={n.id}
+            className="na-circuit__lesion"
+            aria-pressed={lesions.includes(n.id)}
+            onClick={() => toggle(n.id)}
+          >
+            <span>
+              {n.n}
+              {n.marker ? ' (posición esquemática)' : ''}
+            </span>
+            <i aria-hidden="true" />
+          </button>
         ))}
         <p>Haz clic en un nodo para estimularlo; A repite el último estímulo.</p>
       </div>
