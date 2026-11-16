@@ -185,6 +185,7 @@ function Feature({ id, position, size }: { id: string; position: Point; size: Po
   return (
     <mesh
       position={position}
+      scale={size}
       material={material}
       {...handlers(id, parts[id]!.title, position, hot)}
     >
@@ -193,7 +194,6 @@ function Feature({ id, position, size }: { id: string; position: Point; size: Po
       ) : (
         <sphereGeometry args={[1, 16, 12]} />
       )}
-      <primitive object={new THREE.Vector3(...size)} attach="scale" />
     </mesh>
   );
 }
