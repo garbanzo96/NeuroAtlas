@@ -49,76 +49,78 @@ const parts: Record<string, PartInfo> = {
   },
 };
 
-type Branch = { points: THREE.Vector3[]; radius: number };
+type Branch = {
+  curve: THREE.CatmullRomCurve3;
+  r0: number;
+  r1: number;
+  depth: number;
+  path: THREE.CatmullRomCurve3[];
+};
 const v = (x: number, y: number, z = 0) => new THREE.Vector3(x, y, z);
 function morphology(kind: string) {
   const rng = random(53);
   const branches: Branch[] = [];
-  const tips: THREE.Vector3[] = [];
   const add = (
     a: THREE.Vector3,
-    b: THREE.Vector3,
+    direction: THREE.Vector3,
+    length: number,
     depth: number,
-    spread: number,
+    radius: number,
     planar = false,
+    parentPath: THREE.CatmullRomCurve3[] = [],
   ) => {
+    const dir = direction.clone().normalize();
+    const b = a.clone().addScaledVector(dir, length);
     const mid = a
       .clone()
       .lerp(b, 0.5)
-      .add(v((rng() - 0.5) * 0.3, 0, planar ? 0 : (rng() - 0.5) * 0.4));
-    branches.push({ points: [a, mid, b], radius: 0.12 + depth * 0.035 });
-    if (!depth) {
-      tips.push(b);
-      return;
-    }
+      .add(
+        v(
+          (rng() - 0.5) * length * 0.1,
+          (rng() - 0.5) * length * 0.08,
+          planar ? 0 : (rng() - 0.5) * length * 0.12,
+        ),
+      );
+    const curve = new THREE.CatmullRomCurve3([a, mid, b]);
+    const path = [...parentPath, curve];
+    branches.push({ curve, r0: radius, r1: Math.max(0.025, radius * 0.66), depth, path });
+    if (!depth) return;
     for (const sign of [-1, 1]) {
-      const dir = b.clone().sub(a).multiplyScalar(0.69);
-      const angle = sign * (0.35 + rng() * spread);
-      const x = dir.x * Math.cos(angle) - dir.y * Math.sin(angle);
-      const y = dir.x * Math.sin(angle) + dir.y * Math.cos(angle);
-      add(b, b.clone().add(v(x, y, planar ? 0 : (rng() - 0.5) * 0.7)), depth - 1, spread, planar);
+      const angle = sign * (0.44 + rng() * 0.34);
+      const next = dir.clone().applyAxisAngle(v(0, 0, 1), angle);
+      if (!planar) next.applyAxisAngle(v(0, 1, 0), (rng() - 0.5) * 0.7);
+      add(b, next, length * (0.7 + rng() * 0.08), depth - 1, radius * 0.66, planar, path);
     }
   };
   if (kind === 'piramidal') {
-    add(v(0, 0.8), v(0, 4.4), 3, 0.5);
-    for (const s of [-1, 1]) add(v(s * 0.5, -0.4), v(s * 2.3, -1.7), 2, 0.5);
+    add(v(0, 0.7), v(0, 1), 3.2, 3, 0.3);
+    for (const side of [-1, 1]) {
+      add(v(0, 2.2), v(side, 0.7, side * 0.15), 1.2, 2, 0.13);
+      add(v(side * 0.5, -0.35), v(side, -0.35, side * 0.2), 2, 3, 0.22);
+    }
   } else if (kind === 'purkinje') {
-    add(v(0, 0.8), v(0, 2.1), 6, 0.42, true);
-  } else if (kind === 'bipolar') {
-    add(v(0, 0.8), v(0, 3.5), 2, 0.45);
+    add(v(0, 0.7), v(0, 1), 1.8, 5, 0.28, true);
   } else if (kind === 'pseudounipolar') {
-    branches.push({ points: [v(0, 0.7), v(0, 2), v(1.2, 2.4)], radius: 0.15 });
-    branches.push({ points: [v(1.2, 2.4), v(-1, 2.5), v(-4, 2.5)], radius: 0.14 });
+    add(v(0, 0.7), v(0, 1), 1.8, 1, 0.18);
   } else {
-    const count = kind === 'motoneurona' ? 7 : 8;
+    const count = kind === 'bipolar' ? 2 : 7;
     for (let i = 0; i < count; i++) {
-      const a = (i / count) * Math.PI * 2;
-      const length = kind === 'estrellada' ? 2 : 2.7;
+      const angle = kind === 'bipolar' ? (i ? Math.PI : 0) : (i * Math.PI * 2) / count;
       add(
-        v(Math.cos(a) * 0.7, Math.sin(a) * 0.7),
-        v(Math.cos(a) * length, Math.sin(a) * length, rng() - 0.5),
-        2,
-        0.5,
+        v(Math.sin(angle) * 0.7, Math.cos(angle) * 0.7),
+        v(Math.sin(angle), Math.cos(angle), (rng() - 0.5) * 0.3),
+        1.8,
+        3,
+        0.2,
       );
     }
   }
-  return { branches, tips };
+  return branches;
 }
-
-function BranchMesh({ branch }: { branch: Branch }) {
-  const geometry = useMemo(() => taperedTube(branch.points, branch.radius), [branch]);
+function BranchMesh({ branch, material }: { branch: Branch; material: THREE.Material }) {
+  const geometry = useMemo(() => taperedTube(branch.curve, branch.r0, branch.r1, 32, 12), [branch]);
   useEffect(() => () => geometry.dispose(), [geometry]);
-  return (
-    <mesh geometry={geometry}>
-      <meshBasicMaterial
-        color="#5ca4ff"
-        transparent
-        opacity={0.65}
-        blending={THREE.AdditiveBlending}
-        depthWrite={false}
-      />
-    </mesh>
-  );
+  return <mesh geometry={geometry} material={material} />;
 }
 function Interactive({
   id,
@@ -164,27 +166,77 @@ function Interactive({
   );
 }
 function Cell({ kind }: { kind: string }) {
-  const { branches, tips } = useMemo(() => morphology(kind), [kind]);
+  const branches = useMemo(() => morphology(kind), [kind]);
+  const spinePoints = useMemo(
+    () =>
+      branches.flatMap((branch) =>
+        Array.from({ length: 5 }, (_, i) => {
+          const t = (i + 1) / 6;
+          const point = branch.curve.getPointAt(t);
+          const tangent = branch.curve.getTangentAt(t);
+          const normal = new THREE.Vector3(-tangent.y, tangent.x, 0.4).normalize();
+          return point.addScaledVector(normal, branch.r0 * (1 - t) + branch.r1 * t + 0.045);
+        }),
+      ),
+    [branches],
+  );
+  const signalBranches = useMemo(
+    () => branches.filter((b) => b.depth === 0).slice(0, 16),
+    [branches],
+  );
   const spines = useRef<THREE.InstancedMesh>(null);
+  const nodeLights = useRef<THREE.InstancedMesh>(null);
+  const spineMaterial = useMemo(() => {
+    const m = holoMaterial({ color: '#72b6ef', fill: 0.03, rim: 0.4 });
+    m.vertexShader = m.vertexShader
+      .replace(
+        'modelMatrix * vec4(position, 1.0)',
+        'modelMatrix * instanceMatrix * vec4(position, 1.0)',
+      )
+      .replace('mat3(modelMatrix) * normal', 'mat3(modelMatrix * instanceMatrix) * normal');
+    return m;
+  }, []);
+  useEffect(() => () => spineMaterial.dispose(), [spineMaterial]);
+  const somaGeometry = useMemo(() => {
+    const geometry = new THREE.IcosahedronGeometry(0.85, 4);
+    if (kind === 'piramidal') {
+      const positions = geometry.getAttribute('position');
+      for (let i = 0; i < positions.count; i++) {
+        const y = positions.getY(i);
+        const width = 1 - Math.max(0, y / 0.85) * 0.5;
+        positions.setX(i, positions.getX(i) * width);
+        positions.setZ(i, positions.getZ(i) * width);
+      }
+      geometry.computeVertexNormals();
+    }
+    return geometry;
+  }, [kind]);
+  useEffect(() => () => somaGeometry.dispose(), [somaGeometry]);
   const signal = useRef<THREE.Mesh>(null);
   const epsps = useRef<THREE.InstancedMesh>(null);
   const triggered = useRef<number | null>(null);
   const elapsedTime = useRef(0);
   const object = useMemo(() => new THREE.Object3D(), []);
   const group = useRef<THREE.Group>(null);
-  const mat = useMemo(() => holoMaterial({ color: '#5ca4ff', fill: 0.17, rim: 0.85 }), []);
+  const mat = useMemo(() => holoMaterial({ color: '#5ca4ff', fill: 0.04, rim: 0.5 }), []);
+  const backgroundMat = useMemo(
+    () => holoMaterial({ color: '#5ca4ff', fill: 0.006, rim: 0.1 }),
+    [],
+  );
+  useEffect(() => () => backgroundMat.dispose(), [backgroundMat]);
   const myelinated = ['piramidal', 'motoneurona', 'pseudounipolar'].includes(kind);
   const spineful = ['piramidal', 'purkinje', 'estrellada'].includes(kind);
   useEffect(() => {
     const obj = new THREE.Object3D();
     if (spines.current)
-      tips.forEach((p, i) => {
+      spinePoints.forEach((p, i) => {
         obj.position.copy(p);
         obj.scale.setScalar(1);
         obj.updateMatrix();
         spines.current!.setMatrixAt(i, obj.matrix);
       });
-  }, [tips]);
+    if (spines.current) spines.current.instanceMatrix.needsUpdate = true;
+  }, [spinePoints]);
   useEffect(() => () => mat.dispose(), [mat]);
   useFrame((state, dt) => {
     elapsedTime.current = state.clock.elapsedTime;
@@ -198,29 +250,60 @@ function Cell({ kind }: { kind: string }) {
     }
     if (epsps.current) {
       const t = reducedMotion() ? 0 : (state.clock.elapsedTime % 2.5) / 2.5;
-      tips.forEach((tip, i) => {
-        const p = (t + i / Math.max(1, tips.length)) % 1;
-        object.position.copy(tip).multiplyScalar(1 - p);
+      signalBranches.forEach((branch, i) => {
+        const p = (t + i / Math.max(1, signalBranches.length)) % 1;
+        const progress = p * branch.path.length;
+        const segment = Math.min(branch.path.length - 1, Math.floor(progress));
+        const curve = branch.path[branch.path.length - 1 - segment]!;
+        object.position.copy(curve.getPointAt(1 - (progress - segment)));
         object.scale.setScalar(0.7 + 0.3 * Math.sin(p * Math.PI));
         object.updateMatrix();
         epsps.current!.setMatrixAt(i, object.matrix);
       });
       epsps.current.instanceMatrix.needsUpdate = true;
     }
+    const phase = reducedMotion()
+      ? 0
+      : ((triggered.current === null
+          ? state.clock.elapsedTime
+          : state.clock.elapsedTime - triggered.current) %
+          2.5) /
+        2.5;
+    mat.uniforms.uHover.value = Math.max(0, 1 - Math.abs(phase - 0.08) * 18) * 0.25;
+    if (nodeLights.current) {
+      for (let i = 0; i < 3; i++) {
+        const glow = Math.max(0, 1 - Math.abs(phase - (i + 1) / 5) * 24);
+        object.position.set(0, -2.72 - i * 1.05, 0);
+        object.scale.setScalar(Math.max(0.001, glow));
+        object.updateMatrix();
+        nodeLights.current.setMatrixAt(i, object.matrix);
+      }
+      nodeLights.current.instanceMatrix.needsUpdate = true;
+    }
     mat.uniforms.uTime.value = state.clock.elapsedTime;
   });
   return (
     <group ref={group} scale={0.01}>
+      {[-1, 1].map((side) => (
+        <group key={side} position={[side * 7, -0.4, -6]} scale={0.7}>
+          <mesh material={backgroundMat}>
+            <sphereGeometry args={[0.8, 24, 16]} />
+          </mesh>
+          {branches.slice(0, 12).map((branch, i) => (
+            <BranchMesh key={i} branch={branch} material={backgroundMat} />
+          ))}
+        </group>
+      ))}
       <Interactive id="dendritas" anchor={[2, 3, 0]}>
         {branches.map((b, i) => (
-          <BranchMesh key={i} branch={b} />
+          <BranchMesh key={i} branch={b} material={mat} />
         ))}
       </Interactive>
       {spineful && (
         <Interactive id="espinas" anchor={[2, 4, 0]}>
-          <instancedMesh ref={spines} args={[undefined, undefined, tips.length]}>
-            <sphereGeometry args={[0.09, 8, 6]} />
-            <meshBasicMaterial color="#d8f4ff" />
+          <instancedMesh ref={spines} args={[undefined, undefined, spinePoints.length]}>
+            <sphereGeometry args={[0.035, 12, 8]} />
+            <primitive object={spineMaterial} attach="material" />
           </instancedMesh>
         </Interactive>
       )}
@@ -232,16 +315,12 @@ function Cell({ kind }: { kind: string }) {
         }}
       >
         <mesh material={mat} scale={kind === 'piramidal' ? [1, 1.25, 0.8] : [1, 1, 0.8]}>
-          {kind === 'piramidal' ? (
-            <coneGeometry args={[1.05, 1.9, 4]} />
-          ) : (
-            <sphereGeometry args={[0.85, 24, 16]} />
-          )}
+          <primitive object={somaGeometry} attach="geometry" />
         </mesh>
       </Interactive>
       {spineful && (
-        <instancedMesh ref={epsps} args={[undefined, undefined, tips.length]}>
-          <sphereGeometry args={[0.1, 8, 6]} />
+        <instancedMesh ref={epsps} args={[undefined, undefined, signalBranches.length]}>
+          <sphereGeometry args={[0.055, 12, 8]} />
           <meshBasicMaterial color="#d8f4ff" />
         </instancedMesh>
       )}
@@ -250,24 +329,24 @@ function Cell({ kind }: { kind: string }) {
           <group key={side} position={[side * 3, -3.8, 0]}>
             <mesh>
               <sphereGeometry args={[0.65, 16, 12]} />
-              <meshBasicMaterial color="#3a86ff" transparent opacity={0.2} depthWrite={false} />
+              <primitive object={backgroundMat} attach="material" />
             </mesh>
             <mesh rotation={[Math.PI / 2, 0, 0]}>
               <torusGeometry args={[0.8, 0.07, 8, 32]} />
-              <meshBasicMaterial color="#86d6ff" />
+              <primitive object={mat} attach="material" />
             </mesh>
           </group>
         ))}
       <Interactive id="inicial" anchor={[0, -1.2, 0]}>
         <mesh position={[0, -1.2, 0]}>
-          <cylinderGeometry args={[0.12, 0.16, 0.8, 12]} />
-          <meshBasicMaterial color="#86d6ff" />
+          <cylinderGeometry args={[0.12, 0.06, 0.8, 16]} />
+          <primitive object={mat} attach="material" />
         </mesh>
       </Interactive>
       <Interactive id="axon" anchor={[0, -4, 0]}>
         <mesh position={[0, -4, 0]}>
-          <cylinderGeometry args={[0.075, 0.075, 5.2, 10]} />
-          <meshBasicMaterial color="#5ca4ff" />
+          <cylinderGeometry args={[0.055, 0.055, 5.2, 16]} />
+          <primitive object={mat} attach="material" />
         </mesh>
       </Interactive>
       {myelinated && (
@@ -275,25 +354,48 @@ function Cell({ kind }: { kind: string }) {
           <Interactive id="mielina" anchor={[0, -3, 0]}>
             {[0, 1, 2, 3].map((i) => (
               <mesh key={i} position={[0, -2.2 - i * 1.05, 0]}>
-                <cylinderGeometry args={[0.22, 0.22, 0.82, 12]} />
-                <meshBasicMaterial color="#86d6ff" transparent opacity={0.7} />
+                <capsuleGeometry args={[0.14, 0.58, 8, 16]} />
+                <primitive object={mat} attach="material" />
               </mesh>
             ))}
           </Interactive>
           <Interactive id="nodo" anchor={[0, -2.72, 0]}>
             {[0, 1, 2].map((i) => (
-              <mesh key={i} position={[0, -2.72 - i * 1.05, 0]}>
-                <sphereGeometry args={[0.14, 8, 8]} />
-                <meshBasicMaterial color="#d8f4ff" />
+              <mesh key={i} position={[0, -2.72 - i * 1.05, 0]} rotation={[Math.PI / 2, 0, 0]}>
+                <torusGeometry args={[0.09, 0.025, 12, 24]} />
+                <primitive object={mat} attach="material" />
               </mesh>
             ))}
           </Interactive>
         </>
       )}
+      {myelinated && (
+        <instancedMesh ref={nodeLights} args={[undefined, undefined, 3]}>
+          <sphereGeometry args={[0.11, 12, 8]} />
+          <meshBasicMaterial color="#d8f4ff" />
+        </instancedMesh>
+      )}
+      {[-1, 1].map((side) => (
+        <BranchMesh
+          key={side}
+          material={mat}
+          branch={{
+            curve: new THREE.CatmullRomCurve3([
+              v(0, -4.6),
+              v(side * 0.6, -4.9, -0.2),
+              v(side * 1.5, -5.6, -0.4),
+            ]),
+            r0: 0.05,
+            r1: 0.025,
+            depth: 0,
+            path: [],
+          }}
+        />
+      ))}
       <Interactive id="terminal" anchor={[0, -6.8, 0]}>
         <mesh position={[0, -6.8, 0]}>
-          <sphereGeometry args={[0.25, 12, 8]} />
-          <meshBasicMaterial color="#86d6ff" />
+          <sphereGeometry args={[0.15, 16, 12]} />
+          <primitive object={mat} attach="material" />
         </mesh>
       </Interactive>
       <mesh ref={signal}>

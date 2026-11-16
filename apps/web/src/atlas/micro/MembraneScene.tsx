@@ -83,48 +83,57 @@ function Interactive({
     </group>
   );
 }
+function instancedHolo(color: string, fill: number, rim: number) {
+  const material = holoMaterial({ color, fill, rim });
+  material.vertexShader = material.vertexShader
+    .replace(
+      'modelMatrix * vec4(position, 1.0)',
+      'modelMatrix * instanceMatrix * vec4(position, 1.0)',
+    )
+    .replace('mat3(modelMatrix) * normal', 'mat3(modelMatrix * instanceMatrix) * normal');
+  return material;
+}
 function Lipids() {
+  const headMaterial = useMemo(() => instancedHolo('#5ca4ff', 0.025, 0.3), []);
+  const tailMaterial = useMemo(() => instancedHolo('#3a86ff', 0.02, 0.2), []);
+  useEffect(
+    () => () => {
+      headMaterial.dispose();
+      tailMaterial.dispose();
+    },
+    [headMaterial, tailMaterial],
+  );
   const heads = useRef<THREE.InstancedMesh>(null);
   const tails = useRef<THREE.InstancedMesh>(null);
-  useEffect(() => {
-    const obj = new THREE.Object3D();
+  const obj = useMemo(() => new THREE.Object3D(), []);
+  useFrame(({ clock }) => {
+    if (!heads.current || !tails.current) return;
+    const time = reducedMotion() ? 0 : clock.elapsedTime * 0.18;
     let i = 0;
-    for (let x = -9; x <= 9; x++)
-      for (let z = -9; z <= 9; z++)
+    for (let x = -11; x <= 11; x++)
+      for (let z = -11; z <= 11; z++)
         for (const side of [-1, 1]) {
-          obj.position.set(x, side * 0.8, z);
+          obj.position.set(x, side * 0.8 + Math.sin(x * 0.35 + z * 0.3 + time) * 0.08, z);
           obj.scale.setScalar(1);
           obj.updateMatrix();
           heads.current?.setMatrixAt(i, obj.matrix);
-          obj.position.y = side * 0.36;
+          obj.position.y = side * 0.36 + Math.sin(x * 0.35 + z * 0.3 + time) * 0.08;
           obj.scale.set(1, 1, 1);
           obj.updateMatrix();
           tails.current?.setMatrixAt(i++, obj.matrix);
         }
     if (heads.current) heads.current.instanceMatrix.needsUpdate = true;
     if (tails.current) tails.current.instanceMatrix.needsUpdate = true;
-  }, []);
+  });
   return (
     <Interactive id="bicapa" anchor={[-5, 0, 0]}>
-      <instancedMesh ref={heads} args={[undefined, undefined, 722]}>
-        <sphereGeometry args={[0.27, 8, 6]} />
-        <meshBasicMaterial
-          color="#5ca4ff"
-          transparent
-          opacity={0.65}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
+      <instancedMesh ref={heads} args={[undefined, undefined, 1058]}>
+        <sphereGeometry args={[0.18, 16, 12]} />
+        <primitive object={headMaterial} attach="material" />
       </instancedMesh>
-      <instancedMesh ref={tails} args={[undefined, undefined, 722]}>
-        <cylinderGeometry args={[0.055, 0.055, 0.8, 5]} />
-        <meshBasicMaterial
-          color="#3a86ff"
-          transparent
-          opacity={0.38}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
+      <instancedMesh ref={tails} args={[undefined, undefined, 1058]}>
+        <cylinderGeometry args={[0.018, 0.018, 0.8, 12]} />
+        <primitive object={tailMaterial} attach="material" />
       </instancedMesh>
     </Interactive>
   );
@@ -158,7 +167,7 @@ function Ions({ id, color }: { id: 'na' | 'k'; color: string }) {
   return (
     <Interactive id={id} anchor={id === 'na' ? [5, 3, 0] : [5, -3, 0]}>
       <instancedMesh ref={ref} args={[undefined, undefined, points.length]}>
-        <sphereGeometry args={[0.19, 10, 8]} />
+        <sphereGeometry args={[0.13, 16, 12]} />
         <meshBasicMaterial color={color} />
       </instancedMesh>
     </Interactive>
@@ -175,7 +184,7 @@ function Channel({
   x: number;
   color: string;
 }) {
-  const material = useMemo(() => holoMaterial({ color, fill: 0.28, rim: 0.9 }), [color]);
+  const material = useMemo(() => holoMaterial({ color, fill: 0.04, rim: 0.5 }), [color]);
   useEffect(() => () => material.dispose(), [material]);
   const ion = useRef<THREE.Mesh>(null);
   useFrame(({ clock }) => {
@@ -190,16 +199,22 @@ function Channel({
   });
   return (
     <Interactive id={id} anchor={[x, 0, 0]}>
-      <mesh position={[x, 0, 0]} material={material}>
-        <cylinderGeometry args={[0.65, 0.65, 2.8, 12, 1, true]} />
-      </mesh>
+      {(id === 'fuga' ? [0, 1] : [0, 1, 2, 3]).map((i) => {
+        const count = id === 'fuga' ? 2 : 4;
+        const angle = (i * Math.PI * 2) / count;
+        return (
+          <mesh
+            key={i}
+            position={[x + Math.cos(angle) * 0.48, 0, Math.sin(angle) * 0.48]}
+            material={material}
+          >
+            <capsuleGeometry args={[0.3, 1.8, 8, 16]} />
+          </mesh>
+        );
+      })}
       <mesh ref={ion} position={[x, 2, 0]}>
-        <sphereGeometry args={[0.23, 10, 8]} />
+        <sphereGeometry args={[0.13, 16, 12]} />
         <meshBasicMaterial color={id === 'nav' ? '#ffb057' : '#5ee6ff'} />
-      </mesh>
-      <mesh position={[x, 0, 0]}>
-        <torusGeometry args={[0.65, 0.13, 8, 16]} />
-        <meshBasicMaterial color={color} />
       </mesh>
     </Interactive>
   );
@@ -211,7 +226,7 @@ function Pump() {
   const ions = useRef<THREE.InstancedMesh>(null);
   const phosphate = useRef<THREE.Mesh>(null);
   const obj = useMemo(() => new THREE.Object3D(), []);
-  const material = useMemo(() => holoMaterial({ color: '#86d6ff', fill: 0.3, rim: 1 }), []);
+  const material = useMemo(() => holoMaterial({ color: '#86d6ff', fill: 0.04, rim: 0.5 }), []);
   useEffect(() => () => material.dispose(), [material]);
   useFrame(({ clock }) => {
     const t = reducedMotion() ? 0 : clock.elapsedTime;
@@ -240,18 +255,18 @@ function Pump() {
   });
   return (
     <Interactive id="bomba" anchor={[0, 0, 0]}>
-      <mesh ref={top} position={[0, 0.65, 0]} material={material}>
-        <sphereGeometry args={[1, 20, 14]} />
+      <mesh ref={top} position={[0, 0, 0]} scale={[0.65, 1.3, 0.55]} material={material}>
+        <sphereGeometry args={[1, 32, 24]} />
       </mesh>
-      <mesh ref={bottom} position={[0, -0.65, 0]} material={material}>
-        <sphereGeometry args={[1, 20, 14]} />
+      <mesh ref={bottom} position={[0, -1.5, 0]} scale={[1.15, 0.8, 0.8]} material={material}>
+        <sphereGeometry args={[1, 32, 24]} />
       </mesh>
       <mesh ref={phosphate} position={[0.85, 0.25, 0.7]}>
         <sphereGeometry args={[0.2, 10, 8]} />
         <meshBasicMaterial color="#ffe08a" />
       </mesh>
       <instancedMesh ref={ions} args={[undefined, undefined, 5]}>
-        <sphereGeometry args={[0.19, 10, 8]} />
+        <sphereGeometry args={[0.13, 16, 12]} />
         <meshBasicMaterial />
       </instancedMesh>
       <Html position={[1.3, 1.7, 0]} className="na-scene-tag">
@@ -275,10 +290,7 @@ export default function MembraneScene() {
         variant === 'canales' ? Math.max(0, 0.18 * (1 - Math.abs(t - 1.2))) : 0;
       pulse.current.color.set(t < 1.2 ? '#ffb057' : '#5ee6ff');
     }
-    if (group.current)
-      group.current.scale.setScalar(
-        approach(group.current.scale.x, variant === 'bomba' ? 1.1 : 1, dt, 4),
-      );
+    if (group.current) group.current.scale.setScalar(approach(group.current.scale.x, 1, dt, 4));
   });
   const c = dynamics.TYPICAL_MAMMALIAN_CONC;
   return (
@@ -301,13 +313,17 @@ export default function MembraneScene() {
       <Channel active={variant === 'canales'} id="fuga" x={7} color="#86d6ff" />
       <Ions id="na" color="#ffb057" />
       <Ions id="k" color="#5ee6ff" />
+      <Html position={[5, 4.5, 0]} className="na-scene-tag">
+        <span style={{ color: '#ffb057' }}>● Na⁺</span> ·{' '}
+        <span style={{ color: '#5ee6ff' }}>● K⁺</span>
+      </Html>
       <Html position={[-8, 4.5, 0]} className="na-scene-tag">
         Medio extracelular
       </Html>
       <Html position={[-8, -4.5, 0]} className="na-scene-tag">
         Citosol
       </Html>
-      <Html position={[-8, -6, 0]} className="na-scene-tag">
+      <Html position={[-8, -5.5, 0]} className="na-scene-tag">
         Esquema · borrador sin revisión experta
         {variant === 'reposo' &&
           ` · Eₖ ${dynamics.nernst(1, c.K.out, c.K.in).toFixed(0)} mV · Eₙₐ ${dynamics.nernst(1, c.Na.out, c.Na.in).toFixed(0)} mV`}
