@@ -1,0 +1,149 @@
+{
+  "status": "borrador — sin revisión experta",
+  "transmitters": [
+    {
+      "id": "glutamato",
+      "name": "Glutamato",
+      "color": "#7dffb2",
+      "vesicular": "VGLUT",
+      "steps": [
+        "Glutamina → glutamato por glutaminasa.",
+        "VGLUT transporta el transmisor hacia vesículas sinápticas.",
+        "La entrada de Ca²⁺ favorece la fusión de vesículas y la liberación del transmisor.",
+        "AMPA y NMDA son ionotrópicos y suelen despolarizar; los receptores mGluR modulan mediante proteína G.",
+        "Los transportadores EAAT captan glutamato; el astrocito puede convertirlo en glutamina y devolverla a la neurona.",
+        "Ketamina: bloquea receptores NMDA. Perampanel: antagoniza receptores AMPA."
+      ],
+      "drugs": [
+        "Ketamina: bloquea receptores NMDA.",
+        "Perampanel: antagoniza receptores AMPA."
+      ]
+    },
+    {
+      "id": "gaba",
+      "name": "GABA",
+      "color": "#ff5c8a",
+      "vesicular": "VGAT",
+      "steps": [
+        "Glutamato → GABA por glutamato descarboxilasa (GAD).",
+        "VGAT transporta el transmisor hacia vesículas sinápticas.",
+        "La entrada de Ca²⁺ favorece la fusión de vesículas y la liberación del transmisor.",
+        "GABA-A es ionotrópico y suele inhibir; GABA-B modula mediante proteína G. El efecto depende de los gradientes iónicos.",
+        "Los transportadores GAT retiran GABA de la hendidura.",
+        "Benzodiacepinas: modulan positivamente GABA-A. Tiagabina: inhibe la recaptación por GAT-1."
+      ],
+      "drugs": [
+        "Benzodiacepinas: modulan positivamente GABA-A.",
+        "Tiagabina: inhibe la recaptación por GAT-1."
+      ]
+    },
+    {
+      "id": "glicina",
+      "name": "Glicina",
+      "color": "#ff5c8a",
+      "vesicular": "VGAT",
+      "steps": [
+        "La serina puede convertirse en glicina por serina hidroximetiltransferasa.",
+        "VGAT transporta el transmisor hacia vesículas sinápticas.",
+        "La entrada de Ca²⁺ favorece la fusión de vesículas y la liberación del transmisor.",
+        "El receptor de glicina es ionotrópico y suele inhibir; su efecto depende del gradiente de cloruro.",
+        "Los transportadores GlyT retiran glicina de la hendidura.",
+        "Estricnina: bloquea receptores de glicina. Sarcosina: inhibe GlyT1."
+      ],
+      "drugs": [
+        "Estricnina: bloquea receptores de glicina.",
+        "Sarcosina: inhibe GlyT1."
+      ]
+    },
+    {
+      "id": "acetilcolina",
+      "name": "Acetilcolina",
+      "color": "#c49bff",
+      "vesicular": "VAChT",
+      "steps": [
+        "Colina y acetil-CoA → acetilcolina por colina acetiltransferasa.",
+        "VAChT transporta el transmisor hacia vesículas sinápticas.",
+        "La entrada de Ca²⁺ favorece la fusión de vesículas y la liberación del transmisor.",
+        "Los receptores nicotínicos son ionotrópicos y suelen despolarizar; los muscarínicos modulan mediante proteína G.",
+        "La acetilcolinesterasa (AChE) degrada acetilcolina en la hendidura; la colina se recaptura.",
+        "Donepezilo: inhibe AChE. Nicotina: activa receptores nicotínicos."
+      ],
+      "drugs": [
+        "Donepezilo: inhibe AChE.",
+        "Nicotina: activa receptores nicotínicos."
+      ]
+    },
+    {
+      "id": "dopamina",
+      "name": "Dopamina",
+      "color": "#c49bff",
+      "vesicular": "VMAT2",
+      "steps": [
+        "Tirosina → L-DOPA por tirosina hidroxilasa (paso limitante) → dopamina por descarboxilasa de aminoácidos aromáticos.",
+        "VMAT2 transporta el transmisor hacia vesículas sinápticas.",
+        "La entrada de Ca²⁺ favorece la fusión de vesículas y la liberación del transmisor.",
+        "Las familias D1 y D2 modulan mediante proteína G.",
+        "DAT recaptura dopamina; MAO y COMT participan en su degradación.",
+        "Cocaína: bloquea DAT y aumenta dopamina extracelular. Reserpina: inhibe VMAT y reduce el almacenamiento vesicular."
+      ],
+      "drugs": [
+        "Cocaína: bloquea DAT y aumenta dopamina extracelular.",
+        "Reserpina: inhibe VMAT y reduce el almacenamiento vesicular."
+      ]
+    },
+    {
+      "id": "noradrenalina",
+      "name": "Noradrenalina",
+      "color": "#c49bff",
+      "vesicular": "VMAT2",
+      "steps": [
+        "Tirosina → L-DOPA por tirosina hidroxilasa (paso limitante) → dopamina → noradrenalina por dopamina β-hidroxilasa.",
+        "VMAT2 transporta el transmisor hacia vesículas sinápticas.",
+        "La entrada de Ca²⁺ favorece la fusión de vesículas y la liberación del transmisor.",
+        "Los receptores adrenérgicos α y β modulan mediante proteína G.",
+        "NET recaptura noradrenalina; MAO y COMT participan en su degradación.",
+        "Atomoxetina: inhibe NET. Reserpina: inhibe VMAT y reduce el almacenamiento vesicular."
+      ],
+      "drugs": [
+        "Atomoxetina: inhibe NET.",
+        "Reserpina: inhibe VMAT y reduce el almacenamiento vesicular."
+      ]
+    },
+    {
+      "id": "serotonina",
+      "name": "Serotonina",
+      "color": "#c49bff",
+      "vesicular": "VMAT2",
+      "steps": [
+        "Triptófano → 5-hidroxitriptófano por triptófano hidroxilasa (paso limitante) → serotonina por descarboxilasa de aminoácidos aromáticos.",
+        "VMAT2 transporta el transmisor hacia vesículas sinápticas.",
+        "La entrada de Ca²⁺ favorece la fusión de vesículas y la liberación del transmisor.",
+        "5-HT3 es ionotrópico y suele despolarizar; otras familias 5-HT modulan mediante proteína G.",
+        "SERT recaptura serotonina; MAO participa en su degradación.",
+        "ISRS: inhiben SERT y aumentan serotonina extracelular. Ondansetrón: bloquea receptores 5-HT3."
+      ],
+      "drugs": [
+        "ISRS: inhiben SERT y aumentan serotonina extracelular.",
+        "Ondansetrón: bloquea receptores 5-HT3."
+      ]
+    },
+    {
+      "id": "histamina",
+      "name": "Histamina",
+      "color": "#c49bff",
+      "vesicular": "VMAT2",
+      "steps": [
+        "Histidina → histamina por histidina descarboxilasa.",
+        "VMAT2 transporta el transmisor hacia vesículas sinápticas.",
+        "La entrada de Ca²⁺ favorece la fusión de vesículas y la liberación del transmisor.",
+        "Los receptores H1 a H4 modulan mediante proteína G.",
+        "La histamina se metaboliza, entre otras vías, mediante histamina N-metiltransferasa.",
+        "Mepiramina: bloquea receptores H1. Reserpina: inhibe VMAT y reduce el almacenamiento vesicular."
+      ],
+      "drugs": [
+        "Mepiramina: bloquea receptores H1.",
+        "Reserpina: inhibe VMAT y reduce el almacenamiento vesicular."
+      ]
+    }
+  ]
+}

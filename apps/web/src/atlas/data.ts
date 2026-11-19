@@ -193,3 +193,12 @@ export function loadNeurons(): Promise<NeuronRecord[]> {
     .then((data) => data.neurons);
   return neuronsPromise;
 }
+
+export interface Transmitter {
+  id: string;
+  name: string;
+  color: string;
+  vesicular: string;
+  steps: string[];
+  drugs: string[];
+}

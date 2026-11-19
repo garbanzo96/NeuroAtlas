@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { loadNeurons, type NeuronRecord } from '../data';
+import { TransmitterControls } from '../micro/TransmitterScene';
 import { MICRO_VARIANTS } from '../micro/variants';
 import { useAtlas } from '../store';
 
@@ -12,6 +13,14 @@ export function MicroBar() {
   useEffect(() => {
     if (level === 'neurona') void loadNeurons().then(setNeurons);
   }, [level]);
+  const bar = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const container = bar.current;
+    const active = container?.querySelector<HTMLElement>('[aria-checked="true"]');
+    if (container && active) {
+      container.scrollLeft = active.offsetLeft + active.offsetWidth - container.clientWidth + 8;
+    }
+  }, [level, variant]);
   const list = MICRO_VARIANTS[level];
   if (!list?.length) return null;
   const current = variant ?? list[0]!.id;
@@ -50,18 +59,27 @@ export function MicroBar() {
       </div>
     );
   return (
-    <div className="na-microbar" role="radiogroup" aria-label="Variantes de la escena" key={level}>
-      {list.map((v) => (
-        <button
-          key={v.id}
-          type="button"
-          role="radio"
-          aria-checked={v.id === current}
-          onClick={() => setVariant(v.id)}
-        >
-          {v.label}
-        </button>
-      ))}
-    </div>
+    <>
+      <div
+        className="na-microbar"
+        ref={bar}
+        role="radiogroup"
+        aria-label="Variantes de la escena"
+        key={level}
+      >
+        {list.map((v) => (
+          <button
+            key={v.id}
+            type="button"
+            role="radio"
+            aria-checked={v.id === current}
+            onClick={() => setVariant(v.id)}
+          >
+            {v.label}
+          </button>
+        ))}
+      </div>
+      {level === 'sinapsis' && current === 'transmisores' && <TransmitterControls />}
+    </>
   );
 }
