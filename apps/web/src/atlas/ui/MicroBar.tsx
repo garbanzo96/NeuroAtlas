@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { TransmitterControls } from '../micro/TransmitterScene';
 import { MICRO_VARIANTS } from '../micro/variants';
 import { useAtlas } from '../store';
@@ -7,6 +8,14 @@ export function MicroBar() {
   const level = useAtlas((s) => s.level);
   const variant = useAtlas((s) => s.variant);
   const setVariant = useAtlas((s) => s.setVariant);
+  const bar = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const container = bar.current;
+    const active = container?.querySelector<HTMLElement>('[aria-checked="true"]');
+    if (container && active) {
+      container.scrollLeft = active.offsetLeft + active.offsetWidth - container.clientWidth + 8;
+    }
+  }, [level, variant]);
   const list = MICRO_VARIANTS[level];
   if (!list?.length) return null;
   const current = variant ?? list[0]!.id;
@@ -14,6 +23,7 @@ export function MicroBar() {
     <>
       <div
         className="na-microbar"
+        ref={bar}
         role="radiogroup"
         aria-label="Variantes de la escena"
         key={level}

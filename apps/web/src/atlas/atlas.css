@@ -1156,8 +1156,10 @@ body,
   animation: na-rise 0.5s var(--na-ease);
   max-width: calc(100vw - 480px);
   overflow-x: auto;
+  scroll-padding: 5px;
 }
 .na-microbar button {
+  flex: 0 0 auto;
   height: 32px;
   padding: 0 13px;
   border: 0;
@@ -1841,42 +1843,117 @@ body,
 
 .na-transmitter {
   position: absolute;
-  z-index: 5;
-  left: 1rem;
-  bottom: 5.5rem;
-  width: min(34rem, calc(100vw - 2rem));
-  padding: 1rem;
-  background: rgba(5, 20, 38, 0.94);
-  border: 1px solid rgba(113, 194, 255, 0.35);
-  color: #d9eeff;
+  z-index: 17;
+  left: 16px;
+  bottom: 74px;
+  width: min(420px, calc(100vw - 32px));
+  box-sizing: border-box;
+  padding: 14px;
+  color: var(--na-fg);
+  background: var(--na-glass-hi);
+  border: 1px solid var(--na-line);
+  border-radius: 14px;
+  backdrop-filter: blur(18px);
 }
 .na-transmitter label {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12px;
 }
 .na-transmitter select,
 .na-transmitter button {
   color: inherit;
-  background: #102d47;
-  border: 1px solid #4c7996;
-  padding: 0.4rem 0.65rem;
+  background: rgba(115, 197, 255, 0.08);
+  border: 1px solid var(--na-line);
+  border-radius: 8px;
 }
-.na-transmitter button[aria-current='step'] {
-  background: #2d6284;
-  border-color: #a4e5ff;
+.na-transmitter select {
+  padding: 5px 8px;
+  max-width: 65%;
 }
-.na-transmitter button:disabled {
-  opacity: 0.45;
+.na-transmitter__steps {
+  display: flex;
+  justify-content: space-between;
+  gap: 2px;
+  margin-top: 12px;
 }
-.na-transmitter__steps,
+.na-transmitter__steps button {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--na-fg2);
+  font-size: 10px;
+}
+.na-transmitter__steps button > span:first-child {
+  display: grid;
+  place-items: center;
+  width: 23px;
+  height: 23px;
+  margin: 0 auto 4px;
+  border: 1px solid var(--na-line);
+  border-radius: 50%;
+}
+.na-transmitter__steps button[aria-current='step'] {
+  color: var(--na-fg);
+}
+.na-transmitter__steps button[aria-current='step'] > span:first-child {
+  background: var(--na-acc);
+  color: #061026;
+  border-color: var(--na-acc);
+}
 .na-transmitter__navigation {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-  margin-top: 0.65rem;
+  gap: 5px;
+  margin-top: 10px;
+}
+.na-transmitter__navigation button {
+  width: 32px;
+  height: 28px;
+  cursor: pointer;
+}
+.na-transmitter button:disabled {
+  opacity: 0.35;
+}
+.na-transmitter__drug {
+  margin-top: 8px;
 }
 .na-transmitter p {
-  margin: 0.65rem 0 0;
-  line-height: 1.45;
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.na-transmitter__tag {
+  display: block;
+  animation: na-transmitter-fade 0.35s ease-out both;
+}
+@keyframes na-transmitter-fade {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 900px) {
+  .na-transmitter {
+    bottom: 140px;
+    left: 8px;
+    width: min(420px, calc(100vw - 16px));
+  }
+}
+@media (max-width: 440px) {
+  .na-transmitter__step-label {
+    font-size: 9px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .na-transmitter__tag {
+    animation: none;
+  }
 }

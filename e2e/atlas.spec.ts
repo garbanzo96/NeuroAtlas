@@ -151,6 +151,22 @@ test('recorre el ciclo de la dopamina', async ({ page }) => {
   await cycle.getByLabel('Neurotransmisor').selectOption('dopamina');
   await cycle.getByRole('button', { name: 'Fármacos' }).click();
   await expect(cycle).toContainText('Cocaína');
+  await cycle.getByLabel('Fármaco').selectOption('1');
+  await expect(cycle).toContainText('Reserpina');
+  await cycle.getByLabel('Fármaco').selectOption('0');
+  await expect(cycle).toContainText('Cocaína');
   await expect.poll(() => new URL(page.url()).searchParams.get('transmisor')).toBe('dopamina');
   await expect.poll(() => new URL(page.url()).searchParams.get('etapa_nt')).toBe('6');
+});
+
+test('el ciclo y la variante seleccionada caben en pantalla móvil', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/?n=sinapsis&var=transmisores');
+  const cycle = page.getByRole('region', { name: 'Ciclo del neurotransmisor' });
+  await expect(cycle).toBeVisible();
+  const selected = page.getByRole('radio', { name: 'Neurotransmisores' });
+  await expect(selected).toBeInViewport();
+  const panel = await cycle.boundingBox();
+  const bar = await page.locator('.na-microbar').boundingBox();
+  expect(panel && bar && panel.y + panel.height <= bar.y).toBeTruthy();
 });
