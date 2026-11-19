@@ -114,3 +114,31 @@ test.describe('atlas multiescala', () => {
     await page.close();
   });
 });
+
+test('recorrido completo, exploración y enlace de paso', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Aprender' }).click();
+  await page.getByRole('button', { name: /De la piel a la corteza/ }).click();
+  const player = page.getByRole('region', { name: 'Recorrido: De la piel a la corteza' });
+  await expect(player).toContainText('Un contacto en la piel');
+  await page.keyboard.press('ArrowRight');
+  await expect(player).toContainText('El viaje hacia el encéfalo');
+  await expect.poll(() => new URL(page.url()).searchParams.get('etapa')).toBe('2');
+  await player.getByRole('button', { name: 'Explorar libremente' }).click();
+  await page.keyboard.press('5');
+  await expect(page.locator('.na-atlas')).toHaveAttribute('data-level', 'neurona');
+  await player.getByRole('button', { name: 'Volver al recorrido' }).click();
+  await expect(page.locator('.na-atlas')).toHaveAttribute('data-level', 'sistema');
+  await page.reload();
+  await expect(player).toContainText('El viaje hacia el encéfalo');
+  for (const title of ['Un relevo en el tálamo', 'Un mapa cortical', 'Cambiar de escala']) {
+    await page.keyboard.press('ArrowRight');
+    await expect(player).toContainText(title);
+  }
+  await expect(page.locator('.na-atlas')).toHaveAttribute('data-level', 'circuito');
+  await expect(player.getByRole('button', { name: /Siguiente/ })).toBeDisabled();
+  await page.keyboard.press('Escape');
+  await expect(player).toHaveCount(0);
+  expect(new URL(page.url()).searchParams.has('recorrido')).toBe(false);
+});

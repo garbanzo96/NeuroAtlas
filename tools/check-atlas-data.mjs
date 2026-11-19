@@ -150,29 +150,6 @@ if (overlays) {
   }
 }
 
-const tours = load('tours.json');
-if (tours) {
-  header('tours', tours);
-  for (const t of tours.tours ?? []) {
-    const at = `tours[${t.id}]`;
-    text(t, 'n', at);
-    if (!t.steps?.length) fail(`${at}.steps`, 'al menos un paso');
-    for (const [i, s] of (t.steps ?? []).entries()) {
-      const sp = `${at}.steps[${i}]`;
-      text(s, 't', sp);
-      text(s, 'd', sp);
-      const v = s.view ?? {};
-      if (v.level && !levels.has(v.level)) fail(`${sp}.view.level`, `nivel inexistente ${v.level}`);
-      if (v.select && !meshNames.has(v.select))
-        fail(`${sp}.view.select`, `malla inexistente ${v.select}`);
-      if (v.pathway && !pathways.has(v.pathway))
-        fail(`${sp}.view.pathway`, `vía inexistente ${v.pathway}`);
-      if (v.circuit && !circuitIds.has(v.circuit))
-        fail(`${sp}.view.circuit`, `circuito inexistente ${v.circuit}`);
-    }
-  }
-}
-
 // Curso importado: valida estructura, marcas y vistas sin aceptar HTML.
 const variants = {
   circuito: ['columna', 'microcircuito', 'oscilacion', 'red'],
@@ -297,6 +274,51 @@ if (course) {
         if (!Array.isArray(u[k]) || u[k].some((v) => typeof v !== 'string' || !v.trim()))
           fail(`${up}.${k}`, 'lista inválida');
       blocks(u.blocks, `${up}.blocks`);
+    }
+  }
+}
+const tours = load('tours.json');
+if (tours) {
+  header('tours', tours);
+  only(tours, ['status', 'tours'], 'tours');
+  noHtml(tours, 'tours');
+  if (!Array.isArray(tours.tours) || !tours.tours.length) fail('tours.tours', 'vacío');
+  const ids = new Set();
+  for (const t of tours.tours ?? []) {
+    const at = `tours[${t.id}]`;
+    only(t, ['id', 'n', 'sub', 'cover', 'units', 'steps'], at);
+    for (const k of ['id', 'n', 'sub']) text(t, k, at);
+    if (ids.has(t.id)) fail(at, 'id duplicado');
+    ids.add(t.id);
+    if (
+      t.cover &&
+      (!t.cover.startsWith('img/') || t.cover.includes('..') || !existsSync(new URL(t.cover, dir)))
+    )
+      fail(`${at}.cover`, 'imagen inexistente');
+    if (!Array.isArray(t.units) || !t.units.length || t.units.some((id) => !unitIds.has(id)))
+      fail(`${at}.units`, 'unidades inválidas');
+    if (!Array.isArray(t.steps) || !t.steps.length) fail(`${at}.steps`, 'al menos un paso');
+    for (const [i, step] of (t.steps ?? []).entries()) {
+      const sp = `${at}.steps[${i}]`;
+      only(step, ['t', 'd', 'view', 'run'], sp);
+      text(step, 't', sp);
+      text(step, 'd', sp);
+      validateView(step.view, `${sp}.view`);
+      if (step.view?.circuit && !circuitIds.has(step.view.circuit))
+        fail(sp, 'circuito inexistente');
+      if (
+        step.view?.scenario &&
+        !circuits?.circuits
+          .find((c) => c.id === step.view.circuit)
+          ?.scenarios.some((sc) => sc.id === step.view.scenario)
+      )
+        fail(sp, 'escenario inexistente');
+      if (step.run && !['pathway', 'circuit'].includes(step.run)) fail(sp, 'animación inválida');
+      if (
+        (step.run === 'pathway' && !step.view?.pathway) ||
+        (step.run === 'circuit' && (!step.view?.circuit || !step.view?.scenario))
+      )
+        fail(sp, 'animación sin vista compatible');
     }
   }
 }
