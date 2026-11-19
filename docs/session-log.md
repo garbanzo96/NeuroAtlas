@@ -5,6 +5,23 @@ resultados), qué quedó pendiente y cuál es el siguiente paso recomendado. Es 
 
 ---
 
+## 2026-11-19 · Depuración pedida por el usuario y morfologías reales
+
+- **Hecho:** el panel de capas (dock) tapaba la escala en ventanas bajas y no se podía cerrar: ahora es
+  plegable y parte cerrado bajo 820 px de alto. El holograma del encéfalo se veía confuso: la cara trasera se
+  atenúa (los surcos del hemisferio lejano ya no se mezclan), corteza con borde más agudo, núcleos profundos en
+  cian, bloom con umbral mayor. Rótulos ambientales con despeje en pantalla. Integrados WP-065 (recorridos y
+  lector del curso) y WP-067 (la simulación mueve la escena). Carrera de la intro con la vista de la URL en
+  equipos lentos corregida; movimiento reducido sin vuelos de cámara.
+- **Fuentes:** análisis de cinco proyectos de referencia; solo NeuroMorpho.Org (CC BY 4.0) sirve para
+  morfologías publicables. 19 SWC descargados con sus citas (ADR-0013).
+- **Verificado:** `npm run check` verde (96 pruebas); e2e del atlas 9/9 (dos de ellas en serie: la máquina
+  tenía un proceso ajeno al 100 % de CPU). Desplegado en gh-pages.
+- **En curso:** WP-069 (galería de neuronas reales y potencial de acción sobre su forma) y WP-070 (ciclo de
+  vida de los neurotransmisores), ambos con Codex.
+- **Siguiente:** WP-071 microcircuitos canónicos (columna con PV/SST/VIP, cerebelo, hipocampo trisináptico,
+  médula, retina) sobre las morfologías de WP-069.
+
 ## 2026-11-16 (tarde) · Plan de conocimiento en marcha: contratos, capas, circuitos e ilustraciones
 
 - **Hecho:** plan de conocimiento (`docs/atlas/plan-de-conocimiento.md`, Fable). WP-060 (Claude): contratos
