@@ -85,6 +85,7 @@ Cada WP es un encargo acotado y verificable. Los marcados con 📄 tienen especi
 | WP-083a    | Ilustraciones base en riel, aviso, lámina, carga y metadatos                             | Codex    | —          | hecho              |
 | WP-063 📄  | [Vista en la URL y enlaces compartibles](work-packages/WP-063.md)                        | Codex    | WP-060     | pendiente          |
 | WP-064 📄  | [Importar curso, preguntas y casos](work-packages/WP-064.md)                             | Codex    | WP-060     | pendiente          |
+| WP-067 📄  | [La simulación maneja la escena](work-packages/WP-067.md)                                | Codex    | WP-060     | en revisión visual |
 | WP-065–084 | Recorridos, evaluación, simulación en escena, circuitos, moléculas, arte (ver plan §8.3) | varios   | —          | pendiente          |
 
 ## Expansión (fase 4, tras el piloto)

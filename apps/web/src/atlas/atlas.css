@@ -977,12 +977,23 @@ body,
   left: 238px;
   right: 14px;
   bottom: 14px;
-  height: min(46vh, 420px);
+  height: min(32vh, 320px);
   padding: 14px 18px;
   z-index: 21;
   display: flex;
   flex-direction: column;
   animation: na-rise 0.45s var(--na-ease);
+}
+.na-atlas:has(.na-sheet[data-open]) .na-lab-drawer {
+  right: min(448px, calc(100vw - 252px));
+}
+.na-lab-drawer[data-closing] {
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+  transition:
+    opacity 0.24s var(--na-ease),
+    transform 0.24s var(--na-ease);
 }
 .na-lab-drawer > header {
   position: relative;
@@ -1065,10 +1076,16 @@ body,
     max-height: 58vh;
     height: 58vh;
   }
-  .na-lab-drawer {
+  .na-lab-drawer,
+  .na-atlas:has(.na-sheet[data-open]) .na-lab-drawer {
     left: 8px;
     right: 8px;
     bottom: 84px;
+    height: 26vh;
+  }
+  .na-atlas:has(.na-lab-drawer) .na-sheet[data-open] {
+    bottom: calc(84px + 26vh + 8px);
+    height: min(30vh, calc(100vh - 180px - 26vh));
   }
 }
 

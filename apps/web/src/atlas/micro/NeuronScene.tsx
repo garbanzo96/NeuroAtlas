@@ -7,6 +7,8 @@ import { approach, holoMaterial } from '../holo';
 import { useAtlas, type PartInfo } from '../store';
 import { random, reducedMotion, taperedTube } from './geom';
 
+const axonSignals = Array.from({ length: 60 }, (_, i) => `axon.V[${i}]`);
+
 const parts: Record<string, PartInfo> = {
   soma: {
     title: 'Soma',
@@ -246,7 +248,20 @@ function Cell({ kind }: { kind: string }) {
     elapsedTime.current = state.clock.elapsedTime;
     if (group.current) group.current.scale.setScalar(approach(group.current.scale.x, 1, dt, 5));
     const voltage = read('hh.V', NaN);
-    const cableVoltage = read('axon.V[30]', NaN);
+    let cableActive = false,
+      cableStrength = 0,
+      cablePosition = 0;
+    for (let i = 0; i < axonSignals.length; i++) {
+      const value = read(axonSignals[i]!, NaN);
+      if (!Number.isNaN(value)) {
+        cableActive = true;
+        const strength = Math.max(0, Math.min(1, (value + 35) / 55));
+        if (strength > cableStrength) {
+          cableStrength = strength;
+          cablePosition = i / (axonSignals.length - 1);
+        }
+      }
+    }
     history.current[historyIndex.current] = voltage;
     historyIndex.current = (historyIndex.current + 1) % history.current.length;
     if (signal.current) {
@@ -254,27 +269,43 @@ function Cell({ kind }: { kind: string }) {
       const t = reducedMotion()
         ? 0
         : ((triggered.current === null ? elapsed : elapsed - triggered.current) % 2.5) / 2.5;
-      signal.current.position.y = -1.2 - (myelinated ? Math.floor(t * 5) / 5 : t) * 5.5;
+      const autonomousY = -1.2 - (myelinated ? Math.floor(t * 5) / 5 : t) * 5.5;
       if (!Number.isNaN(voltage)) {
         let strongest = 0,
           position = 0;
         for (let i = 0; i < 90; i++) {
           const v = history.current[(historyIndex.current - 1 - i + 180) % 180]!;
-          const strength = Math.max(0, Math.min(1, (v + 35) / 55)) * (1 - i / 120);
+          const strength = Number.isFinite(v)
+            ? Math.max(0, Math.min(1, (v + 35) / 55)) * (1 - i / 120)
+            : 0;
           if (strength > strongest) {
             strongest = strength;
             position = i / 90;
           }
         }
-        signal.current.position.y = -1.2 - position * 5.5;
+        signal.current.position.y = approach(
+          signal.current.position.y,
+          -1.2 - position * 5.5,
+          dt,
+          12,
+        );
         signal.current.scale.setScalar(
           approach(signal.current.scale.x, Math.max(0.001, strongest), dt, 12),
         );
-      } else if (!Number.isNaN(cableVoltage)) {
-        signal.current.scale.setScalar(
-          approach(signal.current.scale.x, Math.max(0.001, (cableVoltage + 50) / 80), dt, 12),
+      } else if (cableActive) {
+        signal.current.position.y = approach(
+          signal.current.position.y,
+          -1.2 - cablePosition * 5.5,
+          dt,
+          12,
         );
-      } else signal.current.scale.setScalar(approach(signal.current.scale.x, 1, dt, 5));
+        signal.current.scale.setScalar(
+          approach(signal.current.scale.x, Math.max(0.001, cableStrength), dt, 12),
+        );
+      } else {
+        signal.current.position.y = approach(signal.current.position.y, autonomousY, dt, 5);
+        signal.current.scale.setScalar(approach(signal.current.scale.x, 1, dt, 5));
+      }
     }
     if (epsps.current) {
       const t = reducedMotion() ? 0 : (state.clock.elapsedTime % 2.5) / 2.5;

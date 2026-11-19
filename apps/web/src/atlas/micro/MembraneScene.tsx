@@ -191,9 +191,9 @@ function Channel({
   const gate = useRef<THREE.Group>(null);
   const opening = useRef(0);
   useFrame(({ clock }, dt) => {
-    const m = read('hh.m', NaN),
-      h = read('hh.h', NaN),
-      n = read('hh.n', NaN);
+    const m = id === 'nav' ? read('hh.m', NaN) : NaN,
+      h = id === 'nav' ? read('hh.h', NaN) : NaN,
+      n = id === 'kv' ? read('hh.n', NaN) : NaN;
     const live =
       id === 'nav'
         ? Number.isNaN(m) || Number.isNaN(h)

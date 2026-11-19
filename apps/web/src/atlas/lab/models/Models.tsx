@@ -524,12 +524,13 @@ export function Axon() {
   const a = useDelay(amp);
   const r = useMemo(() => d.simulateAxon({ tMax: 20, stimAmp: a }), [a]);
   const sample = seq(r.vSnapshots.length / r.n, (i) => i * 0.05);
+  const signalNames = useMemo(() => Array.from({ length: r.n }, (_, i) => `axon.V[${i}]`), [r.n]);
   usePlayback(
     (seconds) => {
       const sampleIndex = Math.floor(((seconds * 10) % 20) / 0.05);
-      for (let i = 0; i < r.n; i++) publish(`axon.V[${i}]`, r.vSnapshots[sampleIndex * r.n + i]!);
+      for (let i = 0; i < r.n; i++) publish(signalNames[i]!, r.vSnapshots[sampleIndex * r.n + i]!);
     },
-    [r],
+    [r, signalNames],
   );
   return (
     <Frame
