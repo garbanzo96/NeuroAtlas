@@ -88,7 +88,7 @@ Cada WP es un encargo acotado y verificable. Los marcados con 📄 tienen especi
 | WP-065 📄       | [Recorridos guiados y lector del curso](work-packages/WP-065.md)                           | Codex    | WP-063, WP-064 | hecho     |
 | WP-067 📄       | [La simulación maneja la escena](work-packages/WP-067.md)                                  | Codex    | WP-060         | hecho     |
 | WP-068          | Sistemas de neurotransmisores                                                              | Codex    | WP-061         | hecho     |
-| WP-069 📄       | [Galería de neuronas reales y potencial de acción sobre su forma](work-packages/WP-069.md) | Codex    | WP-067         | en curso  |
+| WP-069 📄       | [Galería de neuronas reales y potencial de acción sobre su forma](work-packages/WP-069.md) | Codex    | WP-067         | hecho     |
 | WP-070 📄       | [Ciclo de vida de los neurotransmisores en la sinapsis](work-packages/WP-070.md)           | Codex    | WP-068         | en curso  |
 | WP-066, 071–084 | Evaluación, microcircuitos canónicos, moléculas, arte (ver plan §8.3)                      | varios   | —              | pendiente |
 
