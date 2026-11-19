@@ -1,3 +1,5 @@
+import { read } from '../signals';
+import { approach } from '../holo';
 import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
@@ -110,7 +112,15 @@ function Chemical({ variant }: { variant: string }) {
   }, []);
   const vesMat = useMemo(() => holoMaterial({ color: '#8bd8ff', fill: 0.025, rim: 0.48 }), []);
   const obj = useMemo(() => new THREE.Object3D(), []);
-  useFrame(({ clock }) => {
+  const vesicleMeshes = useRef<(THREE.Mesh | null)[]>([]);
+  const reserve = useRef(1);
+  useFrame(({ clock }, dt) => {
+    const x = read('tm.x', NaN);
+    reserve.current = approach(reserve.current, Number.isNaN(x) ? 1 : x, dt, 8);
+    vesicleMeshes.current.forEach((mesh, i) => {
+      if (mesh)
+        mesh.scale.setScalar(approach(mesh.scale.x, i < reserve.current * 40 ? 1 : 0.001, dt, 8));
+    });
     const phase = reduced ? 0 : (clock.elapsedTime % 3) / 3;
     if (signal.current) {
       signal.current.position.set(0, 5.1 - Math.min(phase / 0.19, 1) * 2.1, 0);
@@ -184,7 +194,14 @@ function Chemical({ variant }: { variant: string }) {
         </mesh>
       ))}
       {vesicles.map((v, i) => (
-        <mesh key={i} position={v.p} material={vesMat}>
+        <mesh
+          key={i}
+          ref={(mesh) => {
+            vesicleMeshes.current[i] = mesh;
+          }}
+          position={v.p}
+          material={vesMat}
+        >
           <sphereGeometry args={[0.115, 16, 12]} />
         </mesh>
       ))}

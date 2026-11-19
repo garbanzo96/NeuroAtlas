@@ -5,6 +5,12 @@ import { loadLevels } from './InfoSheet';
 
 /** Cajón inferior con los simuladores del nivel actual. */
 export function LabDrawer({ initial, onClose }: { initial: string; onClose(): void }) {
+  const [closing, setClosing] = useState(false);
+  useEffect(() => {
+    if (!closing) return;
+    const timeout = window.setTimeout(onClose, 240);
+    return () => window.clearTimeout(timeout);
+  }, [closing, onClose]);
   const level = useAtlas((s) => s.level);
   const [models, setModels] = useState<string[]>([initial]);
   useEffect(() => {
@@ -14,13 +20,13 @@ export function LabDrawer({ initial, onClose }: { initial: string; onClose(): vo
     });
   }, [level]);
   return (
-    <section className="na-lab-drawer" aria-label="Laboratorio">
+    <section className="na-lab-drawer" data-closing={closing || undefined} aria-label="Laboratorio">
       <header>
         <p className="na-kicker">Laboratorio · {models.length} modelos para este nivel</p>
         <button
           type="button"
           className="na-sheet__close"
-          onClick={onClose}
+          onClick={() => setClosing(true)}
           aria-label="Cerrar laboratorio"
         >
           ×
