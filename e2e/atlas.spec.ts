@@ -37,6 +37,7 @@ test.describe('atlas multiescala', () => {
   });
 
   test('el enlace copiado reproduce selección, capa y cámara', async ({ browser }) => {
+    test.setTimeout(60_000); // carga el atlas dos veces
     const context = await browser.newContext({
       permissions: ['clipboard-read', 'clipboard-write'],
       reducedMotion: 'reduce',
@@ -116,6 +117,7 @@ test.describe('atlas multiescala', () => {
 });
 
 test('recorrido completo, exploración y enlace de paso', async ({ page }) => {
+  test.setTimeout(60_000); // recorre cinco pasos con vuelos de cámara
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   await page.getByRole('button', { name: 'Aprender' }).click();

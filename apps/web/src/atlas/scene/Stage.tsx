@@ -176,14 +176,17 @@ function CameraRig({
     intro.current = true;
     if (useAtlas.getState().camera) return;
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // con una vista en la URL la intro no pasa por «sistema»: en equipos lentos ese nivel pisaba al pedido
+    if (reduced || /[?&](n|e|cam|via|circ)=/.test(location.search)) {
+      void c.setLookAt(...VIEWS.encefalo.pos, ...VIEWS.encefalo.target, false);
+      return;
+    }
     void c.setLookAt(...VIEWS.sistema.pos, ...VIEWS.sistema.target, false);
-    if (!reduced) {
-      c.smoothTime = 1.1;
-      setTimeout(() => {
-        void c.setLookAt(...VIEWS.encefalo.pos, ...VIEWS.encefalo.target, true);
-        setTimeout(() => (c.smoothTime = 0.45), 2200);
-      }, 500);
-    } else void c.setLookAt(...VIEWS.encefalo.pos, ...VIEWS.encefalo.target, false);
+    c.smoothTime = 1.1;
+    setTimeout(() => {
+      void c.setLookAt(...VIEWS.encefalo.pos, ...VIEWS.encefalo.target, true);
+      setTimeout(() => (c.smoothTime = 0.45), 2200);
+    }, 500);
   }, []);
 
   const appliedPose = useRef<number | null>(null);
@@ -192,13 +195,14 @@ function CameraRig({
     if (!c || !camera) return;
     const cmd = camera.command;
     if (cmd.type === 'pose' && appliedPose.current === camera.nonce) return;
+    const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (cmd.type === 'pose') appliedPose.current = camera.nonce;
     if (cmd.type === 'home')
-      void c.setLookAt(...VIEWS.encefalo.pos, ...VIEWS.encefalo.target, true);
+      void c.setLookAt(...VIEWS.encefalo.pos, ...VIEWS.encefalo.target, smooth);
     if (cmd.type === 'pose') void c.setLookAt(...cmd.pos, ...cmd.target, false);
     if (cmd.type === 'level') {
       const v = VIEWS[cmd.level as keyof typeof VIEWS];
-      if (v) void c.setLookAt(...v.pos, ...v.target, true);
+      if (v) void c.setLookAt(...v.pos, ...v.target, smooth);
     }
     const box =
       cmd.type === 'box'
@@ -215,7 +219,7 @@ function CameraRig({
           ? THREE.MathUtils.clamp(size * 2.4, 12, 280)
           : THREE.MathUtils.clamp(size * 2.5, 9, 26);
       const pos = center.clone().addScaledVector(dir, dist);
-      void c.setLookAt(pos.x, pos.y, pos.z, center.x, center.y, center.z, true);
+      void c.setLookAt(pos.x, pos.y, pos.z, center.x, center.y, center.z, smooth);
     }
   }, [camera, index]);
 
