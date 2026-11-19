@@ -27,6 +27,7 @@ export const MICRO_VARIANTS: Partial<Record<LevelId, { id: string; label: string
   molecula: [
     { id: 'bomba', label: 'Bomba Na⁺/K⁺' },
     { id: 'canales', label: 'Canales y potencial de acción' },
+    { id: 'saltatoria', label: 'Conducción saltatoria' },
     { id: 'reposo', label: 'Gradientes en reposo' },
   ],
 };

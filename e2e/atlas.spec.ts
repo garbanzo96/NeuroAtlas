@@ -178,3 +178,8 @@ test('el ciclo y la variante seleccionada caben en pantalla móvil', async ({ pa
   const bar = await page.locator('.na-microbar').boundingBox();
   expect(panel && bar && panel.y + panel.height <= bar.y).toBeTruthy();
 });
+
+test('abre la conducción saltatoria', async ({ page }) => {
+  await page.goto('/?n=molecula&var=saltatoria');
+  await expect(page.getByText('Nodo de Ranvier', { exact: true })).toBeVisible();
+});
