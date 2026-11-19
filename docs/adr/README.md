@@ -17,5 +17,6 @@ aceptada solo se cambia con un ADR nuevo que la sustituya (no se reescribe la an
 | [0010](0010-distribucion-y-ejecucion.md)       | Distribución y ejecución: GitHub Pages, Codespaces y vista previa en claude.ai | Aceptada |
 | [0011](0011-atlas-multiescala.md)              | Atlas multiescala holográfico como portada                                     | Aceptada |
 | [0012](0012-datos-de-autor-del-atlas.md)       | Datos de autor del atlas: circuitos, capas, recorridos y vínculos              | Aceptada |
+| [0013](0013-morfologias-neuromorpho.md)        | Morfologías neuronales reales desde NeuroMorpho.Org (CC BY 4.0)                | Aceptada |
 
 Plantilla: [template.md](template.md).
