@@ -77,9 +77,9 @@ function Cell({ data, excitable }: { data: Morphology; excitable: boolean }) {
       depthWrite: false,
       blending: THREE.AdditiveBlending,
       side: THREE.DoubleSide,
-      uniforms: { wave: { value: -100 }, active: { value: 0 } },
+      uniforms: { wave: { value: -100 }, uActive: { value: 0 } },
       vertexShader: `attribute float pathDistance; attribute float branchType; varying float d; varying float kind; varying vec3 n; varying vec3 eye; void main(){d=pathDistance;kind=branchType;vec4 w=modelMatrix*vec4(position,1.);n=normalize(mat3(modelMatrix)*normal);eye=cameraPosition-w.xyz;gl_Position=projectionMatrix*viewMatrix*w;}`,
-      fragmentShader: `uniform float wave; uniform float active; varying float d; varying float kind; varying vec3 n; varying vec3 eye; void main(){float rim=pow(1.-abs(dot(normalize(n),normalize(eye))),2.); bool ax=kind>1.5&&kind<2.5; vec3 col=ax?vec3(1.,.58,.22):(kind>3.5&&kind<4.5?vec3(.35,.8,1.):vec3(.12,.5,.85)); float speed=ax?1.:.48; float x=wave*speed-d; float pulse=active*exp(-abs(x)/(ax?24.:40.))*step(0.,x+8.)*(ax?1.8:.8)*exp(-d/3000.); float a=.16+.5*rim+pulse; gl_FragColor=vec4(col*a+vec3(pulse*.55),a);}`,
+      fragmentShader: `uniform float wave; uniform float uActive; varying float d; varying float kind; varying vec3 n; varying vec3 eye; void main(){float rim=pow(1.-abs(dot(normalize(n),normalize(eye))),2.); bool ax=kind>1.5&&kind<2.5; vec3 col=ax?vec3(1.,.58,.22):(kind>3.5&&kind<4.5?vec3(.35,.8,1.):vec3(.12,.5,.85)); float speed=ax?1.:.48; float x=wave*speed-d; float pulse=uActive*exp(-abs(x)/(ax?24.:40.))*step(0.,x+8.)*(ax?1.8:.8)*exp(-d/3000.); float a=.16+.5*rim+pulse; gl_FragColor=vec4(col*a+vec3(pulse*.55),a);}`,
     });
     const si = Math.max(
       0,
@@ -108,7 +108,7 @@ function Cell({ data, excitable }: { data: Morphology; excitable: boolean }) {
     }
     clock.current.previous = voltage;
     material.uniforms.wave!.value = (t - clock.current.start) * 800;
-    material.uniforms.active!.value = reduced || !excitable ? 0 : 1;
+    material.uniforms.uActive!.value = reduced || !excitable ? 0 : 1;
   });
   return (
     <>
@@ -125,12 +125,12 @@ function Cell({ data, excitable }: { data: Morphology; excitable: boolean }) {
           />
         </mesh>
       </group>
-      <mesh position={[-6 + 50 * scale, -9, 0]}>
+      <mesh position={[-6 + 50 * scale, -7.4, 0]}>
         <boxGeometry args={[100 * scale, 0.025, 0.025]} />
         <meshBasicMaterial color="#a9dcff" />
       </mesh>
-      <Html position={[-6, -9.3, 0]} className="na-scene-tag">
-        100 µm
+      <Html position={[-6, -7.7, 0]} className="na-scene-tag" zIndexRange={[5, 0]}>
+        <span className="na-unit">100 µm</span>
         {excitable && (
           <>
             <br />
