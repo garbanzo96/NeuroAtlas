@@ -16,11 +16,11 @@ const LOOKS: Record<LayerId, HoloLook> = {
   arterias: { color: '#6a8cff', fill: 0.05, rim: 0.4 },
   nervios: { color: '#86d6ff', fill: 0.22, rim: 0.65 },
   medula: { color: '#8fcfff', fill: 0.1, rim: 0.6 },
-  corteza: { color: '#3a86ff', fill: 0.012, rim: 0.36, power: 2.3 },
-  blanca: { color: '#5a96ff', fill: 0.015, rim: 0.22 },
-  nucleos: { color: '#7ab6ff', fill: 0.085, rim: 0.55 },
+  corteza: { color: '#3d8cff', fill: 0.012, rim: 0.62, power: 3.2 },
+  blanca: { color: '#5a96ff', fill: 0.01, rim: 0.14 },
+  nucleos: { color: '#8fdcff', fill: 0.075, rim: 0.6, power: 2.6 },
   tronco: { color: '#5ca4ff', fill: 0.05, rim: 0.45 },
-  cerebelo: { color: '#4b8dff', fill: 0.025, rim: 0.38 },
+  cerebelo: { color: '#4b8dff', fill: 0.02, rim: 0.5, power: 3 },
   ventriculos: { color: '#6fe0ff', fill: 0.09, rim: 0.5 },
 };
 

@@ -338,7 +338,7 @@ export function Stage({
         <Bloom
           mipmapBlur
           intensity={0.95}
-          luminanceThreshold={0.08}
+          luminanceThreshold={0.12}
           luminanceSmoothing={0.3}
           radius={0.72}
         />

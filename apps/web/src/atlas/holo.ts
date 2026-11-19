@@ -37,6 +37,7 @@ const fragmentShader = /* glsl */ `
   uniform float uDim;
   uniform float uNear;
   uniform float uTime;
+  uniform float uBack;
   varying vec3 vN;
   varying vec3 vV;
   varying vec3 vW;
@@ -50,11 +51,12 @@ const fragmentShader = /* glsl */ `
     // pelado por proximidad: lo que queda pegado a la cámara se apaga
     float prox = smoothstep(uNear, uNear * 2.4, d);
     // respiración lenta de la luz a lo largo del eje rostrocaudal
-    float shimmer = 0.88 + 0.12 * sin(vW.z * 0.9 + vW.y * 0.6 - uTime * 1.1);
+    float shimmer = 0.94 + 0.06 * sin(vW.z * 0.9 + vW.y * 0.6 - uTime * 1.1);
     float heat = uHover * 0.6 + uSelect;
     vec3 col = mix(uColor, uHot, clamp(heat, 0.0, 1.0));
     float a = (uFill * (1.0 + heat * 2.2) + fres * uRim * (1.0 + heat * 0.9)) * shimmer;
-    a *= uVisible * prox * (1.0 - uDim * 0.82);
+    // la cara trasera se atenúa: sin esto, los surcos del lado lejano se superponen a los del cercano
+    a *= (gl_FrontFacing ? 1.0 : uBack) * uVisible * prox * (1.0 - uDim * 0.82);
     a = clamp(a, 0.0, 4.0);
     gl_FragColor = vec4(col * a, a);
   }
@@ -72,7 +74,8 @@ export type HoloMaterial = THREE.ShaderMaterial & {
     | 'uVisible'
     | 'uDim'
     | 'uNear'
-    | 'uTime',
+    | 'uTime'
+    | 'uBack',
     THREE.IUniform
   >;
 };
@@ -97,6 +100,7 @@ export function holoMaterial(look: HoloLook): HoloMaterial {
       uDim: { value: 0 },
       uNear: { value: 2 },
       uTime: { value: 0 },
+      uBack: { value: 0.35 },
     },
   }) as HoloMaterial;
 }

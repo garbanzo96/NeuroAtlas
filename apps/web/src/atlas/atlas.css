@@ -513,6 +513,39 @@ body,
   z-index: 15;
   animation: na-rise 0.5s var(--na-ease);
 }
+.na-dock summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  list-style: none;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--na-fg2);
+}
+.na-dock summary::-webkit-details-marker {
+  display: none;
+}
+.na-dock summary::after {
+  content: '▾';
+  margin-left: 8px;
+  color: var(--na-fg3);
+  transition: transform 0.2s var(--na-ease);
+}
+.na-dock:not([open]) summary::after {
+  transform: rotate(-90deg);
+}
+.na-dock summary span {
+  margin-left: auto;
+  font: 11px var(--na-font-mono);
+  color: var(--na-acc);
+}
+.na-dock[open] summary {
+  margin-bottom: 10px;
+}
+.na-dock[open] summary span {
+  visibility: hidden;
+}
 @keyframes na-rise {
   from {
     opacity: 0;

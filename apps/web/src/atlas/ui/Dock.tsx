@@ -12,7 +12,11 @@ export function Dock() {
   const visible =
     level === 'sistema' ? LAYERS : LAYERS.filter((l) => !['piel', 'visceras'].includes(l.id));
   return (
-    <section className="na-dock" aria-label="Capas">
+    // plegable: en pantallas bajas el panel tapaba la escala; parte cerrado si no cabe junto a ella
+    <details className="na-dock" open={window.innerHeight > 820}>
+      <summary>
+        Capas <span>{PEEL_LABELS[peel]}</span>
+      </summary>
       <div className="na-peel">
         <label htmlFor="na-peel">
           Pelar capas <output>{PEEL_LABELS[peel]}</output>
@@ -41,6 +45,6 @@ export function Dock() {
           </button>
         ))}
       </div>
-    </section>
+    </details>
   );
 }
