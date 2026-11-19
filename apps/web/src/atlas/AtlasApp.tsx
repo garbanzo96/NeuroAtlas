@@ -101,6 +101,7 @@ export function AtlasApp() {
   const [tours, setTours] = useState<Tour[]>([]);
   const [course, setCourse] = useState<Course | null>(null);
   const [learn, setLearn] = useState<'index' | 'course' | null>(null);
+  const [exploring, setExploring] = useState(false);
   const [credits, setCredits] = useState(false);
   const cameraPose = useRef<(() => CameraCommand | null) | null>(null);
   const labRef = useRef<string | null>(null);
@@ -112,14 +113,30 @@ export function AtlasApp() {
     let unsubscribe = () => {};
     let timer: number | undefined;
     let cancelled = false;
-    Promise.all([fetch(assetUrl('tours.json')).then((r) => { if (!r.ok) throw new Error('No se pudieron cargar los recorridos'); return r.json() as Promise<{ tours: Tour[] }>; }), fetch(assetUrl('course.json')).then((r) => { if (!r.ok) throw new Error('No se pudo cargar el curso'); return r.json() as Promise<Course>; })]).then(([t, c]) => {
-      if (cancelled) return;
-      setTours(t.tours); setCourse(c);
-      const q = new URLSearchParams(location.search);
-      const tour = t.tours.find((item) => item.id === q.get('recorrido'));
-      const step = Number(q.get('etapa')) - 1;
-      if (tour) useAtlas.getState().setTour({ id: tour.id, step: Number.isInteger(step) && step >= 0 && step < tour.steps.length ? step : 0 });
-    }).catch((e: unknown) => setError(e instanceof Error ? e.message : String(e)));
+    Promise.all([
+      fetch(assetUrl('tours.json')).then((r) => {
+        if (!r.ok) throw new Error('No se pudieron cargar los recorridos');
+        return r.json() as Promise<{ tours: Tour[] }>;
+      }),
+      fetch(assetUrl('course.json')).then((r) => {
+        if (!r.ok) throw new Error('No se pudo cargar el curso');
+        return r.json() as Promise<Course>;
+      }),
+    ])
+      .then(([t, c]) => {
+        if (cancelled) return;
+        setTours(t.tours);
+        setCourse(c);
+        const q = new URLSearchParams(location.search);
+        const tour = t.tours.find((item) => item.id === q.get('recorrido'));
+        const step = Number(q.get('etapa')) - 1;
+        if (tour)
+          useAtlas.getState().setTour({
+            id: tour.id,
+            step: Number.isInteger(step) && step >= 0 && step < tour.steps.length ? step : 0,
+          });
+      })
+      .catch((e: unknown) => setError(e instanceof Error ? e.message : String(e)));
     loadAtlasData()
       .then((d) => {
         if (cancelled) return;
@@ -194,7 +211,23 @@ export function AtlasApp() {
         </a>
         {data && <Search />}
         <nav className="na-actions" aria-label="Herramientas">
-          <button type="button" aria-pressed={!!learn || !!tourState} onClick={() => setLearn(learn ? null : 'index')}>Aprender</button>
+          <button
+            type="button"
+            aria-pressed={!!learn || !!tourState}
+            onClick={() => {
+              if (tourState) {
+                useAtlas.getState().setTour(null);
+                const url = new URL(location.href);
+                url.searchParams.delete('recorrido');
+                url.searchParams.delete('etapa');
+                history.replaceState(history.state, '', url);
+                setExploring(false);
+              }
+              setLearn(learn ? null : 'index');
+            }}
+          >
+            Aprender
+          </button>
           <button
             type="button"
             aria-pressed={vias || !!pathway || !!circuit}
@@ -228,10 +261,32 @@ export function AtlasApp() {
       )}
       {micro && <MicroBar />}
       {data && !tourState && <PathwayPanel open={vias} onClose={() => setVias(false)} />}
-      {!tourState && <InfoSheet />}
-      {data && learn === 'index' && <TourIndex tours={tours} onClose={() => setLearn(null)} onCourse={() => setLearn('course')} onStart={(tour) => { setLearn(null); useAtlas.getState().setTour({ id: tour.id, step: 0 }); }} />}
-      {data && learn === 'course' && course && <CourseReader course={course} onClose={() => setLearn(null)} onBack={() => setLearn('index')} />}
-      {data && tourState && tours.find((t) => t.id === tourState.id) && <TourPlayer tour={tours.find((t) => t.id === tourState.id)!} />}
+      {(!tourState || exploring) && <InfoSheet />}
+      {data && learn === 'index' && (
+        <TourIndex
+          tours={tours}
+          onClose={() => setLearn(null)}
+          onCourse={() => setLearn('course')}
+          onStart={(tour) => {
+            setLearn(null);
+            useAtlas.getState().setTour({ id: tour.id, step: 0 });
+          }}
+        />
+      )}
+      {data && learn === 'course' && course && (
+        <CourseReader
+          course={course}
+          onClose={() => setLearn(null)}
+          onBack={() => setLearn('index')}
+        />
+      )}
+      {data && tourState && tours.find((t) => t.id === tourState.id) && (
+        <TourPlayer
+          tour={tours.find((t) => t.id === tourState.id)!}
+          exploring={exploring}
+          onExplore={setExploring}
+        />
+      )}
       {credits && <Credits onClose={() => setCredits(false)} />}
       {lab && (
         <Suspense fallback={null}>

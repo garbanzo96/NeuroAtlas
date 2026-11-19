@@ -70,7 +70,7 @@
           "d": "Las áreas corticales motoras participan en la preparación y ejecución del movimiento junto con otras redes. Aquí partimos por la corteza.",
           "view": {
             "level": "areas",
-            "select": "precentral_gyrus_L"
+            "select": "primary_motor_cortex_L"
           }
         },
         {
