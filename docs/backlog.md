@@ -90,7 +90,8 @@ Cada WP es un encargo acotado y verificable. Los marcados con 📄 tienen especi
 | WP-068          | Sistemas de neurotransmisores                                                              | Codex    | WP-061         | hecho     |
 | WP-069 📄       | [Galería de neuronas reales y potencial de acción sobre su forma](work-packages/WP-069.md) | Codex    | WP-067         | hecho     |
 | WP-070 📄       | [Ciclo de vida de los neurotransmisores en la sinapsis](work-packages/WP-070.md)           | Codex    | WP-068         | en curso  |
-| WP-066, 071–084 | Evaluación, microcircuitos canónicos, moléculas, arte (ver plan §8.3)                      | varios   | —              | pendiente |
+| WP-071 📄       | [Microcircuitos canónicos con células reales](work-packages/WP-071.md)                     | Codex    | WP-069         | en curso  |
+| WP-066, 072–084 | Evaluación, moléculas, arte (ver plan §8.3)                                                | varios   | —              | pendiente |
 
 ## Expansión (fase 4, tras el piloto)
 
