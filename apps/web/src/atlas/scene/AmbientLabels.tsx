@@ -1,5 +1,6 @@
 import { Html } from '@react-three/drei';
-import { useMemo } from 'react';
+import { useFrame, useThree } from '@react-three/fiber';
+import { useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { type AtlasData, baseKey, findMesh } from '../data';
 import { useAtlas } from '../store';
@@ -70,11 +71,41 @@ export function AmbientLabels({ data }: { data: AtlasData }) {
         : level === 'sistema' && !hasPanel
           ? landmarks
           : [];
+  const spans = useRef<(HTMLSpanElement | null)[]>([]);
+  const camera = useThree((s) => s.camera);
+  const size = useThree((s) => s.size);
+  const tmp = useMemo(() => new THREE.Vector3(), []);
+  // despeje en pantalla: los rótulos cuyos cuadros se tocan bajan lo justo para no pisarse
+  useFrame(() => {
+    const boxes = items.map((it, i) => {
+      tmp.copy(it.pos).project(camera);
+      const w = it.name.length * 8.6;
+      return {
+        i,
+        x: (tmp.x * 0.5 + 0.5) * size.width,
+        y: (-tmp.y * 0.5 + 0.5) * size.height,
+        w,
+        dy: 0,
+      };
+    });
+    boxes.sort((a, b) => a.y - b.y);
+    boxes.forEach((b, k) => {
+      for (const o of boxes.slice(0, k)) {
+        const yo = o.y + o.dy;
+        if (Math.abs(b.x - o.x) < (b.w + o.w) / 2 + 6 && b.y + b.dy < yo + 15) b.dy = yo + 15 - b.y;
+      }
+      const el = spans.current[b.i];
+      const t = b.dy ? `translateY(${Math.round(b.dy)}px)` : '';
+      if (el && el.style.transform !== t) el.style.transform = t;
+    });
+  });
   return (
     <>
-      {items.map((it) => (
+      {items.map((it, i) => (
         <Html key={it.key} position={it.pos} center zIndexRange={[5, 0]} pointerEvents="none">
-          <span className="na-ambient">{it.name}</span>
+          <span className="na-ambient" ref={(el) => void (spans.current[i] = el)}>
+            {it.name}
+          </span>
         </Html>
       ))}
     </>
