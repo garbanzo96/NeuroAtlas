@@ -13,6 +13,7 @@ export const MICRO_VARIANTS: Partial<Record<LevelId, { id: string; label: string
     { id: 'inhibitoria', label: 'GABAérgica' },
     { id: 'electrica', label: 'Sinapsis eléctrica' },
     { id: 'plasticidad', label: 'Plasticidad a corto plazo' },
+    { id: 'transmisores', label: 'Neurotransmisores' },
   ],
   neurona: [
     { id: 'piramidal', label: 'Neurona piramidal' },

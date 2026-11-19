@@ -144,3 +144,13 @@ test('recorrido completo, exploración y enlace de paso', async ({ page }) => {
   await expect(player).toHaveCount(0);
   expect(new URL(page.url()).searchParams.has('recorrido')).toBe(false);
 });
+
+test('recorre el ciclo de la dopamina', async ({ page }) => {
+  await page.goto('/?n=sinapsis&var=transmisores');
+  const cycle = page.getByRole('region', { name: 'Ciclo del neurotransmisor' });
+  await cycle.getByLabel('Neurotransmisor').selectOption('dopamina');
+  await cycle.getByRole('button', { name: 'Fármacos' }).click();
+  await expect(cycle).toContainText('Cocaína');
+  await expect.poll(() => new URL(page.url()).searchParams.get('transmisor')).toBe('dopamina');
+  await expect.poll(() => new URL(page.url()).searchParams.get('etapa_nt')).toBe('6');
+});

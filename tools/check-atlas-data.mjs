@@ -150,6 +150,36 @@ if (overlays) {
   }
 }
 
+const transmitters = load('transmitters.json');
+if (transmitters) {
+  header('transmitters', transmitters);
+  only(transmitters, ['status', 'transmitters'], 'transmitters');
+  const ids = new Set();
+  if (!Array.isArray(transmitters.transmitters) || transmitters.transmitters.length !== 8)
+    fail('transmitters.transmitters', 'se requieren ocho transmisores');
+  for (const t of transmitters.transmitters ?? []) {
+    const at = `transmitters.${t.id}`;
+    only(t, ['id', 'name', 'color', 'vesicular', 'steps', 'drugs'], at);
+    for (const k of ['id', 'name', 'color', 'vesicular']) text(t, k, at);
+    if (ids.has(t.id)) fail(at, 'id duplicado');
+    ids.add(t.id);
+    if (!/^#[0-9a-f]{6}$/i.test(t.color)) fail(`${at}.color`, 'color inválido');
+    for (const [key, length] of [
+      ['steps', 6],
+      ['drugs', 2],
+    ]) {
+      if (
+        !Array.isArray(t[key]) ||
+        (key === 'steps'
+          ? t[key].length !== length
+          : t[key].length < length || t[key].length > 4) ||
+        t[key].some((v) => typeof v !== 'string' || !v.trim())
+      )
+        fail(`${at}.${key}`, 'lista inválida');
+    }
+  }
+}
+
 // Curso importado: valida estructura, marcas y vistas sin aceptar HTML.
 const variants = {
   circuito: ['columna', 'microcircuito', 'oscilacion', 'red'],
@@ -162,7 +192,7 @@ const variants = {
     'bipolar',
     'pseudounipolar',
   ],
-  sinapsis: ['quimica', 'inhibitoria', 'electrica', 'plasticidad'],
+  sinapsis: ['quimica', 'inhibitoria', 'electrica', 'plasticidad', 'transmisores'],
   molecula: ['bomba', 'canales', 'reposo'],
 };
 const validateView = (v, path) => {

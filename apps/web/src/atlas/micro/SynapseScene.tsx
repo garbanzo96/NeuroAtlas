@@ -1,4 +1,5 @@
 import { read } from '../signals';
+import TransmitterScene from './TransmitterScene';
 import { approach } from '../holo';
 import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
@@ -333,7 +334,13 @@ export default function SynapseScene() {
   const variant = useAtlas((s) => s.variant) ?? 'quimica';
   return (
     <group>
-      {variant === 'electrica' ? <Electrical /> : <Chemical variant={variant} />}{' '}
+      {variant === 'transmisores' ? (
+        <TransmitterScene />
+      ) : variant === 'electrica' ? (
+        <Electrical />
+      ) : (
+        <Chemical variant={variant} />
+      )}{' '}
       {variant === 'plasticidad' && <Bars />}
       <Html zIndexRange={[5, 0]} position={[0, 5.35, 0]} center>
         <span className="na-scene-tag">

@@ -164,3 +164,12 @@ export function resolvePoint(data: AtlasData, p: PathPoint): THREE.Vector3 | nul
     m.mn[2] + p.f[2] * (m.mx[2] - m.mn[2]),
   );
 }
+
+export interface Transmitter {
+  id: string;
+  name: string;
+  color: string;
+  vesicular: string;
+  steps: string[];
+  drugs: string[];
+}

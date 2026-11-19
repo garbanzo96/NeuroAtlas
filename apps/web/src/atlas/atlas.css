@@ -1838,3 +1838,45 @@ body,
     width: auto;
   }
 }
+
+.na-transmitter {
+  position: absolute;
+  z-index: 5;
+  left: 1rem;
+  bottom: 5.5rem;
+  width: min(34rem, calc(100vw - 2rem));
+  padding: 1rem;
+  background: rgba(5, 20, 38, 0.94);
+  border: 1px solid rgba(113, 194, 255, 0.35);
+  color: #d9eeff;
+}
+.na-transmitter label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.na-transmitter select,
+.na-transmitter button {
+  color: inherit;
+  background: #102d47;
+  border: 1px solid #4c7996;
+  padding: 0.4rem 0.65rem;
+}
+.na-transmitter button[aria-current='step'] {
+  background: #2d6284;
+  border-color: #a4e5ff;
+}
+.na-transmitter button:disabled {
+  opacity: 0.45;
+}
+.na-transmitter__steps,
+.na-transmitter__navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.65rem;
+}
+.na-transmitter p {
+  margin: 0.65rem 0 0;
+  line-height: 1.45;
+}
