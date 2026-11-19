@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { loadNeurons, type NeuronRecord } from '../data';
+import { loadNeurons, loadMicrocircuits, type Microcircuit, type NeuronRecord } from '../data';
 import { MICRO_VARIANTS } from '../micro/variants';
 import { useAtlas } from '../store';
 
@@ -8,6 +8,12 @@ export function MicroBar() {
   const level = useAtlas((s) => s.level);
   const variant = useAtlas((s) => s.variant);
   const setVariant = useAtlas((s) => s.setVariant);
+  const run = useAtlas((s) => s.circuitRun);
+  const runCircuit = useAtlas((s) => s.runCircuit);
+  const [circuits, setCircuits] = useState<Microcircuit[]>([]);
+  useEffect(() => {
+    if (level === 'circuito') void loadMicrocircuits().then(setCircuits);
+  }, [level]);
   const [neurons, setNeurons] = useState<NeuronRecord[]>([]);
   useEffect(() => {
     if (level === 'neurona') void loadNeurons().then(setNeurons);
@@ -15,6 +21,63 @@ export function MicroBar() {
   const list = MICRO_VARIANTS[level];
   if (!list?.length) return null;
   const current = variant ?? list[0]!.id;
+  const circuit = level === 'circuito' ? circuits.find((c) => c.id === current) : undefined;
+  if (level === 'circuito')
+    return (
+      <div className="na-microbar na-microbar--circuits">
+        <label htmlFor="na-circuit-variant">Circuito</label>
+        <select
+          id="na-circuit-variant"
+          value={current}
+          onChange={(e) => setVariant(e.target.value)}
+        >
+          {list.map((v) => (
+            <option key={v.id} value={v.id}>
+              {v.label}
+            </option>
+          ))}
+        </select>
+        {circuit && (
+          <div className="na-micro-controls">
+            <span>Escenarios</span>
+            {circuit.scenarios.map((sc) => (
+              <button
+                key={sc.id}
+                type="button"
+                aria-pressed={run?.scenario === sc.id}
+                onClick={() => runCircuit(sc.id, run?.lesions ?? [])}
+              >
+                {sc.name}
+              </button>
+            ))}
+            <label htmlFor="na-lesion">Silenciar</label>
+            <select
+              id="na-lesion"
+              value={run?.lesions[0] ?? ''}
+              onChange={(e) =>
+                runCircuit(
+                  run?.scenario ?? circuit.scenarios[0]!.id,
+                  e.target.value ? [e.target.value] : [],
+                )
+              }
+            >
+              <option value="">Ninguna clase</option>
+              {circuit.cells.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+            {run && circuit.scenarios.some((sc) => sc.id === run.scenario) && (
+              <span role="status">
+                {circuit.scenarios.find((sc) => sc.id === run.scenario)?.name}
+              </span>
+            )}
+            <small>Verde: excitación · magenta: inhibición. Pesos didácticos.</small>
+          </div>
+        )}
+      </div>
+    );
   if (level === 'neurona')
     return (
       <div className="na-microbar">

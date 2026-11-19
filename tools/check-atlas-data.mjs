@@ -71,6 +71,77 @@ if (neuronIndex) {
   if (ids.size !== 19) fail('neurons', 'se esperan 19 células');
 }
 
+const microcircuits = load('microcircuits.json');
+if (microcircuits) {
+  header('microcircuits', microcircuits);
+  only(microcircuits, ['status', 'circuits'], 'microcircuits');
+  const ids = new Set();
+  const morphologyIds = new Set((neuronIndex?.neurons ?? []).map((n) => n.id));
+  if (microcircuits.circuits?.length !== 5) fail('microcircuits', 'se esperan cinco circuitos');
+  for (const c of microcircuits.circuits ?? []) {
+    const at = `microcircuits.${c.id}`;
+    only(c, ['id', 'name', 'compute', 'flow', 'layers', 'cells', 'edges', 'scenarios'], at);
+    for (const k of ['id', 'name', 'compute', 'flow']) text(c, k, at);
+    if (ids.has(c.id)) fail(at, 'id duplicado');
+    ids.add(c.id);
+    if (
+      !Array.isArray(c.layers) ||
+      !c.layers.length ||
+      c.layers.some((x) => typeof x !== 'string' || !x.trim())
+    )
+      fail(`${at}.layers`, 'capas inválidas');
+    const nodes = new Set();
+    for (const cell of c.cells ?? []) {
+      const cp = `${at}.cells.${cell.id}`;
+      only(cell, ['id', 'name', 'morphology', 'schematic', 'position', 'rotation', 'scale'], cp);
+      text(cell, 'id', cp);
+      text(cell, 'name', cp);
+      if (nodes.has(cell.id)) fail(cp, 'id duplicado');
+      nodes.add(cell.id);
+      if (
+        (!cell.morphology && cell.schematic !== true) ||
+        (cell.morphology && !morphologyIds.has(cell.morphology))
+      )
+        fail(cp, 'morfología o esquema inválido');
+      for (const key of ['position', 'rotation'])
+        if (
+          !Array.isArray(cell[key]) ||
+          cell[key].length !== 3 ||
+          !cell[key].every(Number.isFinite)
+        )
+          fail(`${cp}.${key}`, 'vector inválido');
+      if (!(cell.scale > 0) || !Number.isFinite(cell.scale)) fail(`${cp}.scale`, 'escala inválida');
+    }
+    for (const e of c.edges ?? []) {
+      if (
+        !nodes.has(e.from) ||
+        !nodes.has(e.to) ||
+        !['exc', 'inh'].includes(e.sign) ||
+        !(e.delay > 0) ||
+        !(e.w >= 0) ||
+        !Number.isFinite(e.w)
+      )
+        fail(`${at}.edges`, 'arista inválida');
+    }
+    if (c.scenarios?.length < 2 || c.scenarios?.length > 3)
+      fail(`${at}.scenarios`, 'se esperan dos o tres escenarios');
+    const scenarios = new Set();
+    for (const sc of c.scenarios ?? []) {
+      for (const k of ['id', 'name', 'look']) text(sc, k, `${at}.scenarios`);
+      if (scenarios.has(sc.id)) fail(`${at}.scenarios`, 'id duplicado');
+      scenarios.add(sc.id);
+      for (const st of sc.stim ?? [])
+        if (
+          !nodes.has(st.node) ||
+          !Number.isFinite(st.at) ||
+          !Number.isFinite(st.amp) ||
+          !(st.dur > 0)
+        )
+          fail(`${at}.scenarios.${sc.id}`, 'estímulo inválido');
+    }
+  }
+}
+
 const circuits = load('circuits.json');
 const circuitIds = new Set();
 if (circuits) {
@@ -178,7 +249,17 @@ if (overlays) {
 
 // Curso importado: valida estructura, marcas y vistas sin aceptar HTML.
 const variants = {
-  circuito: ['columna', 'microcircuito', 'oscilacion', 'red'],
+  circuito: [
+    'columna',
+    'microcircuito',
+    'oscilacion',
+    'red',
+    'neocortical',
+    'cerebelo',
+    'hipocampo',
+    'medula',
+    'retina',
+  ],
   neurona: [
     'piramidal',
     'purkinje',

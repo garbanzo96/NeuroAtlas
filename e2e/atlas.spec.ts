@@ -152,3 +152,9 @@ test('muestra especie y cita de la reconstrucción de Purkinje', async ({ page }
   await expect(sheet.getByText('NeuroMorpho.Org', { exact: true })).toBeVisible();
   await expect(sheet.getByText(/Tecuatl, Ljungquist y Ascoli/)).toBeVisible();
 });
+
+test('el microcircuito cerebeloso inicia un escenario', async ({ page }) => {
+  await page.goto('/?n=circuito&var=cerebelo');
+  await page.getByRole('button', { name: 'Fibra trepadora', exact: true }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'Fibra trepadora' })).toBeVisible();
+});

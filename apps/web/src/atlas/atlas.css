@@ -1854,3 +1854,23 @@ body,
   color: #eaf6ff;
   font: inherit;
 }
+
+.na-microbar--circuits {
+  flex-wrap: wrap;
+  max-width: min(760px, 90vw);
+}
+.na-micro-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  width: 100%;
+}
+.na-micro-controls small {
+  flex-basis: 100%;
+  color: #a9bddb;
+}
+.na-micro-controls button[aria-pressed='true'] {
+  background: #244e75;
+  color: #fff;
+}
