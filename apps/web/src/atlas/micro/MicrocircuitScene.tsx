@@ -137,9 +137,9 @@ function Morphology({ geometry }: { geometry: THREE.BufferGeometry }) {
         transparent: true,
         depthWrite: false,
         blending: THREE.AdditiveBlending,
-        uniforms: { wave: { value: -100 }, active: { value: 0 } },
+        uniforms: { wave: { value: -100 }, uActive: { value: 0 } },
         vertexShader: `attribute float pathDistance; attribute float branchType; varying float d; varying float kind; void main(){d=pathDistance;kind=branchType;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
-        fragmentShader: `uniform float wave; uniform float active; varying float d; varying float kind; void main(){float pulse=active*exp(-abs(wave-d)/35.)*step(1.5,kind)*step(kind,2.5); vec3 col=vec3(.2,.55,.85)*.55+vec3(.8,.95,1.)*pulse;gl_FragColor=vec4(col,.55+pulse);}`,
+        fragmentShader: `uniform float wave; uniform float uActive; varying float d; varying float kind; void main(){float pulse=uActive*exp(-abs(wave-d)/35.)*step(1.5,kind)*step(kind,2.5); vec3 col=vec3(.2,.55,.85)*.55+vec3(.8,.95,1.)*pulse;gl_FragColor=vec4(col,.55+pulse);}`,
       }),
     [],
   );
@@ -210,7 +210,7 @@ function Circuit({ circuit }: { circuit: Microcircuit }) {
         if (morph) {
           const shader = morph.material as THREE.ShaderMaterial;
           shader.uniforms.wave!.value = phase * 3000;
-          shader.uniforms.active!.value = reduced || !scenario ? 0 : rate;
+          shader.uniforms.uActive!.value = reduced || !scenario ? 0 : rate;
         }
       }
     });
