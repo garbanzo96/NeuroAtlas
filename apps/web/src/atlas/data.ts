@@ -164,3 +164,32 @@ export function resolvePoint(data: AtlasData, p: PathPoint): THREE.Vector3 | nul
     m.mn[2] + p.f[2] * (m.mx[2] - m.mn[2]),
   );
 }
+
+export interface NeuronRecord {
+  id: string;
+  name: string;
+  group: string;
+  species: string;
+  region: string;
+  integrity: string;
+  hasAxon: boolean;
+  length: number;
+  branches: number;
+  doi: string[];
+  pmid: string[];
+  url: string;
+  nature: 'data';
+  description: string;
+  status: string;
+}
+
+let neuronsPromise: Promise<NeuronRecord[]> | null = null;
+export function loadNeurons(): Promise<NeuronRecord[]> {
+  neuronsPromise ??= fetch(assetUrl('neurons/index.json'))
+    .then((r) => {
+      if (!r.ok) throw new Error('No se pudo cargar la galería');
+      return r.json() as Promise<{ neurons: NeuronRecord[] }>;
+    })
+    .then((data) => data.neurons);
+  return neuronsPromise;
+}

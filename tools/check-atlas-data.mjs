@@ -45,6 +45,32 @@ const header = (file, doc) => {
   if (doc.status !== DRAFT) fail(`${file}.status`, `debe ser «${DRAFT}»`);
 };
 
+const neuronIndex = load('neurons/index.json');
+if (neuronIndex) {
+  const ids = new Set();
+  for (const n of neuronIndex.neurons ?? []) {
+    for (const key of [
+      'id',
+      'name',
+      'group',
+      'species',
+      'region',
+      'integrity',
+      'url',
+      'description',
+    ])
+      text(n, key, `neurons.${n.id}`);
+    if (ids.has(n.id)) fail(`neurons.${n.id}`, 'id duplicado');
+    ids.add(n.id);
+    if (n.status !== DRAFT || n.nature !== 'data')
+      fail(`neurons.${n.id}`, 'estado o naturaleza inválida');
+    if (!n.doi?.length && !n.pmid?.length) fail(`neurons.${n.id}`, 'falta cita original');
+    if (!/^[a-z0-9-]+$/.test(n.id) || !existsSync(new URL(`neurons/${n.id}.json`, dir)))
+      fail(`neurons.${n.id}`, 'archivo inexistente');
+  }
+  if (ids.size !== 19) fail('neurons', 'se esperan 19 células');
+}
+
 const circuits = load('circuits.json');
 const circuitIds = new Set();
 if (circuits) {

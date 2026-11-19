@@ -16,10 +16,10 @@ export const MICRO_VARIANTS: Partial<Record<LevelId, { id: string; label: string
   ],
   neurona: [
     { id: 'piramidal', label: 'Neurona piramidal' },
-    { id: 'purkinje', label: 'Célula de Purkinje' },
+    { id: 'esquema-purkinje', label: 'Célula de Purkinje' },
     { id: 'estrellada', label: 'Estrellada espinosa' },
     { id: 'cesta', label: 'Célula en cesta' },
-    { id: 'motoneurona', label: 'Motoneurona α' },
+    { id: 'esquema-motoneurona', label: 'Motoneurona α' },
     { id: 'bipolar', label: 'Bipolar de retina' },
     { id: 'pseudounipolar', label: 'Ganglio de la raíz dorsal' },
   ],

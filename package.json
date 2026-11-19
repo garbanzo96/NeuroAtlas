@@ -30,7 +30,8 @@
     "test:watch": "vitest",
     "e2e": "npm run build && playwright test",
     "check": "npm run format:check && npm run lint && npm run typecheck && npm run boundaries && npm run validate && npm run atlas:check && npm run test && npm run build",
-    "atlas:check": "node tools/check-levels.mjs && node tools/check-atlas-data.mjs"
+    "atlas:check": "node tools/check-levels.mjs && node tools/check-atlas-data.mjs",
+    "atlas:neurons": "node tools/import-neuromorpho.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
