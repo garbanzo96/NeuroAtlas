@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { assetUrl, baseKey, sideOf } from '../data';
+import { assetUrl, baseKey, sideOf, loadNeurons, type NeuronRecord } from '../data';
 import { builtinOverlays } from '../overlays';
 import { LEVELS } from '../levels';
 import { useAtlas } from '../store';
@@ -139,11 +139,63 @@ function StructureSheet({ name }: { name: string }) {
   );
 }
 
+function NeuronSheet({ neuron }: { neuron: NeuronRecord }) {
+  return (
+    <article className="na-sheet__body">
+      <p className="na-kicker">Morfología reconstruida · {neuron.group}</p>
+      <h2 className="na-sheet__title">{neuron.name}</h2>
+      <div className="na-chips">
+        <span className="na-chip">{neuron.species}</span>
+        <span className="na-chip">{neuron.region}</span>
+      </div>
+      <p className="na-lead">{neuron.description}</p>
+      <p>
+        Integridad: {neuron.integrity}. Longitud total: {neuron.length} µm · {neuron.branches}{' '}
+        ramificaciones.
+      </p>
+      {neuron.group !== 'Glía' && (
+        <p>Propagación didáctica (model_prediction), no simulada en esta morfología.</p>
+      )}
+      <section>
+        <h3>Fuentes</h3>
+        <ul className="na-refs">
+          <li>
+            Publicación original:{' '}
+            {neuron.doi.map((doi) => (
+              <a key={doi} href={`https://doi.org/${doi}`}>
+                DOI {doi}{' '}
+              </a>
+            ))}{' '}
+            {neuron.pmid.map((pmid) => (
+              <span key={pmid}>PMID {pmid} </span>
+            ))}
+          </li>
+          <li>
+            <a href={neuron.url}>NeuroMorpho.Org</a> (RRID:SCR_002145), CC BY 4.0.
+          </li>
+          <li>
+            Tecuatl, Ljungquist y Ascoli (2024), FASEB BioAdv 6(7):207–221.{' '}
+            <a href="https://doi.org/10.1096/fba.2024-00048">doi:10.1096/fba.2024-00048</a>.
+          </li>
+        </ul>
+      </section>
+      <p className="na-prov">{neuron.status}</p>
+    </article>
+  );
+}
+
 function LevelSheet() {
   const level = useAtlas((s) => s.level);
+  const variant = useAtlas((s) => s.variant);
+  const [neurons, setNeurons] = useState<NeuronRecord[]>([]);
+  useEffect(() => {
+    if (level === 'neurona') void loadNeurons().then(setNeurons);
+  }, [level]);
+  const neuron = neurons.find((n) => n.id === variant);
   const [docs, setDocs] = useState<LevelDoc[] | null>(null);
   useEffect(() => void loadLevels().then(setDocs), []);
   const doc = docs?.find((d) => d.id === level);
+  if (neuron) return <NeuronSheet neuron={neuron} />;
   if (!doc) return <p className="na-muted">Cargando lámina…</p>;
   let i = 0;
   const meta = LEVELS.find((l) => l.id === level)!;

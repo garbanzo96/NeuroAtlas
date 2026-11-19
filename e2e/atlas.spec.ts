@@ -144,3 +144,11 @@ test('recorrido completo, exploración y enlace de paso', async ({ page }) => {
   await expect(player).toHaveCount(0);
   expect(new URL(page.url()).searchParams.has('recorrido')).toBe(false);
 });
+
+test('muestra especie y cita de la reconstrucción de Purkinje', async ({ page }) => {
+  await page.goto('/?n=neurona&var=purkinje');
+  const sheet = page.getByRole('complementary', { name: 'Lámina informativa' });
+  await expect(sheet.getByText('Ratón', { exact: true })).toBeVisible();
+  await expect(sheet.getByText('NeuroMorpho.Org', { exact: true })).toBeVisible();
+  await expect(sheet.getByText(/Tecuatl, Ljungquist y Ascoli/)).toBeVisible();
+});

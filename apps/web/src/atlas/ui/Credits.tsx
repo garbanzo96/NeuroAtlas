@@ -1,7 +1,12 @@
-import { assetUrl } from '../data';
+import { useEffect, useState } from 'react';
+import { assetUrl, loadNeurons, type NeuronRecord } from '../data';
 
 /** Créditos y licencias: obligatorios por CC BY 4.0 (Allen HRA) y CC BY-SA (BodyParts3D, textos). */
 export function Credits({ onClose }: { onClose(): void }) {
+  const [neurons, setNeurons] = useState<NeuronRecord[]>([]);
+  useEffect(() => {
+    void loadNeurons().then(setNeurons);
+  }, []);
   return (
     <div
       className="na-modal"
@@ -39,6 +44,31 @@ export function Credits({ onClose }: { onClose(): void }) {
           <li>
             Nervios periféricos y autónomos: trayectos esquemáticos didácticos, no una segmentación.
           </li>
+        </ul>
+        <h3>Morfologías neuronales</h3>
+        <p>
+          NeuroMorpho.Org (RRID:SCR_002145), CC BY 4.0. Tecuatl, Ljungquist y Ascoli (2024), FASEB
+          BioAdv 6(7):207–221,{' '}
+          <a href="https://doi.org/10.1096/fba.2024-00048">doi:10.1096/fba.2024-00048</a>.
+        </p>
+        <ul>
+          {neurons.map((n) => (
+            <li key={n.id}>
+              <a href={n.url}>
+                {n.name} · {n.species}
+              </a>
+              :{' '}
+              {n.doi.map((doi) => (
+                <a key={doi} href={`https://doi.org/${doi}`}>
+                  {' '}
+                  DOI {doi}
+                </a>
+              ))}{' '}
+              {n.pmid.map((pmid) => (
+                <span key={pmid}>PMID {pmid} </span>
+              ))}
+            </li>
+          ))}
         </ul>
         <h3>Contenido reutilizado</h3>
         <p>

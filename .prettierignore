@@ -10,3 +10,4 @@ packages/schemas/json
 dist-artifact
 apps/web/public/atlas/*.json
 !apps/web/public/atlas/levels.json
+apps/web/public/atlas/neurons/*.json

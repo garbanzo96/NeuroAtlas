@@ -1,3 +1,5 @@
+import { MorphologyScene } from './MorphologyScene';
+import { MICRO_VARIANTS } from './variants';
 import { read } from '../signals';
 import { Html } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
@@ -477,5 +479,10 @@ export default function NeuronScene() {
     useAtlas.getState().setParts(parts);
     return () => useAtlas.getState().setParts({});
   }, []);
-  return <Cell key={variant} kind={variant} />;
+  const schematic = MICRO_VARIANTS.neurona!.some((v) => v.id === variant);
+  return schematic ? (
+    <Cell key={variant} kind={variant.replace('esquema-', '')} />
+  ) : (
+    <MorphologyScene key={variant} id={variant} />
+  );
 }
