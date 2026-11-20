@@ -191,3 +191,8 @@ test('el microcircuito cerebeloso inicia un escenario', async ({ page }) => {
   expect(bounds!.y).toBeGreaterThan(page.viewportSize()!.height / 2);
   await expect(page.locator('.na-scene-tag').filter({ hasText: 'Purkinje' }).first()).toBeVisible();
 });
+
+test('abre la conducción saltatoria', async ({ page }) => {
+  await page.goto('/?n=molecula&var=saltatoria');
+  await expect(page.getByText('Nodo de Ranvier', { exact: true })).toBeVisible();
+});
