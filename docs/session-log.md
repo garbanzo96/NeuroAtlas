@@ -19,8 +19,15 @@ resultados), qué quedó pendiente y cuál es el siguiente paso recomendado. Es 
   tenía un proceso ajeno al 100 % de CPU). Desplegado en gh-pages.
 - **En curso:** WP-069 (galería de neuronas reales y potencial de acción sobre su forma) y WP-070 (ciclo de
   vida de los neurotransmisores), ambos con Codex.
-- **Siguiente:** WP-071 microcircuitos canónicos (columna con PV/SST/VIP, cerebelo, hipocampo trisináptico,
-  médula, retina) sobre las morfologías de WP-069.
+- **Integrado después:** WP-069 (19 neuronas reales con propagación didáctica), WP-070 (ciclo de ocho
+  neurotransmisores con fármacos), WP-071 (cinco microcircuitos canónicos con células reales y motor con signo),
+  WP-072 (bicapa lipídica, canales Nav/Kv con compuertas sincronizadas al laboratorio HH, conducción
+  saltatoria). Dos veces Codex usó `active` como uniforme GLSL (palabra reservada): el shader no compilaba.
+- **Verificación final:** check verde. E2e: 12/14 en la última corrida; «enlace copiado» y «conducción
+  saltatoria» fallan solo bajo la carga de un proceso ajeno al 100 % de CPU (la escena no alcanza a montarse
+  con la traza de Playwright); comprobadas a mano sobre el build. Repetir con la máquina libre.
+- **Siguiente:** pulido de WP-072 (iones que cruzan los poros, rótulos que se pisan, panel de V(t) más fino),
+  retina en WP-071, móvil de la galería de neuronas, WP-066 (modo evaluación).
 
 ## 2026-11-16 (tarde) · Plan de conocimiento en marcha: contratos, capas, circuitos e ilustraciones
 

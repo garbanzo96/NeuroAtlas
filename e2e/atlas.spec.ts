@@ -193,6 +193,9 @@ test('el microcircuito cerebeloso inicia un escenario', async ({ page }) => {
 });
 
 test('abre la conducción saltatoria', async ({ page }) => {
+  test.setTimeout(60_000);
   await page.goto('/?n=molecula&var=saltatoria');
-  await expect(page.getByText('Nodo de Ranvier', { exact: true })).toBeVisible();
+  await expect(page.getByText('Nodo de Ranvier', { exact: true }).first()).toBeVisible({
+    timeout: 20_000,
+  });
 });
