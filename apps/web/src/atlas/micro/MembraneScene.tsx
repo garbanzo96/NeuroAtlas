@@ -96,7 +96,7 @@ function instancedHolo(color: string, fill: number, rim: number) {
   return material;
 }
 function Lipids() {
-  const headMaterial = useMemo(() => instancedHolo('#5ca4ff', 0.025, 0.3), []);
+  const headMaterial = useMemo(() => instancedHolo('#a7d9ff', 0.16, 0.42), []);
   const tailMaterial = useMemo(() => instancedHolo('#3a86ff', 0.02, 0.2), []);
   useEffect(
     () => () => {
@@ -129,29 +129,37 @@ function Lipids() {
     if (!heads.current || !tails.current) return;
     const time = reducedMotion() ? 0 : clock.elapsedTime * 0.18;
     let i = 0;
-    for (let x = -11; x <= 11; x++)
-      for (let z = -11; z <= 11; z++)
+    for (let xi = 0; xi < 40; xi++)
+      for (let zi = 0; zi < 24; zi++) {
+        const jitter = Math.sin(xi * 127.1 + zi * 311.7);
+        const x = (xi - 19.5) * 0.4 + jitter * 0.07;
+        const z = (zi - 11.5) * 0.4 + Math.cos(xi * 83.3 + zi * 41.1) * 0.07;
+        const edge = Math.max(Math.abs(x) / 8, Math.abs(z) / 5);
+        const fade = THREE.MathUtils.smoothstep(1 - edge, 0, 0.22);
+        const hole = [-4, 0, 4, 7].some((cx) => Math.hypot(x - cx, z) < (cx === 0 ? 1.3 : 1.65));
         for (const side of [-1, 1]) {
-          obj.position.set(x, side * 0.8 + Math.sin(x * 0.35 + z * 0.3 + time) * 0.08, z);
-          const fade = Math.min(1, Math.max(0.08, (12 - Math.max(Math.abs(x), Math.abs(z))) / 3));
-          obj.scale.setScalar(fade);
+          const wave = Math.sin(x * 0.5 + z * 0.4 + time) * 0.035;
+          obj.position.set(x, side * 1.1 + wave, z);
+          obj.rotation.set(0, 0, 0);
+          obj.scale.setScalar(hole ? 0.0001 : fade);
           obj.updateMatrix();
-          heads.current?.setMatrixAt(i, obj.matrix);
-          obj.position.y = side * 0.36 + Math.sin(x * 0.35 + z * 0.3 + time) * 0.08;
-          for (const offset of [-0.1, 0.1]) {
-            obj.position.x = x + offset;
-            obj.scale.setScalar(fade);
+          heads.current!.setMatrixAt(i, obj.matrix);
+          for (const offset of [-1, 1]) {
+            obj.position.set(x + offset * 0.09, side * 0.55 + wave, z);
+            obj.rotation.z = offset * (0.08 + 0.05 * Math.sin(jitter + time));
+            obj.scale.set(hole ? 0.0001 : fade, 1.25 * fade, fade);
             obj.updateMatrix();
-            tails.current?.setMatrixAt(i * 2 + (offset > 0 ? 1 : 0), obj.matrix);
+            tails.current!.setMatrixAt(i * 2 + (offset > 0 ? 1 : 0), obj.matrix);
           }
           i++;
         }
+      }
     if (heads.current) heads.current.instanceMatrix.needsUpdate = true;
     if (tails.current) tails.current.instanceMatrix.needsUpdate = true;
   });
   return (
     <Interactive id="bicapa" anchor={[-5, 0, 0]}>
-      <instancedMesh ref={heads} args={[undefined, undefined, 1058]}>
+      <instancedMesh ref={heads} args={[undefined, undefined, 1920]}>
         <sphereGeometry args={[0.18, 16, 12]} />
         <primitive object={headMaterial} attach="material" />
       </instancedMesh>
@@ -214,6 +222,7 @@ function Channel({
   const ion = useRef<THREE.Mesh>(null);
   const sensors = useRef<THREE.Group>(null);
   const ball = useRef<THREE.Mesh>(null);
+  const lumen = useRef<THREE.MeshBasicMaterial>(null);
   useFrame(({ clock }) => {
     const t = reducedMotion() ? [0.05, 0.34, 0.52, 0.65, 0.8][phase]! : (clock.elapsedTime % 6) / 6;
     const bell = (center: number, width: number) => Math.max(0, 1 - Math.abs(t - center) / width);
@@ -222,13 +231,14 @@ function Channel({
     const n = reducedMotion() ? bell(0.52, 0.3) : read('hh.n', bell(0.52, 0.3));
     const activation = id === 'nav' ? m : n;
     const open = id === 'nav' ? m ** 3 * h : id === 'kv' ? n ** 4 : 0;
-    if (sensors.current) sensors.current.position.y = active ? activation * 0.45 : 0;
-    if (ball.current) ball.current.position.x = active ? 0.95 * h : 0.95;
+    if (sensors.current) sensors.current.position.y = active ? activation * 0.6 : 0;
+    if (ball.current) ball.current.position.x = active ? 1.1 * h : 1.1;
     if (ion.current) {
       const progress = reducedMotion() ? 0.5 : (clock.elapsedTime * 1.4) % 1;
       ion.current.visible = active && open > 0.04;
       ion.current.position.y = (id === 'nav' ? 1 : -1) * (1.7 - progress * 3.4);
     }
+    if (lumen.current) lumen.current.opacity = 0.08 + (active ? open * 0.7 : 0);
     material.uniforms.uHover.value = active ? open * 0.5 : 0;
   });
   const domains = id === 'fuga' ? 2 : 4;
@@ -241,13 +251,14 @@ function Channel({
             <group key={domain} rotation={[0, angle, 0]}>
               {Array.from({ length: 6 }, (_, helix) => {
                 const a = (helix * Math.PI * 2) / 6;
-                return (
+                return helix === 3 ? null : (
                   <mesh
                     key={helix}
-                    position={[0.65 + Math.cos(a) * 0.22, 0, Math.sin(a) * 0.22]}
+                    position={[1.1 + Math.cos(a) * 0.38, 0, Math.sin(a) * 0.38]}
+                    rotation={[0.06 * Math.sin(a), 0, 0.06 * Math.cos(a)]}
                     material={material}
                   >
-                    <capsuleGeometry args={[0.085, 1.6, 4, 8]} />
+                    <capsuleGeometry args={[0.2, 2.8, 4, 8]} />
                   </mesh>
                 );
               })}
@@ -258,8 +269,8 @@ function Channel({
           {Array.from({ length: domains }, (_, i) => {
             const a = (i * Math.PI * 2) / domains;
             return (
-              <mesh key={i} position={[Math.cos(a) * 0.86, 0, Math.sin(a) * 0.86]}>
-                <capsuleGeometry args={[0.08, 1.3, 4, 8]} />
+              <mesh key={i} position={[Math.cos(a) * 1.5, 0, Math.sin(a) * 1.5]}>
+                <capsuleGeometry args={[0.2, 2.8, 4, 8]} />
                 <meshBasicMaterial color="#a4eaff" />
               </mesh>
             );
@@ -269,14 +280,43 @@ function Channel({
           <torusGeometry args={[0.32, 0.07, 8, 32]} />
         </mesh>
         {id === 'nav' && (
-          <Html position={[-1, 2, 0]} className="na-scene-tag">
+          <Html zIndexRange={[5, 0]} position={[-1, 2.6, 0]} className="na-scene-tag">
             Nav · dominios I–IV · S4
           </Html>
         )}
         {id === 'kv' && (
-          <Html position={[-0.7, 2, 0]} className="na-scene-tag">
+          <Html zIndexRange={[5, 0]} position={[-0.7, 2.6, 0]} className="na-scene-tag">
             Kv · tetrámero
           </Html>
+        )}
+        <mesh>
+          <cylinderGeometry args={[0.22, 0.22, 2.8, 16, 1, true]} />
+          <meshBasicMaterial
+            ref={lumen}
+            color="#a8efff"
+            transparent
+            opacity={0.08}
+            depthWrite={false}
+            side={THREE.DoubleSide}
+          />
+        </mesh>
+        {id === 'nav' && (
+          <mesh position={[0.55, -1.5, 0]}>
+            <tubeGeometry
+              args={[
+                new THREE.QuadraticBezierCurve3(
+                  new THREE.Vector3(1, 0, 0),
+                  new THREE.Vector3(0.5, -0.6, 0.3),
+                  new THREE.Vector3(-0.45, 0, 0),
+                ),
+                16,
+                0.04,
+                6,
+                false,
+              ]}
+            />
+            <meshBasicMaterial color="#7ab6ff" />
+          </mesh>
         )}
         {id === 'nav' && (
           <mesh ref={ball} position={[0.95, -1.25, 0]} material={material}>
@@ -405,7 +445,7 @@ function MembranePatch() {
   return (
     <group ref={group}>
       <Lipids />
-      <mesh rotation={[-Math.PI / 2, 0, 0]}>
+      <mesh visible={false} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[18, 18]} />
         <meshBasicMaterial
           ref={pulse}
@@ -421,9 +461,9 @@ function MembranePatch() {
       <Channel phase={phase} active={variant === 'canales'} id="kv" x={4} color="#5ca4ff" />
       <Channel phase={phase} active={variant === 'canales'} id="fuga" x={7} color="#86d6ff" />
       {variant === 'canales' && (
-        <Html position={[-7, 6, 0]} className="na-scene-tag">
+        <Html zIndexRange={[5, 0]} position={[-7, -3.5, 2]} className="na-scene-tag">
           <div style={{ background: '#07152b', padding: 8, width: 220 }}>
-            <div>Potencial de acción · tiempo ilustrativo</div>
+            <div>Potencial de acción · ciclo ilustrativo de 6 s</div>
             <svg
               width="200"
               height="45"
