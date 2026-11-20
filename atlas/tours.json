@@ -1,0 +1,165 @@
+{
+  "status": "borrador — sin revisión experta",
+  "tours": [
+    {
+      "id": "piel-corteza",
+      "n": "De la piel a la corteza",
+      "sub": "Sigue el tacto fino desde el cuerpo hasta la corteza.",
+      "cover": "img/nivel-sistema.webp",
+      "units": [
+        "u18"
+      ],
+      "steps": [
+        {
+          "t": "Un contacto en la piel",
+          "d": "Una presión sobre la piel activa receptores sensibles a la deformación. Empezaremos con el tacto fino del cuerpo, una de varias modalidades somáticas.",
+          "view": {
+            "level": "sistema",
+            "layers": {
+              "piel": true,
+              "nervios": true
+            }
+          }
+        },
+        {
+          "t": "El viaje hacia el encéfalo",
+          "d": "Las señales de tacto fino ascienden por las columnas dorsales. La vía iluminada resume sus relevos; el pulso es una representación didáctica.",
+          "view": {
+            "level": "sistema",
+            "pathway": "lemnisco"
+          },
+          "run": "pathway"
+        },
+        {
+          "t": "Un relevo en el tálamo",
+          "d": "Tras cruzar en el bulbo, la vía alcanza el tálamo. Desde allí, neuronas de relevo proyectan hacia la corteza somatosensorial.",
+          "view": {
+            "level": "areas",
+            "select": "ventral_posterior_lateral_nucleus_L"
+          }
+        },
+        {
+          "t": "Un mapa cortical",
+          "d": "En el giro poscentral, distintas regiones del cuerpo tienen representaciones organizadas. El tamaño de cada representación no corresponde simplemente al tamaño corporal.",
+          "view": {
+            "level": "areas",
+            "select": "postcentral_gyrus_L"
+          }
+        },
+        {
+          "t": "Cambiar de escala",
+          "d": "La escena de columna es un esquema: permite mirar la organización en capas, sin representar una columna específica del giro poscentral.",
+          "view": {
+            "level": "circuito",
+            "variant": "columna"
+          }
+        }
+      ]
+    },
+    {
+      "id": "movimiento-voluntario",
+      "n": "Un movimiento voluntario",
+      "sub": "De los circuitos motores a la señal que desciende.",
+      "cover": "img/nivel-areas.webp",
+      "units": [
+        "u19"
+      ],
+      "steps": [
+        {
+          "t": "Preparar una acción",
+          "d": "Las áreas corticales motoras participan en la preparación y ejecución del movimiento junto con otras redes. Aquí partimos por la corteza.",
+          "view": {
+            "level": "areas",
+            "select": "primary_motor_cortex_L"
+          }
+        },
+        {
+          "t": "Un circuito que modula",
+          "d": "El modelo de ganglios basales muestra conexiones excitadoras e inhibidoras. Observa cómo la vía directa modifica la actividad del tálamo en este esquema de signos.",
+          "view": {
+            "level": "encefalo",
+            "circuit": "gb-motor",
+            "scenario": "directa"
+          },
+          "run": "circuit"
+        },
+        {
+          "t": "La señal desciende",
+          "d": "La vía corticoespinal conecta la corteza con circuitos de la médula. El pulso muestra el trayecto de forma esquemática, no una medición de actividad.",
+          "view": {
+            "level": "sistema",
+            "pathway": "corticoespinal"
+          },
+          "run": "pathway"
+        },
+        {
+          "t": "La neurona motora",
+          "d": "A escala celular, una motoneurona envía su axón hacia el músculo. La forma y el movimiento de esta escena son esquemáticos.",
+          "view": {
+            "level": "neurona",
+            "variant": "motoneurona"
+          }
+        },
+        {
+          "t": "Comunicación entre células",
+          "d": "En una sinapsis química, la llegada de una señal al terminal puede desencadenar liberación de neurotransmisor. Esta escena general no representa una unión neuromuscular específica.",
+          "view": {
+            "level": "sinapsis",
+            "variant": "quimica"
+          }
+        }
+      ]
+    },
+    {
+      "id": "disparo-neurona",
+      "n": "Cómo dispara una neurona",
+      "sub": "De la célula a los canales de su membrana.",
+      "cover": "img/nivel-neurona.webp",
+      "units": [
+        "u01"
+      ],
+      "steps": [
+        {
+          "t": "Una célula con prolongaciones",
+          "d": "La neurona recibe señales en distintas partes de su superficie y puede conducir un potencial de acción por su axón. Esta célula piramidal es un esquema.",
+          "view": {
+            "level": "neurona",
+            "variant": "piramidal"
+          }
+        },
+        {
+          "t": "Señales entre neuronas",
+          "d": "En una sinapsis química, neurotransmisores liberados por una célula actúan sobre receptores de otra. Su efecto depende del receptor y del contexto.",
+          "view": {
+            "level": "sinapsis",
+            "variant": "quimica"
+          }
+        },
+        {
+          "t": "La membrana en reposo",
+          "d": "La distribución desigual de iones y la permeabilidad de la membrana contribuyen a una diferencia de voltaje entre el interior y el exterior.",
+          "view": {
+            "level": "molecula",
+            "variant": "reposo"
+          }
+        },
+        {
+          "t": "Canales y potencial de acción",
+          "d": "La apertura e inactivación de canales dependientes de voltaje participan en el potencial de acción. La animación simplifica sus tiempos y su disposición.",
+          "view": {
+            "level": "molecula",
+            "variant": "canales"
+          }
+        },
+        {
+          "t": "De vuelta a la célula",
+          "d": "El potencial de acción se propaga por el axón; su llegada a un terminal puede iniciar la comunicación sináptica. La escena muestra una representación didáctica.",
+          "view": {
+            "level": "neurona",
+            "variant": "piramidal"
+          }
+        }
+      ]
+    }
+  ]
+}

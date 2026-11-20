@@ -1,0 +1,836 @@
+{
+  "status": "borrador — sin revisión experta",
+  "circuits": [
+    {
+      "id": "gb-motor",
+      "g": "motor",
+      "n": "Ganglios basales: bucle motor",
+      "sub": "Vías directa, indirecta e hiperdirecta",
+      "res": "Esquema didáctico de poblaciones y signos; pesos y tiempos ilustrativos.",
+      "nature": "modelo",
+      "species": "humano",
+      "nodes": [
+        {
+          "id": "corteza",
+          "n": "Corteza motora",
+          "at": "primary_motor_cortex_L",
+          "basal": 0
+        },
+        {
+          "id": "directa",
+          "n": "Estriado directo",
+          "at": "putamen_L",
+          "basal": 0
+        },
+        {
+          "id": "indirecta",
+          "n": "Estriado indirecto",
+          "at": {
+            "en": "putamen_L",
+            "f": [
+              0.5,
+              0.75,
+              0.6
+            ]
+          },
+          "basal": 0,
+          "marker": true
+        },
+        {
+          "id": "gpe",
+          "n": "Pálido externo",
+          "at": "external_segment_of_globus_pallidus_L",
+          "basal": 0.65
+        },
+        {
+          "id": "stn",
+          "n": "Núcleo subtalámico",
+          "at": "subthalamic_nucleus_L",
+          "basal": 0.45
+        },
+        {
+          "id": "gpi",
+          "n": "Pálido interno",
+          "at": "internal_segment_of_globus_pallidus_L",
+          "basal": 0.65
+        },
+        {
+          "id": "talamo",
+          "n": "Tálamo VL",
+          "at": "ventral_lateral_nucleus_of_thalamus_L",
+          "basal": 0.8
+        },
+        {
+          "id": "dopamina",
+          "n": "Sustancia negra (dopamina)",
+          "at": "substantia_nigra_L",
+          "basal": 0.7,
+          "marker": true
+        }
+      ],
+      "edges": [
+        {
+          "from": "corteza",
+          "to": "directa",
+          "sign": "exc",
+          "delay": 0.8,
+          "w": 0.8,
+          "via": [
+            {
+              "en": "primary_motor_cortex_L",
+              "f": [
+                0.6,
+                0.6,
+                0.5
+              ]
+            },
+            {
+              "en": "white_matter_of_forebrain_L",
+              "f": [
+                0.6,
+                0.62,
+                0.5
+              ]
+            },
+            "putamen_L"
+          ]
+        },
+        {
+          "from": "directa",
+          "to": "gpi",
+          "sign": "inh",
+          "delay": 0.8,
+          "w": 0.4,
+          "via": [
+            "putamen_L",
+            {
+              "en": "external_segment_of_globus_pallidus_L",
+              "f": [
+                0.5,
+                0.25,
+                0.5
+              ]
+            },
+            "internal_segment_of_globus_pallidus_L"
+          ]
+        },
+        {
+          "from": "indirecta",
+          "to": "gpe",
+          "sign": "inh",
+          "delay": 0.6,
+          "w": 0.8,
+          "via": [
+            {
+              "en": "putamen_L",
+              "f": [
+                0.5,
+                0.75,
+                0.6
+              ]
+            },
+            {
+              "en": "external_segment_of_globus_pallidus_L",
+              "f": [
+                0.5,
+                0.7,
+                0.6
+              ]
+            }
+          ]
+        },
+        {
+          "from": "gpe",
+          "to": "stn",
+          "sign": "inh",
+          "delay": 0.6,
+          "w": 0.6,
+          "via": [
+            {
+              "en": "external_segment_of_globus_pallidus_L",
+              "f": [
+                0.5,
+                0.7,
+                0.6
+              ]
+            },
+            {
+              "en": "capsula_interna_L",
+              "f": [
+                0.35,
+                0.2,
+                0.35
+              ]
+            },
+            "subthalamic_nucleus_L"
+          ]
+        },
+        {
+          "from": "stn",
+          "to": "gpi",
+          "sign": "exc",
+          "delay": 0.5,
+          "w": 0.8,
+          "via": [
+            "subthalamic_nucleus_L",
+            {
+              "en": "internal_segment_of_globus_pallidus_L",
+              "f": [
+                0.4,
+                0.3,
+                0.4
+              ]
+            }
+          ]
+        },
+        {
+          "from": "corteza",
+          "to": "stn",
+          "sign": "exc",
+          "delay": 0.25,
+          "w": 0.8,
+          "via": [
+            {
+              "en": "primary_motor_cortex_L",
+              "f": [
+                0.45,
+                0.7,
+                0.5
+              ]
+            },
+            {
+              "en": "capsula_interna_L",
+              "f": [
+                0.4,
+                0.55,
+                0.3
+              ]
+            },
+            "subthalamic_nucleus_L"
+          ]
+        },
+        {
+          "from": "gpi",
+          "to": "talamo",
+          "sign": "inh",
+          "delay": 0.5,
+          "w": 0.8,
+          "via": [
+            "internal_segment_of_globus_pallidus_L",
+            {
+              "en": "zona_incerta_L",
+              "f": [
+                0.5,
+                0.5,
+                0.6
+              ]
+            },
+            "ventral_lateral_nucleus_of_thalamus_L"
+          ]
+        },
+        {
+          "from": "talamo",
+          "to": "corteza",
+          "sign": "exc",
+          "delay": 0.8,
+          "w": 0.1,
+          "via": [
+            "ventral_lateral_nucleus_of_thalamus_L",
+            {
+              "en": "capsula_interna_L",
+              "f": [
+                0.4,
+                0.85,
+                0.4
+              ]
+            },
+            {
+              "en": "white_matter_of_forebrain_L",
+              "f": [
+                0.45,
+                0.72,
+                0.5
+              ]
+            },
+            {
+              "en": "primary_motor_cortex_L",
+              "f": [
+                0.5,
+                0.65,
+                0.5
+              ]
+            }
+          ]
+        },
+        {
+          "from": "dopamina",
+          "to": "directa",
+          "sign": "mod",
+          "delay": 0.5,
+          "w": 1,
+          "via": [
+            "substantia_nigra_L",
+            {
+              "en": "capsula_interna_L",
+              "f": [
+                0.5,
+                0.15,
+                0.4
+              ]
+            },
+            {
+              "en": "putamen_L",
+              "f": [
+                0.4,
+                0.2,
+                0.4
+              ]
+            }
+          ],
+          "modulates": {
+            "edges": [
+              1
+            ],
+            "gain": 1.2
+          }
+        }
+      ],
+      "scenarios": [
+        {
+          "id": "directa",
+          "n": "Iniciar: vía directa",
+          "d": "Activa la población directa del estriado.",
+          "stim": [
+            {
+              "node": "directa",
+              "at": 1,
+              "amp": 0.9,
+              "dur": 5
+            }
+          ]
+        },
+        {
+          "id": "indirecta",
+          "n": "Suprimir: vía indirecta",
+          "d": "Activa la población indirecta del estriado.",
+          "stim": [
+            {
+              "node": "indirecta",
+              "at": 1,
+              "amp": 0.9,
+              "dur": 5
+            }
+          ]
+        },
+        {
+          "id": "hiperdirecta",
+          "n": "Freno hiperdirecto",
+          "d": "Activa la entrada cortical rápida.",
+          "stim": [
+            {
+              "node": "corteza",
+              "at": 1,
+              "amp": 0.9,
+              "dur": 5
+            }
+          ]
+        },
+        {
+          "id": "sin-dopamina",
+          "n": "Sin dopamina",
+          "d": "Repite la directa con la señal dopaminérgica lesionada.",
+          "stim": [
+            {
+              "node": "directa",
+              "at": 1,
+              "amp": 0.9,
+              "dur": 5
+            }
+          ],
+          "lesions": [
+            "dopamina"
+          ]
+        },
+        {
+          "id": "lesion-stn",
+          "n": "Lesión subtalámica",
+          "d": "Compara la salida con el núcleo subtalámico lesionado.",
+          "stim": [
+            {
+              "node": "directa",
+              "at": 1,
+              "amp": 0.9,
+              "dur": 5
+            }
+          ],
+          "lesions": [
+            "stn"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cerebelo-bucle",
+      "g": "motor",
+      "n": "Bucle cerebrocerebeloso",
+      "res": "Esquema de la copia motora y la salida cerebelosa; posiciones de poblaciones simplificadas.",
+      "nature": "modelo",
+      "species": "humano",
+      "nodes": [
+        {
+          "id": "corteza",
+          "n": "Corteza frontal",
+          "at": "middle_frontal_gyrus_L",
+          "basal": 0
+        },
+        {
+          "id": "puente",
+          "n": "Puente",
+          "at": "basilar_part_of_pons_L",
+          "basal": 0
+        },
+        {
+          "id": "purkinje",
+          "n": "Corteza cerebelosa (Purkinje)",
+          "at": {
+            "en": "lateral_hemisphere_of_cerebellum_R",
+            "f": [
+              0.4,
+              0.6,
+              0.6
+            ]
+          },
+          "basal": 0.5,
+          "marker": true
+        },
+        {
+          "id": "dentado",
+          "n": "Núcleos profundos",
+          "at": "cerebellar_deep_nuclei_R",
+          "basal": 0.65
+        },
+        {
+          "id": "talamo",
+          "n": "Tálamo VL",
+          "at": "ventral_lateral_nucleus_of_thalamus_L",
+          "basal": 0
+        },
+        {
+          "id": "oliva",
+          "n": "Oliva inferior",
+          "at": "inferior_olive_L",
+          "basal": 0
+        }
+      ],
+      "edges": [
+        {
+          "from": "corteza",
+          "to": "puente",
+          "sign": "exc",
+          "delay": 0.7,
+          "w": 0.8,
+          "via": [
+            {
+              "en": "middle_frontal_gyrus_L",
+              "f": [
+                0.6,
+                0.5,
+                0.3
+              ]
+            },
+            {
+              "en": "capsula_interna_L",
+              "f": [
+                0.45,
+                0.5,
+                0.6
+              ]
+            },
+            {
+              "en": "cerebral_peduncle_crus_cerebri_L",
+              "f": [
+                0.15,
+                0.5,
+                0.6
+              ]
+            },
+            "basilar_part_of_pons_L"
+          ]
+        },
+        {
+          "from": "puente",
+          "to": "purkinje",
+          "sign": "exc",
+          "delay": 0.7,
+          "w": 0.8,
+          "via": [
+            "basilar_part_of_pons_L",
+            {
+              "en": "basilar_part_of_pons_R",
+              "f": [
+                0.4,
+                0.5,
+                0.4
+              ]
+            },
+            "middle_cerebellar_peduncle_R",
+            {
+              "en": "lateral_hemisphere_of_cerebellum_R",
+              "f": [
+                0.4,
+                0.6,
+                0.6
+              ]
+            }
+          ]
+        },
+        {
+          "from": "purkinje",
+          "to": "dentado",
+          "sign": "inh",
+          "delay": 0.7,
+          "w": 0.7,
+          "via": [
+            {
+              "en": "lateral_hemisphere_of_cerebellum_R",
+              "f": [
+                0.4,
+                0.6,
+                0.6
+              ]
+            },
+            {
+              "en": "cerebellar_deep_nuclei_R",
+              "f": [
+                0.25,
+                0.5,
+                0.5
+              ]
+            }
+          ]
+        },
+        {
+          "from": "dentado",
+          "to": "talamo",
+          "sign": "exc",
+          "delay": 0.8,
+          "w": 0.8,
+          "via": [
+            {
+              "en": "cerebellar_deep_nuclei_R",
+              "f": [
+                0.25,
+                0.5,
+                0.5
+              ]
+            },
+            "superior_cerebellar_peduncle_brachium_conjunctivum_R",
+            {
+              "en": "midbrain_tegmentum_R",
+              "f": [
+                0.9,
+                0.2,
+                0.4
+              ]
+            },
+            "red_nucleus_L",
+            "ventral_lateral_nucleus_of_thalamus_L"
+          ]
+        },
+        {
+          "from": "talamo",
+          "to": "corteza",
+          "sign": "exc",
+          "delay": 0.8,
+          "w": 0.15,
+          "via": [
+            "ventral_lateral_nucleus_of_thalamus_L",
+            {
+              "en": "capsula_interna_L",
+              "f": [
+                0.4,
+                0.85,
+                0.35
+              ]
+            },
+            {
+              "en": "primary_motor_cortex_L",
+              "f": [
+                0.6,
+                0.65,
+                0.5
+              ]
+            }
+          ]
+        },
+        {
+          "from": "oliva",
+          "to": "purkinje",
+          "sign": "exc",
+          "delay": 0.7,
+          "w": 0.8,
+          "via": [
+            "inferior_olive_L",
+            {
+              "en": "tegmentum_of_medulla_oblongata_R",
+              "f": [
+                0.4,
+                0.6,
+                0.4
+              ]
+            },
+            "inferior_cerebellar_peduncle_R",
+            {
+              "en": "lateral_hemisphere_of_cerebellum_R",
+              "f": [
+                0.5,
+                0.35,
+                0.6
+              ]
+            }
+          ]
+        }
+      ],
+      "scenarios": [
+        {
+          "id": "orden",
+          "n": "Orden motora",
+          "d": "Una copia esquemática entra por el puente.",
+          "stim": [
+            {
+              "node": "corteza",
+              "at": 1,
+              "amp": 0.9,
+              "dur": 5
+            }
+          ]
+        },
+        {
+          "id": "error",
+          "n": "Señal de error",
+          "d": "Activa la entrada desde la oliva inferior.",
+          "stim": [
+            {
+              "node": "oliva",
+              "at": 1,
+              "amp": 0.9,
+              "dur": 5
+            }
+          ]
+        },
+        {
+          "id": "lesion",
+          "n": "Lesión hemisférica",
+          "d": "Interrumpe la población cortical cerebelosa esquemática.",
+          "stim": [
+            {
+              "node": "corteza",
+              "at": 1,
+              "amp": 0.9,
+              "dur": 5
+            }
+          ],
+          "lesions": [
+            "purkinje"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "miedo",
+      "g": "limbico",
+      "n": "Miedo condicionado",
+      "res": "Esquema de rutas auditivas y regulación; no representa una respuesta individual.",
+      "nature": "modelo",
+      "species": "humano",
+      "nodes": [
+        {
+          "id": "talamo",
+          "n": "Tálamo auditivo",
+          "at": "medial_geniculate_nuclei_L",
+          "basal": 0
+        },
+        {
+          "id": "auditiva",
+          "n": "Corteza auditiva",
+          "at": "transverse_temporal_gyrus_Heschls_gyrus_L",
+          "basal": 0
+        },
+        {
+          "id": "lateral",
+          "n": "Amígdala lateral",
+          "at": "lateral_nucleus_L",
+          "basal": 0
+        },
+        {
+          "id": "basolateral",
+          "n": "Amígdala basolateral",
+          "at": "basolateral_nucleus_basal_nucleus_L",
+          "basal": 0
+        },
+        {
+          "id": "central",
+          "n": "Amígdala central",
+          "at": "central_nuclear_group_L",
+          "basal": 0
+        },
+        {
+          "id": "hipotalamo",
+          "n": "Hipotálamo",
+          "at": "hypothalamus_L",
+          "basal": 0
+        },
+        {
+          "id": "prefrontal",
+          "n": "Región prefrontal medial",
+          "at": "subcallosal_gyrus_parolfactory_gyrus_L",
+          "basal": 0
+        },
+        {
+          "id": "hipocampo",
+          "n": "Hipocampo",
+          "at": "body_of_hippocampus_L",
+          "basal": 0
+        },
+        {
+          "id": "tronco",
+          "n": "Tronco: respuesta esquemática",
+          "at": "midbrain_tegmentum_L",
+          "basal": 0,
+          "marker": true
+        }
+      ],
+      "edges": [
+        {
+          "from": "talamo",
+          "to": "lateral",
+          "sign": "exc",
+          "delay": 0.4,
+          "w": 0.7
+        },
+        {
+          "from": "talamo",
+          "to": "auditiva",
+          "sign": "exc",
+          "delay": 0.5,
+          "w": 0.7
+        },
+        {
+          "from": "auditiva",
+          "to": "lateral",
+          "sign": "exc",
+          "delay": 0.7,
+          "w": 0.6
+        },
+        {
+          "from": "lateral",
+          "to": "basolateral",
+          "sign": "exc",
+          "delay": 0.6,
+          "w": 0.8
+        },
+        {
+          "from": "basolateral",
+          "to": "central",
+          "sign": "exc",
+          "delay": 0.6,
+          "w": 0.8
+        },
+        {
+          "from": "central",
+          "to": "hipotalamo",
+          "sign": "exc",
+          "delay": 0.6,
+          "w": 0.8
+        },
+        {
+          "from": "central",
+          "to": "tronco",
+          "sign": "exc",
+          "delay": 0.7,
+          "w": 0.8
+        },
+        {
+          "from": "prefrontal",
+          "to": "central",
+          "sign": "inh",
+          "delay": 0.5,
+          "w": 0.7
+        },
+        {
+          "from": "hipocampo",
+          "to": "basolateral",
+          "sign": "exc",
+          "delay": 0.7,
+          "w": 0.4
+        }
+      ],
+      "scenarios": [
+        {
+          "id": "tono",
+          "n": "Tono",
+          "d": "Activa las rutas auditivas esquemáticas.",
+          "stim": [
+            {
+              "node": "talamo",
+              "at": 1,
+              "amp": 0.9,
+              "dur": 5
+            }
+          ]
+        },
+        {
+          "id": "tono-descarga",
+          "n": "Tono con descarga",
+          "d": "Dos entradas ilustrativas concurren en la amígdala.",
+          "stim": [
+            {
+              "node": "talamo",
+              "at": 1,
+              "amp": 0.8,
+              "dur": 5
+            },
+            {
+              "node": "basolateral",
+              "at": 2,
+              "amp": 0.6,
+              "dur": 3
+            }
+          ]
+        },
+        {
+          "id": "extincion",
+          "n": "Extinción",
+          "d": "La entrada prefrontal frena la salida central.",
+          "stim": [
+            {
+              "node": "talamo",
+              "at": 1,
+              "amp": 0.8,
+              "dur": 5
+            },
+            {
+              "node": "prefrontal",
+              "at": 1,
+              "amp": 0.8,
+              "dur": 5
+            }
+          ]
+        },
+        {
+          "id": "contexto",
+          "n": "Contexto",
+          "d": "Activa la entrada hipocampal esquemática.",
+          "stim": [
+            {
+              "node": "hipocampo",
+              "at": 1,
+              "amp": 0.9,
+              "dur": 5
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

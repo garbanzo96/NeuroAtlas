@@ -1,0 +1,2 @@
+var e=new Map;function t(t,n){e.set(t,n)}function n(t,n=0){return e.get(t)??n}function r(t=``){for(let n of[...e.keys()])n.startsWith(t)&&e.delete(n)}export{t as n,n as r,r as t};
+//# sourceMappingURL=signals-Cj6fqSAT.js.map

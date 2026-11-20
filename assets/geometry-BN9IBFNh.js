@@ -1,0 +1,2 @@
+function e(e){let t=t=>e.groups.length===0||e.groups.includes(t);return{nodes:e.geometry.nodes.filter(e=>t(e.group)),links:e.geometry.links.filter(e=>t(e.group))}}function t(e){let t=e[e.length-2],n=e[e.length-1],r=[n[0]-t[0],n[1]-t[1],n[2]-t[2]],i=Math.hypot(...r)||1;return[r[0]/i,r[1]/i,r[2]/i]}function n(){try{return typeof document>`u`?!1:!!document.createElement(`canvas`).getContext(`webgl2`)}catch{return!1}}export{n,e as r,t};
+//# sourceMappingURL=geometry-BN9IBFNh.js.map

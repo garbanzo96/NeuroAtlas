@@ -1,0 +1,101 @@
+{
+  "status": "borrador — sin revisión experta",
+  "images": [
+    {
+      "file": "bg-carga.webp",
+      "size": [1920, 1080],
+      "generator": "OpenAI (generación de imágenes de Codex)",
+      "date": "2026-11-16",
+      "prompt": "Ilustración científica estilizada tipo holograma. Luz azul eléctrica y cian (#3a86ff, #5ee6ff, #c4e6ff) que emana de los bordes de las formas, con interior translúcido más denso hacia el centro, sobre fondo negro puro. Resplandor suave tipo bloom, líneas finas y precisas, sensación de vidrio luminoso. Composición limpia y centrada con mucho espacio negativo. Sin texto, sin letras, sin números, sin flechas, sin marcas de agua, sin marcos, sin personas. No fotorrealista, no caricatura. Formato 16:9: solamente un campo espacial abstracto vacío, tenue nebulosa azul marino descentrada y polvo de puntos muy pequeños; ningún objeto reconocible, absolutamente ningún cerebro, ninguna anatomía, ninguna silueta. Fondo #020614 que cae a negro. Esta indicación de fondo reemplaza el fondo negro puro del estilo base.",
+      "nature": "ilustración esquemática generada con IA; no es anatomía"
+    },
+    {
+      "file": "compartir.webp",
+      "size": [1200, 630],
+      "generator": "OpenAI (generación de imágenes de Codex)",
+      "date": "2026-11-16",
+      "prompt": "Ilustración científica estilizada tipo holograma. Luz azul eléctrica y cian (#3a86ff, #5ee6ff, #c4e6ff) que emana de los bordes de las formas, con interior translúcido más denso hacia el centro, sobre fondo negro puro. Resplandor suave tipo bloom, líneas finas y precisas, sensación de vidrio luminoso. Composición limpia y centrada con mucho espacio negativo. Sin texto, sin letras, sin números, sin flechas, sin marcas de agua, sin marcos, sin personas. No fotorrealista, no caricatura. Formato apaisado 1.91:1: encéfalo de perfil como holograma de luz azul con un único haz ámbar (#ffb057) que baja hacia la médula; el sujeto a la izquierda y el tercio derecho libre y oscuro. Fondo negro puro #000000.",
+      "nature": "ilustración esquemática generada con IA; no es anatomía"
+    },
+    {
+      "file": "destello-espiga.webp",
+      "size": [512, 512],
+      "generator": "OpenAI (generación de imágenes de Codex)",
+      "date": "2026-11-16",
+      "prompt": "Ilustración científica estilizada tipo holograma. Luz azul eléctrica y cian (#3a86ff, #5ee6ff, #c4e6ff) que emana de los bordes de las formas, con interior translúcido más denso hacia el centro, sobre fondo negro puro. Resplandor suave tipo bloom, líneas finas y precisas, sensación de vidrio luminoso. Composición limpia y centrada con mucho espacio negativo. Sin texto, sin letras, sin números, sin flechas, sin marcas de agua, sin marcos, sin personas. No fotorrealista, no caricatura. Imagen cuadrada: destello anamórfico horizontal con núcleo blanco y halo cian, perfectamente simétrico. Fondo negro puro #000000.",
+      "nature": "ilustración esquemática generada con IA; no es anatomía"
+    },
+    {
+      "file": "nivel-areas.webp",
+      "size": [384, 384],
+      "generator": "OpenAI (generación de imágenes de Codex)",
+      "date": "2026-11-16",
+      "prompt": "Ilustración científica estilizada tipo holograma. Luz azul eléctrica y cian (#3a86ff, #5ee6ff, #c4e6ff) que emana de los bordes de las formas, con interior translúcido más denso hacia el centro, sobre fondo negro puro. Resplandor suave tipo bloom, líneas finas y precisas, sensación de vidrio luminoso. Composición limpia y centrada con mucho espacio negativo. Sin texto, sin letras, sin números, sin flechas, sin marcas de agua, sin marcos, sin personas. No fotorrealista, no caricatura. Ícono cuadrado de línea luminosa, trazo fino cian sin relleno: corte coronal del encéfalo con núcleos profundos. Un solo ícono individual, no una cuadrícula ni múltiples variaciones. Trazo cian fino y uniforme, objeto centrado con amplio margen. Sin recuadro ni borde. Fondo negro puro #000000.",
+      "nature": "ilustración esquemática generada con IA; no es anatomía"
+    },
+    {
+      "file": "nivel-circuito.webp",
+      "size": [384, 384],
+      "generator": "OpenAI (generación de imágenes de Codex)",
+      "date": "2026-11-16",
+      "prompt": "Ilustración científica estilizada tipo holograma. Luz azul eléctrica y cian (#3a86ff, #5ee6ff, #c4e6ff) que emana de los bordes de las formas, con interior translúcido más denso hacia el centro, sobre fondo negro puro. Resplandor suave tipo bloom, líneas finas y precisas, sensación de vidrio luminoso. Composición limpia y centrada con mucho espacio negativo. Sin texto, sin letras, sin números, sin flechas, sin marcas de agua, sin marcos, sin personas. No fotorrealista, no caricatura. Ícono cuadrado de línea luminosa, trazo fino cian sin relleno: columna cortical con seis estratos y pocas neuronas. Un solo ícono individual, no una cuadrícula ni múltiples variaciones. Trazo cian fino y uniforme, objeto centrado con amplio margen. Sin recuadro ni borde. Fondo negro puro #000000.",
+      "nature": "ilustración esquemática generada con IA; no es anatomía"
+    },
+    {
+      "file": "nivel-encefalo.webp",
+      "size": [384, 384],
+      "generator": "OpenAI (generación de imágenes de Codex)",
+      "date": "2026-11-16",
+      "prompt": "Ilustración científica estilizada tipo holograma. Luz azul eléctrica y cian (#3a86ff, #5ee6ff, #c4e6ff) que emana de los bordes de las formas, con interior translúcido más denso hacia el centro, sobre fondo negro puro. Resplandor suave tipo bloom, líneas finas y precisas, sensación de vidrio luminoso. Composición limpia y centrada con mucho espacio negativo. Sin texto, sin letras, sin números, sin flechas, sin marcas de agua, sin marcos, sin personas. No fotorrealista, no caricatura. Ícono cuadrado de línea luminosa, trazo fino cian sin relleno: encéfalo de perfil. Un solo ícono individual, no una cuadrícula ni múltiples variaciones. Trazo cian fino y uniforme, objeto centrado con amplio margen. Sin recuadro ni borde. Fondo negro puro #000000.",
+      "nature": "ilustración esquemática generada con IA; no es anatomía"
+    },
+    {
+      "file": "nivel-molecula.webp",
+      "size": [384, 384],
+      "generator": "OpenAI (generación de imágenes de Codex)",
+      "date": "2026-11-16",
+      "prompt": "Ilustración científica estilizada tipo holograma. Luz azul eléctrica y cian (#3a86ff, #5ee6ff, #c4e6ff) que emana de los bordes de las formas, con interior translúcido más denso hacia el centro, sobre fondo negro puro. Resplandor suave tipo bloom, líneas finas y precisas, sensación de vidrio luminoso. Composición limpia y centrada con mucho espacio negativo. Sin texto, sin letras, sin números, sin flechas, sin marcas de agua, sin marcos, sin personas. No fotorrealista, no caricatura. Ícono cuadrado de línea luminosa, trazo fino cian sin relleno: canal iónico atravesando una bicapa de membrana. Un solo ícono individual, no una cuadrícula ni múltiples variaciones. Trazo cian fino y uniforme, objeto centrado con amplio margen. Sin recuadro ni borde. Fondo negro puro #000000.",
+      "nature": "ilustración esquemática generada con IA; no es anatomía"
+    },
+    {
+      "file": "nivel-neurona.webp",
+      "size": [384, 384],
+      "generator": "OpenAI (generación de imágenes de Codex)",
+      "date": "2026-11-16",
+      "prompt": "Ilustración científica estilizada tipo holograma. Luz azul eléctrica y cian (#3a86ff, #5ee6ff, #c4e6ff) que emana de los bordes de las formas, con interior translúcido más denso hacia el centro, sobre fondo negro puro. Resplandor suave tipo bloom, líneas finas y precisas, sensación de vidrio luminoso. Composición limpia y centrada con mucho espacio negativo. Sin texto, sin letras, sin números, sin flechas, sin marcas de agua, sin marcos, sin personas. No fotorrealista, no caricatura. Ícono cuadrado de línea luminosa, trazo fino cian sin relleno: neurona con dendritas y axón. Un solo ícono individual, no una cuadrícula ni múltiples variaciones. Trazo cian fino y uniforme, objeto centrado con amplio margen. Sin recuadro ni borde. Fondo negro puro #000000.",
+      "nature": "ilustración esquemática generada con IA; no es anatomía"
+    },
+    {
+      "file": "nivel-sinapsis.webp",
+      "size": [384, 384],
+      "generator": "OpenAI (generación de imágenes de Codex)",
+      "date": "2026-11-16",
+      "prompt": "Ilustración científica estilizada tipo holograma. Luz azul eléctrica y cian (#3a86ff, #5ee6ff, #c4e6ff) que emana de los bordes de las formas, con interior translúcido más denso hacia el centro, sobre fondo negro puro. Resplandor suave tipo bloom, líneas finas y precisas, sensación de vidrio luminoso. Composición limpia y centrada con mucho espacio negativo. Sin texto, sin letras, sin números, sin flechas, sin marcas de agua, sin marcos, sin personas. No fotorrealista, no caricatura. Ícono cuadrado de línea luminosa, trazo fino cian sin relleno: botón sináptico frente a una espina dendrítica con vesículas. Un solo ícono individual, no una cuadrícula ni múltiples variaciones. Trazo cian fino y uniforme, objeto centrado con amplio margen. Sin recuadro ni borde. Fondo negro puro #000000.",
+      "nature": "ilustración esquemática generada con IA; no es anatomía"
+    },
+    {
+      "file": "nivel-sistema.webp",
+      "size": [384, 384],
+      "generator": "OpenAI (generación de imágenes de Codex)",
+      "date": "2026-11-16",
+      "prompt": "Ilustración científica estilizada tipo holograma. Luz azul eléctrica y cian (#3a86ff, #5ee6ff, #c4e6ff) que emana de los bordes de las formas, con interior translúcido más denso hacia el centro, sobre fondo negro puro. Resplandor suave tipo bloom, líneas finas y precisas, sensación de vidrio luminoso. Composición limpia y centrada con mucho espacio negativo. Sin texto, sin letras, sin números, sin flechas, sin marcas de agua, sin marcos, sin personas. No fotorrealista, no caricatura. Ícono cuadrado de línea luminosa, trazo fino cian sin relleno: silueta humana anatómica de pie con el eje nervioso (encéfalo y médula) marcado. Es un símbolo anatómico, no una persona real. Un solo ícono individual, no una cuadrícula ni múltiples variaciones. Trazo cian fino y uniforme, objeto centrado con amplio margen. Sin recuadro ni borde. Fondo negro puro #000000.",
+      "nature": "ilustración esquemática generada con IA; no es anatomía"
+    },
+    {
+      "file": "sprite-iones.webp",
+      "size": [1280, 256],
+      "generator": "OpenAI (generación de imágenes de Codex)",
+      "date": "2026-11-16",
+      "prompt": "Ilustración científica estilizada tipo holograma. Luz azul eléctrica y cian (#3a86ff, #5ee6ff, #c4e6ff) que emana de los bordes de las formas, con interior translúcido más denso hacia el centro, sobre fondo negro puro. Resplandor suave tipo bloom, líneas finas y precisas, sensación de vidrio luminoso. Composición limpia y centrada con mucho espacio negativo. Sin texto, sin letras, sin números, sin flechas, sin marcas de agua, sin marcos, sin personas. No fotorrealista, no caricatura. Formato apaisado 5:1: cinco puntos de luz esféricos en fila horizontal, bien separados y del mismo tamaño, en este orden: blanco frío, ámbar, dorado, verde azulado, gris azulado; núcleo brillante y halo suave. Fondo negro puro #000000.",
+      "nature": "ilustración esquemática generada con IA; no es anatomía"
+    },
+    {
+      "file": "sprite-vesicula.webp",
+      "size": [256, 256],
+      "generator": "OpenAI (generación de imágenes de Codex)",
+      "date": "2026-11-16",
+      "prompt": "Ilustración científica estilizada tipo holograma. Luz azul eléctrica y cian (#3a86ff, #5ee6ff, #c4e6ff) que emana de los bordes de las formas, con interior translúcido más denso hacia el centro, sobre fondo negro puro. Resplandor suave tipo bloom, líneas finas y precisas, sensación de vidrio luminoso. Composición limpia y centrada con mucho espacio negativo. Sin texto, sin letras, sin números, sin flechas, sin marcas de agua, sin marcos, sin personas. No fotorrealista, no caricatura. Imagen cuadrada: una esfera translúcida vista de frente, borde luminoso nítido e interior con granulado fino; sin sombras. Fondo negro puro #000000.",
+      "nature": "ilustración esquemática generada con IA; no es anatomía"
+    }
+  ]
+}
