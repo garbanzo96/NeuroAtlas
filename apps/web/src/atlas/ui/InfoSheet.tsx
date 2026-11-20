@@ -1,5 +1,13 @@
 import { useEffect, useState } from 'react';
-import { assetUrl, baseKey, sideOf, loadNeurons, type NeuronRecord } from '../data';
+import {
+  assetUrl,
+  baseKey,
+  sideOf,
+  loadNeurons,
+  loadMicrocircuits,
+  type Microcircuit,
+  type NeuronRecord,
+} from '../data';
 import { builtinOverlays } from '../overlays';
 import { LEVELS } from '../levels';
 import { useAtlas } from '../store';
@@ -188,14 +196,54 @@ function LevelSheet() {
   const level = useAtlas((s) => s.level);
   const variant = useAtlas((s) => s.variant);
   const [neurons, setNeurons] = useState<NeuronRecord[]>([]);
+  const [circuits, setCircuits] = useState<Microcircuit[]>([]);
   useEffect(() => {
-    if (level === 'neurona') void loadNeurons().then(setNeurons);
+    if (level === 'circuito') void loadMicrocircuits().then(setCircuits);
+  }, [level]);
+  useEffect(() => {
+    if (level === 'neurona' || level === 'circuito') void loadNeurons().then(setNeurons);
   }, [level]);
   const neuron = neurons.find((n) => n.id === variant);
   const [docs, setDocs] = useState<LevelDoc[] | null>(null);
   useEffect(() => void loadLevels().then(setDocs), []);
   const doc = docs?.find((d) => d.id === level);
   if (neuron) return <NeuronSheet neuron={neuron} />;
+  const circuit = level === 'circuito' ? circuits.find((c) => c.id === variant) : undefined;
+  if (circuit)
+    return (
+      <article className="na-sheet__body">
+        <p className="na-kicker">Microcircuito · esquema didáctico</p>
+        <h2 className="na-sheet__title">{circuit.name}</h2>
+        <p className="na-lead">{circuit.compute}</p>
+        <h3>Flujo de la señal</h3>
+        <p>{circuit.flow}</p>
+        <h3>Formas de referencia</h3>
+        <ul>
+          {circuit.cells.map((cell) => {
+            const reference = neurons.find((n) => n.id === cell.morphology);
+            return (
+              <li key={cell.id}>
+                {cell.name}: {reference ? `${reference.name} · ${reference.species}` : 'esquema'}
+              </li>
+            );
+          })}
+        </ul>
+        <h3>Qué mirar</h3>
+        <ul>
+          {circuit.scenarios.map((sc) => (
+            <li key={sc.id}>
+              <strong>{sc.name}:</strong> {sc.look}
+            </li>
+          ))}
+        </ul>
+        <p>
+          Formas de ratón, rata, gato y humano usadas como referencia de tipo celular; disposición
+          esquemática. Las formas rotuladas como esquema no son reconstrucciones del tipo
+          representado. Los pesos son didácticos y no representan mediciones.
+        </p>
+        <p className="na-prov">borrador — sin revisión experta</p>
+      </article>
+    );
   if (!doc) return <p className="na-muted">Cargando lámina…</p>;
   let i = 0;
   const meta = LEVELS.find((l) => l.id === level)!;

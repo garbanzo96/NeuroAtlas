@@ -1182,6 +1182,9 @@ body,
   box-shadow: inset 0 0 0 1px rgba(140, 210, 255, 0.4);
 }
 /* rótulos 3D dentro de escenas micro (drei <Html>) */
+.na-scene-tag > span {
+  display: inline-block;
+}
 .na-scene-tag {
   font: 11px var(--na-font-mono);
   letter-spacing: 0.06em;
@@ -1971,4 +1974,34 @@ body,
   .na-transmitter__tag {
     animation: none;
   }
+}
+
+.na-microbar--circuits {
+  left: 120px;
+  bottom: 12px;
+  transform: none;
+  flex-wrap: wrap;
+  max-width: min(620px, calc(100vw - 560px));
+}
+@media (max-width: 900px) {
+  .na-microbar--circuits {
+    left: 8px;
+    bottom: 84px;
+    max-width: calc(100vw - 16px);
+  }
+}
+.na-micro-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  width: 100%;
+}
+.na-micro-controls small {
+  flex-basis: 100%;
+  color: #a9bddb;
+}
+.na-micro-controls button[aria-pressed='true'] {
+  background: #244e75;
+  color: #fff;
 }

@@ -202,3 +202,38 @@ export interface Transmitter {
   steps: string[];
   drugs: string[];
 }
+
+/** Datos de autor: disposición y pesos didácticos, no mediciones anatómicas. */
+export interface Microcircuit {
+  id: string;
+  name: string;
+  compute: string;
+  flow: string;
+  layers: string[];
+  cells: {
+    id: string;
+    name: string;
+    morphology?: string;
+    schematic?: boolean;
+    position: [number, number, number];
+    rotation: [number, number, number];
+    scale: number;
+  }[];
+  edges: { from: string; to: string; sign: 'exc' | 'inh'; delay: number; w: number }[];
+  scenarios: {
+    id: string;
+    name: string;
+    look: string;
+    stim: { node: string; at: number; amp: number; dur: number }[];
+  }[];
+}
+let microcircuitsPromise: Promise<Microcircuit[]> | null = null;
+export function loadMicrocircuits(): Promise<Microcircuit[]> {
+  microcircuitsPromise ??= fetch(assetUrl('microcircuits.json'))
+    .then((r) => {
+      if (!r.ok) throw new Error('No se pudieron cargar los microcircuitos');
+      return r.json() as Promise<{ circuits: Microcircuit[] }>;
+    })
+    .then((data) => data.circuits);
+  return microcircuitsPromise;
+}

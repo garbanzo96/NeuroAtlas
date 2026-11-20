@@ -1,0 +1,988 @@
+{
+  "status": "borrador — sin revisión experta",
+  "circuits": [
+    {
+      "id": "neocortical",
+      "name": "Columna neocortical",
+      "compute": "Integra entradas talámicas con señales locales excitatorias e inhibitorias. El motivo VIP–SST ilustra una vía de desinhibición.",
+      "flow": "Tálamo → L4 → L2/3 → L5; L6 → tálamo. VIP ⊣ SST ⊣ piramidal y PV ⊣ piramidal.",
+      "layers": [
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5",
+        "L6"
+      ],
+      "cells": [
+        {
+          "id": "talamo",
+          "name": "Entrada talámica",
+          "schematic": true,
+          "position": [
+            -6,
+            -4,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        },
+        {
+          "id": "l4",
+          "name": "Estrellada L4",
+          "morphology": "estrellada-espinosa",
+          "position": [
+            -2,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        },
+        {
+          "id": "l23",
+          "name": "Piramidal L2/3",
+          "morphology": "piramidal-l23",
+          "position": [
+            1,
+            3,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1.2
+        },
+        {
+          "id": "l5",
+          "name": "Piramidal L5",
+          "morphology": "piramidal-l5",
+          "position": [
+            2,
+            -2,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1.4
+        },
+        {
+          "id": "l6",
+          "name": "Piramidal L6",
+          "morphology": "piramidal-l5",
+          "position": [
+            1,
+            -4,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        },
+        {
+          "id": "pv",
+          "name": "Cesta PV",
+          "morphology": "cesta-pv",
+          "position": [
+            5,
+            1,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        },
+        {
+          "id": "sst",
+          "name": "Martinotti SST",
+          "morphology": "martinotti",
+          "position": [
+            -4,
+            2,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        },
+        {
+          "id": "vip",
+          "name": "Bipolar VIP",
+          "morphology": "bipolar-vip",
+          "position": [
+            -5,
+            4,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        }
+      ],
+      "edges": [
+        {
+          "from": "talamo",
+          "to": "l4",
+          "sign": "exc",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "l4",
+          "to": "l23",
+          "sign": "exc",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "l23",
+          "to": "l5",
+          "sign": "exc",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "l6",
+          "to": "talamo",
+          "sign": "exc",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "vip",
+          "to": "sst",
+          "sign": "inh",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "sst",
+          "to": "l23",
+          "sign": "inh",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "pv",
+          "to": "l5",
+          "sign": "inh",
+          "delay": 0.6,
+          "w": 0.6
+        }
+      ],
+      "scenarios": [
+        {
+          "id": "talamica",
+          "name": "Entrada talámica",
+          "look": "Sigue la entrada desde L4 hacia las piramidales.",
+          "stim": [
+            {
+              "node": "talamo",
+              "at": 0.4,
+              "amp": 0.9,
+              "dur": 1.4
+            }
+          ]
+        },
+        {
+          "id": "vip",
+          "name": "Activar VIP",
+          "look": "Observa la inhibición de SST y la desinhibición de la piramidal.",
+          "stim": [
+            {
+              "node": "vip",
+              "at": 0.4,
+              "amp": 0.9,
+              "dur": 1.4
+            }
+          ]
+        },
+        {
+          "id": "pv",
+          "name": "Activar PV",
+          "look": "Observa la inhibición de la piramidal.",
+          "stim": [
+            {
+              "node": "pv",
+              "at": 0.4,
+              "amp": 0.9,
+              "dur": 1.4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cerebelo",
+      "name": "Corteza cerebelosa",
+      "compute": "Integra entradas musgosas y trepadoras; la salida de Purkinje inhibe los núcleos profundos.",
+      "flow": "Musgosa → granular → fibras paralelas → Purkinje ⊣ núcleo profundo. Trepadora → Purkinje.",
+      "layers": [
+        "Molecular",
+        "Purkinje",
+        "Granular"
+      ],
+      "cells": [
+        {
+          "id": "musgosa",
+          "name": "Fibra musgosa",
+          "schematic": true,
+          "position": [
+            -6,
+            -4,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        },
+        {
+          "id": "granular",
+          "name": "Granular",
+          "morphology": "granulo-cerebelo",
+          "position": [
+            -3,
+            -3,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        },
+        {
+          "id": "purkinje",
+          "name": "Purkinje",
+          "morphology": "purkinje",
+          "position": [
+            1,
+            1,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1.8
+        },
+        {
+          "id": "nucleo",
+          "name": "Núcleo profundo",
+          "schematic": true,
+          "position": [
+            5,
+            -4,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        },
+        {
+          "id": "trepadora",
+          "name": "Fibra trepadora",
+          "schematic": true,
+          "position": [
+            -6,
+            3,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        },
+        {
+          "id": "golgi",
+          "name": "Golgi",
+          "morphology": "golgi-cerebelo",
+          "position": [
+            -1,
+            -3,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        },
+        {
+          "id": "cesta",
+          "name": "Cesta cerebelosa · esquema",
+          "morphology": "cesta-pv",
+          "position": [
+            5,
+            2,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        }
+      ],
+      "edges": [
+        {
+          "from": "musgosa",
+          "to": "granular",
+          "sign": "exc",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "granular",
+          "to": "purkinje",
+          "sign": "exc",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "purkinje",
+          "to": "nucleo",
+          "sign": "inh",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "trepadora",
+          "to": "purkinje",
+          "sign": "exc",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "golgi",
+          "to": "granular",
+          "sign": "inh",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "cesta",
+          "to": "purkinje",
+          "sign": "inh",
+          "delay": 0.6,
+          "w": 0.6
+        }
+      ],
+      "scenarios": [
+        {
+          "id": "trepadora",
+          "name": "Fibra trepadora",
+          "look": "Sigue la entrada directa a Purkinje.",
+          "stim": [
+            {
+              "node": "trepadora",
+              "at": 0.4,
+              "amp": 0.9,
+              "dur": 1.4
+            }
+          ]
+        },
+        {
+          "id": "paralelas",
+          "name": "Paralelas en tren",
+          "look": "Sigue granular → paralelas → Purkinje → núcleo profundo.",
+          "stim": [
+            {
+              "node": "musgosa",
+              "at": 0.4,
+              "amp": 0.9,
+              "dur": 1.4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hipocampo",
+      "name": "Hipocampo trisináptico",
+      "compute": "Resume rutas de la formación hipocampal y su convergencia en CA1. La disposición es esquemática.",
+      "flow": "Entorrinal → giro dentado → CA3 → CA1 → subículo; entorrinal → CA1 y recurrentes de CA3.",
+      "layers": [
+        "Entorrinal",
+        "Dentado y CA3",
+        "CA1 y subículo"
+      ],
+      "cells": [
+        {
+          "id": "ec",
+          "name": "Corteza entorrinal",
+          "schematic": true,
+          "position": [
+            -6,
+            2,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        },
+        {
+          "id": "gd",
+          "name": "Granular del giro dentado",
+          "morphology": "granulo-giro-dentado",
+          "position": [
+            -3,
+            -2,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        },
+        {
+          "id": "ca3",
+          "name": "Piramidal CA3",
+          "morphology": "piramidal-ca3",
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1.4
+        },
+        {
+          "id": "ca1",
+          "name": "Piramidal CA1",
+          "morphology": "piramidal-ca1",
+          "position": [
+            3,
+            1,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1.4
+        },
+        {
+          "id": "sub",
+          "name": "Subículo",
+          "schematic": true,
+          "position": [
+            6,
+            -2,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        }
+      ],
+      "edges": [
+        {
+          "from": "ec",
+          "to": "gd",
+          "sign": "exc",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "gd",
+          "to": "ca3",
+          "sign": "exc",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "ca3",
+          "to": "ca1",
+          "sign": "exc",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "ca3",
+          "to": "ca3",
+          "sign": "exc",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "ec",
+          "to": "ca1",
+          "sign": "exc",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "ca1",
+          "to": "sub",
+          "sign": "exc",
+          "delay": 0.6,
+          "w": 0.6
+        }
+      ],
+      "scenarios": [
+        {
+          "id": "perforante",
+          "name": "Estimular perforante",
+          "look": "Sigue la vía trisináptica y la temporoamónica.",
+          "stim": [
+            {
+              "node": "ec",
+              "at": 0.4,
+              "amp": 0.9,
+              "dur": 1.4
+            }
+          ]
+        },
+        {
+          "id": "ca3",
+          "name": "Activar CA3",
+          "look": "Observa las colaterales recurrentes y la vía de Schaffer.",
+          "stim": [
+            {
+              "node": "ca3",
+              "at": 0.4,
+              "amp": 0.9,
+              "dur": 1.4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "medula",
+      "name": "Reflejo miotático",
+      "compute": "El circuito esquematiza la respuesta al estiramiento y la inhibición recíproca del antagonista.",
+      "flow": "Huso → aferente Ia → motoneurona agonista; Ia → interneurona ⊣ antagonista; Renshaw ⊣ motoneurona.",
+      "layers": [
+        "Aferencia",
+        "Interneuronas",
+        "Salida motora"
+      ],
+      "cells": [
+        {
+          "id": "huso",
+          "name": "Huso muscular",
+          "schematic": true,
+          "position": [
+            -6,
+            3,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        },
+        {
+          "id": "ia",
+          "name": "Aferente Ia",
+          "schematic": true,
+          "position": [
+            -3,
+            2,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        },
+        {
+          "id": "agonista",
+          "name": "Motoneurona agonista",
+          "morphology": "motoneurona",
+          "position": [
+            2,
+            3,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1.3
+        },
+        {
+          "id": "inter",
+          "name": "Interneurona Ia",
+          "schematic": true,
+          "position": [
+            -1,
+            -2,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        },
+        {
+          "id": "antagonista",
+          "name": "Motoneurona antagonista",
+          "morphology": "motoneurona",
+          "position": [
+            4,
+            -2,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1.3
+        },
+        {
+          "id": "renshaw",
+          "name": "Célula de Renshaw",
+          "schematic": true,
+          "position": [
+            1,
+            -4,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        }
+      ],
+      "edges": [
+        {
+          "from": "huso",
+          "to": "ia",
+          "sign": "exc",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "ia",
+          "to": "agonista",
+          "sign": "exc",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "ia",
+          "to": "inter",
+          "sign": "exc",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "inter",
+          "to": "antagonista",
+          "sign": "inh",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "agonista",
+          "to": "renshaw",
+          "sign": "exc",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "renshaw",
+          "to": "agonista",
+          "sign": "inh",
+          "delay": 0.6,
+          "w": 0.6
+        }
+      ],
+      "scenarios": [
+        {
+          "id": "golpe",
+          "name": "Golpe en el tendón",
+          "look": "Sigue la activación del agonista y la inhibición recíproca.",
+          "stim": [
+            {
+              "node": "huso",
+              "at": 0.4,
+              "amp": 0.9,
+              "dur": 1.4
+            }
+          ]
+        },
+        {
+          "id": "renshaw",
+          "name": "Activar Renshaw",
+          "look": "Observa la inhibición recurrente de la motoneurona.",
+          "stim": [
+            {
+              "node": "renshaw",
+              "at": 0.4,
+              "amp": 0.9,
+              "dur": 1.4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "retina",
+      "name": "Circuito de retina",
+      "compute": "Esquematiza rutas ON y OFF y la modulación lateral en la retina.",
+      "flow": "Conos → bipolares ON y OFF → ganglionares; horizontales y amacrinas aportan inhibición lateral.",
+      "layers": [
+        "Fotorreceptores",
+        "Capa interna",
+        "Ganglionares"
+      ],
+      "cells": [
+        {
+          "id": "cono",
+          "name": "Cono",
+          "schematic": true,
+          "position": [
+            -4,
+            4,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        },
+        {
+          "id": "on",
+          "name": "Bipolar ON",
+          "schematic": true,
+          "position": [
+            -2,
+            1,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        },
+        {
+          "id": "off",
+          "name": "Bipolar OFF",
+          "schematic": true,
+          "position": [
+            2,
+            1,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        },
+        {
+          "id": "gon",
+          "name": "Ganglionar ON",
+          "morphology": "ganglionar-retina",
+          "position": [
+            -2,
+            -3,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        },
+        {
+          "id": "goff",
+          "name": "Ganglionar OFF",
+          "morphology": "ganglionar-retina",
+          "position": [
+            2,
+            -3,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        },
+        {
+          "id": "horizontal",
+          "name": "Horizontal",
+          "schematic": true,
+          "position": [
+            -6,
+            2,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        },
+        {
+          "id": "amacrina",
+          "name": "Amacrina",
+          "schematic": true,
+          "position": [
+            5,
+            -1,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": 1
+        }
+      ],
+      "edges": [
+        {
+          "from": "cono",
+          "to": "on",
+          "sign": "inh",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "cono",
+          "to": "off",
+          "sign": "exc",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "on",
+          "to": "gon",
+          "sign": "exc",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "off",
+          "to": "goff",
+          "sign": "exc",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "horizontal",
+          "to": "cono",
+          "sign": "inh",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "amacrina",
+          "to": "gon",
+          "sign": "inh",
+          "delay": 0.6,
+          "w": 0.6
+        },
+        {
+          "from": "amacrina",
+          "to": "goff",
+          "sign": "inh",
+          "delay": 0.6,
+          "w": 0.6
+        }
+      ],
+      "scenarios": [
+        {
+          "id": "cono",
+          "name": "Activar cono",
+          "look": "Compara los signos de las vías ON y OFF.",
+          "stim": [
+            {
+              "node": "cono",
+              "at": 0.4,
+              "amp": 0.9,
+              "dur": 1.4
+            }
+          ]
+        },
+        {
+          "id": "amacrina",
+          "name": "Activar amacrina",
+          "look": "Observa la inhibición de las ganglionares.",
+          "stim": [
+            {
+              "node": "amacrina",
+              "at": 0.4,
+              "amp": 0.9,
+              "dur": 1.4
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

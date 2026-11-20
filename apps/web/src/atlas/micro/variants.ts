@@ -7,6 +7,11 @@ export const MICRO_VARIANTS: Partial<Record<LevelId, { id: string; label: string
     { id: 'microcircuito', label: 'Microcircuito canónico' },
     { id: 'oscilacion', label: 'Ritmo E/I' },
     { id: 'red', label: 'Red de espigas' },
+    { id: 'neocortical', label: 'Columna neocortical' },
+    { id: 'cerebelo', label: 'Corteza cerebelosa' },
+    { id: 'hipocampo', label: 'Hipocampo trisináptico' },
+    { id: 'medula', label: 'Reflejo miotático' },
+    { id: 'retina', label: 'Retina' },
   ],
   sinapsis: [
     { id: 'quimica', label: 'Sinapsis química glutamatérgica' },
@@ -30,3 +35,5 @@ export const MICRO_VARIANTS: Partial<Record<LevelId, { id: string; label: string
     { id: 'reposo', label: 'Gradientes en reposo' },
   ],
 };
+
+export const MICRO_CIRCUIT_IDS = ['neocortical', 'cerebelo', 'hipocampo', 'medula', 'retina'];
