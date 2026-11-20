@@ -271,7 +271,13 @@ function Channel({
             return (
               <mesh key={i} position={[Math.cos(a) * 1.5, 0, Math.sin(a) * 1.5]}>
                 <capsuleGeometry args={[0.2, 2.8, 4, 8]} />
-                <meshBasicMaterial color="#a4eaff" />
+                <meshBasicMaterial
+                  color="#7fdcff"
+                  transparent
+                  opacity={0.32}
+                  blending={THREE.AdditiveBlending}
+                  depthWrite={false}
+                />
               </mesh>
             );
           })}
