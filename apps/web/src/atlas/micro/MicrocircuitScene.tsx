@@ -327,7 +327,7 @@ function Circuit({ circuit }: { circuit: Microcircuit }) {
           <group key={layer} position={[0, y, -2]}>
             <mesh position={[0, -height / 2, 0]}>
               <planeGeometry args={[14, height]} />
-              <meshBasicMaterial color="#65baff" transparent opacity={0.035} depthWrite={false} />
+              <meshBasicMaterial color="#65baff" transparent opacity={0.014} depthWrite={false} />
             </mesh>
             <mesh>
               <planeGeometry args={[14, 0.025]} />
