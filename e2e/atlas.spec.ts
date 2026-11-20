@@ -157,4 +157,11 @@ test('el microcircuito cerebeloso inicia un escenario', async ({ page }) => {
   await page.goto('/?n=circuito&var=cerebelo');
   await page.getByRole('button', { name: 'Fibra trepadora', exact: true }).click();
   await expect(page.getByRole('status').filter({ hasText: 'Fibra trepadora' })).toBeVisible();
+  const panel = page.locator('.na-microbar--circuits');
+  await expect(panel).toBeVisible();
+  const bounds = await panel.boundingBox();
+  expect(bounds).not.toBeNull();
+  expect(bounds!.x).toBeLessThan(page.viewportSize()!.width / 2);
+  expect(bounds!.y).toBeGreaterThan(page.viewportSize()!.height / 2);
+  await expect(page.locator('.na-scene-tag').filter({ hasText: 'Purkinje' }).first()).toBeVisible();
 });
