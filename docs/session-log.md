@@ -5,6 +5,25 @@ resultados), qué quedó pendiente y cuál es el siguiente paso recomendado. Es 
 
 ---
 
+## 2026-11-23 · Cierre: retina, potencial de acción, evaluación y pulido de interfaz
+
+- **Hecho:** WP-072b (iones confinados cerca de la membrana que cruzan el poro según la conductancia,
+  rótulos por proteína sin choques, panel de V(t) fijo en pantalla con fases clicables, bomba con hélices,
+  lazo III–IV). WP-073 (escena propia de retina: capas rotuladas, conos y bastones distintos, vías ON/OFF,
+  horizontales y amacrinas, luz en oscuridad, centro o periferia). WP-066 (modo de evaluación: opción
+  múltiple, casos clínicos con vuelo a la lesión, localizar, nombrar y ordenar vía; Leitner en
+  `localStorage`; examen compartible con `?examen=`). Interfaz: la escala de la lámina se veía como campos de
+  texto por un choque con la clase `.na-unit` del lector de cursos (renombrada a `.na-nocaps`); en celular la
+  lámina abre a media altura con asa, la cabecera es compacta y la barra de variantes queda sobre la lámina;
+  en escritorio la barra se centra entre riel y lámina. Cámara: el vuelo a una estructura se aproxima desde
+  afuera (antes podía atravesar el cerebro) y un enlace `?e=` ya no queda en la vista lejana.
+- **Verificado:** `npm run check` verde (99 pruebas). E2E de escritorio 18/18. Capturas a 1440×900 y 390×844
+  de membrana, retina, evaluación y lámina en celular.
+- **Pendiente:** «predecir el circuito» y «lesión inversa» en evaluación; la bicapa todavía se lee algo
+  plana; el panel de escenarios de microcircuitos repite controles con la retina; e2e en el proyecto móvil no
+  se corrió en esta sesión.
+- **Siguiente:** WP-074 (simuladores, tanda 1) o WP-081 (visor molecular), según prioridad del usuario.
+
 ## 2026-11-19 · Depuración pedida por el usuario y morfologías reales
 
 - **Hecho:** el panel de capas (dock) tapaba la escala en ventanas bajas y no se podía cerrar: ahora es
