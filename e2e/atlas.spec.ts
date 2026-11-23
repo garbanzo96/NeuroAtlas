@@ -199,3 +199,11 @@ test('abre la conducción saltatoria', async ({ page }) => {
     timeout: 20_000,
   });
 });
+
+test('selecciona una fase del potencial de acción', async ({ page }) => {
+  await page.goto('/?n=molecula&var=canales');
+  const phase = page.getByRole('button', { name: 'Despolarización', exact: true });
+  await expect(phase).toBeVisible({ timeout: 20_000 });
+  await phase.click();
+  await expect(phase).toHaveAttribute('aria-pressed', 'true');
+});

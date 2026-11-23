@@ -96,8 +96,8 @@ function instancedHolo(color: string, fill: number, rim: number) {
   return material;
 }
 function Lipids() {
-  const headMaterial = useMemo(() => instancedHolo('#a7d9ff', 0.16, 0.42), []);
-  const tailMaterial = useMemo(() => instancedHolo('#3a86ff', 0.02, 0.2), []);
+  const headMaterial = useMemo(() => instancedHolo('#a7d9ff', 0.08, 0.23), []);
+  const tailMaterial = useMemo(() => instancedHolo('#3a86ff', 0.015, 0.14), []);
   useEffect(
     () => () => {
       headMaterial.dispose();
@@ -105,6 +105,7 @@ function Lipids() {
     },
     [headMaterial, tailMaterial],
   );
+  const initialized = useRef(false);
   const heads = useRef<THREE.InstancedMesh>(null);
   const tails = useRef<THREE.InstancedMesh>(null);
   const obj = useMemo(() => new THREE.Object3D(), []);
@@ -125,9 +126,10 @@ function Lipids() {
     [],
   );
   useEffect(() => () => tailGeometry.dispose(), [tailGeometry]);
-  useFrame(({ clock }) => {
-    if (!heads.current || !tails.current) return;
-    const time = reducedMotion() ? 0 : clock.elapsedTime * 0.18;
+  useFrame(() => {
+    if (!heads.current || !tails.current || initialized.current) return;
+    initialized.current = true;
+    const time = 0;
     let i = 0;
     for (let xi = 0; xi < 40; xi++)
       for (let zi = 0; zi < 24; zi++) {
@@ -163,7 +165,7 @@ function Lipids() {
         <sphereGeometry args={[0.18, 16, 12]} />
         <primitive object={headMaterial} attach="material" />
       </instancedMesh>
-      <instancedMesh ref={tails} args={[tailGeometry, undefined, 2116]}>
+      <instancedMesh ref={tails} args={[tailGeometry, undefined, 3840]}>
         <primitive object={tailMaterial} attach="material" />
       </instancedMesh>
     </Interactive>
@@ -175,8 +177,8 @@ function Ions({ id, color }: { id: 'na' | 'k'; color: string }) {
     const rng = random(id === 'na' ? 12 : 42);
     return Array.from({ length: 50 }, (_, i) => ({
       x: (rng() - 0.5) * 17,
-      z: (rng() - 0.5) * 17,
-      y: (i < 39 ? (id === 'na' ? 1 : -1) : id === 'na' ? -1 : 1) * (1.5 + rng() * 3),
+      z: (rng() - 0.5) * 8,
+      y: (i < 39 ? (id === 'na' ? 1 : -1) : id === 'na' ? -1 : 1) * (1.5 + rng() * 1.2),
       phase: rng() * 6,
     }));
   }, [id]);
@@ -186,9 +188,9 @@ function Ions({ id, color }: { id: 'na' | 'k'; color: string }) {
     const t = reducedMotion() ? 0 : clock.elapsedTime * 0.35;
     points.forEach((p, i) => {
       obj.position.set(
-        p.x + Math.sin(t + p.phase) * 0.25,
-        p.y + Math.sin(t * 0.7 + p.phase) * 0.15,
-        p.z + Math.cos(t + p.phase) * 0.25,
+        p.x + Math.sin(t + p.phase) * 0.08,
+        p.y + Math.sin(t * 0.7 + p.phase) * 0.06,
+        p.z + Math.cos(t + p.phase) * 0.08,
       );
       obj.updateMatrix();
       ref.current!.setMatrixAt(i, obj.matrix);
@@ -198,7 +200,7 @@ function Ions({ id, color }: { id: 'na' | 'k'; color: string }) {
   return (
     <Interactive id={id} anchor={id === 'na' ? [5, 3, 0] : [5, -3, 0]}>
       <instancedMesh ref={ref} args={[undefined, undefined, points.length]}>
-        <sphereGeometry args={[0.13, 16, 12]} />
+        <sphereGeometry args={[0.052, 10, 8]} />
         <meshBasicMaterial color={color} />
       </instancedMesh>
     </Interactive>
@@ -210,8 +212,10 @@ function Channel({
   color,
   active,
   phase,
+  manual,
 }: {
   phase: number;
+  manual: boolean;
   active: boolean;
   id: 'nav' | 'kv' | 'fuga';
   x: number;
@@ -219,24 +223,63 @@ function Channel({
 }) {
   const material = useMemo(() => holoMaterial({ color, fill: 0.04, rim: 0.5 }), [color]);
   useEffect(() => () => material.dispose(), [material]);
-  const ion = useRef<THREE.Mesh>(null);
+  const ions = useRef<THREE.InstancedMesh>(null);
+  const ionObject = useMemo(() => new THREE.Object3D(), []);
+  const flow = useRef(0);
+  const stateLabel = useRef<HTMLSpanElement>(null);
+  const loop = useMemo(
+    () =>
+      new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: '#7ab6ff' })),
+    [],
+  );
+  useEffect(
+    () => () => {
+      loop.geometry.dispose();
+      loop.material.dispose();
+    },
+    [loop],
+  );
   const sensors = useRef<THREE.Group>(null);
   const ball = useRef<THREE.Mesh>(null);
   const lumen = useRef<THREE.MeshBasicMaterial>(null);
-  useFrame(({ clock }) => {
-    const t = reducedMotion() ? [0.05, 0.34, 0.52, 0.65, 0.8][phase]! : (clock.elapsedTime % 6) / 6;
+  useFrame(({ clock }, dt) => {
+    const fixed = reducedMotion() || manual;
+    const t = fixed ? [0.05, 0.34, 0.52, 0.65, 0.8][phase]! : (clock.elapsedTime % 6) / 6;
     const bell = (center: number, width: number) => Math.max(0, 1 - Math.abs(t - center) / width);
-    const m = reducedMotion() ? bell(0.28, 0.22) : read('hh.m', bell(0.28, 0.22));
-    const h = reducedMotion() ? 1 - bell(0.43, 0.23) : read('hh.h', 1 - bell(0.43, 0.23));
-    const n = reducedMotion() ? bell(0.52, 0.3) : read('hh.n', bell(0.52, 0.3));
+    const m = fixed ? bell(0.28, 0.22) : read('hh.m', bell(0.28, 0.22));
+    const h = fixed ? 1 - bell(0.43, 0.23) : read('hh.h', 1 - bell(0.43, 0.23));
+    const n = fixed ? bell(0.52, 0.3) : read('hh.n', bell(0.52, 0.3));
     const activation = id === 'nav' ? m : n;
     const open = id === 'nav' ? m ** 3 * h : id === 'kv' ? n ** 4 : 0;
     if (sensors.current) sensors.current.position.y = active ? activation * 0.6 : 0;
-    if (ball.current) ball.current.position.x = active ? 1.1 * h : 1.1;
-    if (ion.current) {
-      const progress = reducedMotion() ? 0.5 : (clock.elapsedTime * 1.4) % 1;
-      ion.current.visible = active && open > 0.04;
-      ion.current.position.y = (id === 'nav' ? 1 : -1) * (1.7 - progress * 3.4);
+    const ballX = active ? 1.1 * h : 1.1;
+    if (ball.current) ball.current.position.x = ballX;
+    if (id === 'nav') {
+      const curve = new THREE.QuadraticBezierCurve3(
+        new THREE.Vector3(1.35, -1.2, 0),
+        new THREE.Vector3(0.7, -2.1, 0.3),
+        new THREE.Vector3(ballX, -1.25, 0),
+      );
+      loop.geometry.setFromPoints(curve.getPoints(20));
+    }
+    if (stateLabel.current)
+      stateLabel.current.textContent = !active
+        ? 'cerrado'
+        : id === 'nav' && h < 0.35
+          ? 'inactivado'
+          : open > 0.04
+            ? 'abierto'
+            : 'cerrado';
+    if (ions.current) {
+      if (!reducedMotion()) flow.current += dt * open * 2;
+      for (let i = 0; i < 4; i++) {
+        const progress = (flow.current + i / 4) % 1;
+        ionObject.position.set(0, (id === 'nav' ? 1 : -1) * (1.8 - progress * 3.6), 0);
+        ionObject.scale.setScalar(active && open > 0.04 ? 1 : 0.0001);
+        ionObject.updateMatrix();
+        ions.current.setMatrixAt(i, ionObject.matrix);
+      }
+      ions.current.instanceMatrix.needsUpdate = true;
     }
     if (lumen.current) lumen.current.opacity = 0.08 + (active ? open * 0.7 : 0);
     material.uniforms.uHover.value = active ? open * 0.5 : 0;
@@ -285,14 +328,10 @@ function Channel({
         <mesh rotation={[Math.PI / 2, 0, 0]} material={material}>
           <torusGeometry args={[0.32, 0.07, 8, 32]} />
         </mesh>
-        {id === 'nav' && (
-          <Html zIndexRange={[5, 0]} position={[-1, 2.6, 0]} className="na-scene-tag">
-            Nav · dominios I–IV · S4
-          </Html>
-        )}
-        {id === 'kv' && (
-          <Html zIndexRange={[5, 0]} position={[-0.7, 2.6, 0]} className="na-scene-tag">
-            Kv · tetrámero
+        {id !== 'fuga' && (
+          <Html center zIndexRange={[5, 0]} position={[0, 3.2, 0]} className="na-ap-protein-label">
+            <span>{id === 'nav' ? 'Nav' : 'Kv'}</span>
+            <span ref={stateLabel}>cerrado</span>
           </Html>
         )}
         <mesh>
@@ -307,40 +346,26 @@ function Channel({
           />
         </mesh>
         {id === 'nav' && (
-          <mesh position={[0.55, -1.5, 0]}>
-            <tubeGeometry
-              args={[
-                new THREE.QuadraticBezierCurve3(
-                  new THREE.Vector3(1, 0, 0),
-                  new THREE.Vector3(0.5, -0.6, 0.3),
-                  new THREE.Vector3(-0.45, 0, 0),
-                ),
-                16,
-                0.04,
-                6,
-                false,
-              ]}
-            />
-            <meshBasicMaterial color="#7ab6ff" />
-          </mesh>
+          <>
+            <primitive object={loop} />
+            <mesh ref={ball} position={[1.1, -1.25, 0]} material={material}>
+              <sphereGeometry args={[0.28, 16, 12]} />
+            </mesh>
+          </>
         )}
-        {id === 'nav' && (
-          <mesh ref={ball} position={[0.95, -1.25, 0]} material={material}>
-            <sphereGeometry args={[0.28, 16, 12]} />
-          </mesh>
+        {id !== 'fuga' && (
+          <instancedMesh ref={ions} args={[undefined, undefined, 4]}>
+            <sphereGeometry args={[0.07, 10, 8]} />
+            <meshBasicMaterial color={id === 'nav' ? '#ffb057' : '#5ee6ff'} />
+          </instancedMesh>
         )}
-        <mesh ref={ion}>
-          <sphereGeometry args={[0.13, 12, 8]} />
-          <meshBasicMaterial color={id === 'nav' ? '#ffb057' : '#5ee6ff'} />
-        </mesh>
       </group>
     </Interactive>
   );
 }
-function Pump() {
-  const top = useRef<THREE.Mesh>(null);
-  const bottom = useRef<THREE.Mesh>(null);
-  const label = useRef<HTMLDivElement>(null);
+function Pump({ channels }: { channels: boolean }) {
+  const top = useRef<THREE.Group>(null);
+  const label = useRef<HTMLSpanElement>(null);
   const ions = useRef<THREE.InstancedMesh>(null);
   const phosphate = useRef<THREE.Mesh>(null);
   const obj = useMemo(() => new THREE.Object3D(), []);
@@ -358,7 +383,6 @@ function Pump() {
     if (label.current) label.current.textContent = state.label;
     if (phosphate.current) phosphate.current.visible = state.phosphorylated;
     if (top.current) top.current.rotation.z = state.side === 'ext' ? 0.25 : 0;
-    if (bottom.current) bottom.current.rotation.z = state.side === 'cyt' ? -0.25 : 0;
     material.uniforms.uTime.value = t;
     if (ions.current) {
       for (let i = 0; i < 5; i++) {
@@ -378,11 +402,26 @@ function Pump() {
   });
   return (
     <Interactive id="bomba" anchor={[0, 0, 0]}>
-      <mesh ref={top} position={[0, 0, 0]} scale={[0.65, 1.3, 0.55]} material={material}>
-        <sphereGeometry args={[1, 32, 24]} />
-      </mesh>
-      <mesh ref={bottom} position={[0, -1.5, 0]} scale={[1.15, 0.8, 0.8]} material={material}>
-        <sphereGeometry args={[1, 32, 24]} />
+      <group ref={top}>
+        {Array.from({ length: 10 }, (_, i) => {
+          const angle = (i * Math.PI * 2) / 10;
+          return (
+            <mesh
+              key={i}
+              position={[Math.cos(angle) * 0.65, 0, Math.sin(angle) * 0.55]}
+              rotation={[0.05 * Math.sin(angle), 0, 0.05 * Math.cos(angle)]}
+              material={material}
+            >
+              <capsuleGeometry args={[0.17, 2.5, 4, 8]} />
+            </mesh>
+          );
+        })}
+        <mesh position={[0, -1.45, 0]} scale={[0.8, 0.55, 0.55]} material={material}>
+          <sphereGeometry args={[1, 24, 16]} />
+        </mesh>
+      </group>
+      <mesh position={[1.15, 0.35, 0]} material={material}>
+        <capsuleGeometry args={[0.24, 1.9, 4, 8]} />
       </mesh>
       <mesh ref={phosphate} position={[0.85, 0.25, 0.7]}>
         <sphereGeometry args={[0.2, 10, 8]} />
@@ -392,8 +431,9 @@ function Pump() {
         <sphereGeometry args={[0.13, 16, 12]} />
         <meshBasicMaterial />
       </instancedMesh>
-      <Html zIndexRange={[5, 0]} position={[1.3, 1.7, 0]} className="na-scene-tag">
-        <div ref={label}>Unión de sodio citosólico</div>
+      <Html center zIndexRange={[5, 0]} position={[0, 3.2, 0]} className="na-ap-protein-label">
+        <span>Bomba Na⁺/K⁺</span>
+        <span ref={label}>{channels ? 'ciclo de transporte' : 'Unión de sodio citosólico'}</span>
       </Html>
     </Interactive>
   );
@@ -402,42 +442,57 @@ function MembranePatch() {
   const variant = useAtlas((s) => s.variant) ?? 'bomba';
   const group = useRef<THREE.Group>(null);
   const [phase, setPhase] = useState(0);
+  const [manual, setManual] = useState(false);
+  const panelPortal = useRef(document.body);
   const cursor = useRef<SVGLineElement>(null);
   const trace = useRef<SVGPolylineElement>(null);
+  const traceLabel = useRef<HTMLSpanElement>(null);
   const history = useRef<number[]>([]);
   const sampleAt = useRef(0);
+
   const pulse = useRef<THREE.MeshBasicMaterial>(null);
   useEffect(() => {
     useAtlas.getState().setParts(parts);
     return () => useAtlas.getState().setParts({});
   }, []);
   useFrame(({ clock }, dt) => {
-    if (cursor.current && trace.current) {
+    if (cursor.current) {
+      const t =
+        reducedMotion() || manual
+          ? [0.05, 0.34, 0.52, 0.65, 0.8][phase]!
+          : (clock.elapsedTime % 6) / 6;
       const voltage = read('hh.V', NaN);
-      const live = Number.isFinite(voltage) && !reducedMotion();
-      if (live && clock.elapsedTime - sampleAt.current > 0.08) {
-        sampleAt.current = clock.elapsedTime;
-        history.current.push(voltage);
-        if (history.current.length > 100) history.current.shift();
-        trace.current.setAttribute(
-          'points',
-          history.current
-            .map((v, i) => `${i * 2},${Math.max(2, Math.min(43, 36 - (v + 65) * 0.25))}`)
-            .join(' '),
-        );
-      } else if (!live) {
-        history.current.length = 0;
-        trace.current.setAttribute(
-          'points',
-          '0,36 45,36 60,34 75,4 85,13 105,34 125,42 150,36 200,36',
-        );
+      const live = Number.isFinite(voltage) && !manual && !reducedMotion();
+      if (traceLabel.current)
+        traceLabel.current.textContent = live
+          ? '· señal del laboratorio'
+          : '· ciclo ilustrativo de 6 s';
+      if (trace.current) {
+        if (live && clock.elapsedTime - sampleAt.current > 0.08) {
+          sampleAt.current = clock.elapsedTime;
+          history.current.push(voltage);
+          if (history.current.length > 100) history.current.shift();
+          trace.current.setAttribute(
+            'points',
+            history.current
+              .map(
+                (v, i) => `${30 + i * 2},${Math.max(8, Math.min(58, 58 - ((v + 80) * 50) / 120))}`,
+              )
+              .join(' '),
+          );
+        } else if (!live) {
+          history.current.length = 0;
+          trace.current.setAttribute(
+            'points',
+            '30,52 75,52 90,50 105,10 115,22 135,50 155,58 180,52 230,52',
+          );
+        }
       }
-      const x = live
-        ? Math.max(0, (history.current.length - 1) * 2)
-        : (reducedMotion() ? [0.05, 0.34, 0.52, 0.65, 0.8][phase]! : (clock.elapsedTime % 6) / 6) *
-          200;
+      const x = live ? 30 + Math.max(0, history.current.length - 1) * 2 : 30 + t * 200;
       cursor.current.setAttribute('x1', String(x));
       cursor.current.setAttribute('x2', String(x));
+      const current = t < 0.27 ? 0 : t < 0.42 ? 1 : t < 0.58 ? 2 : t < 0.73 ? 3 : 4;
+      if (!manual && !reducedMotion() && current !== phase) setPhase(current);
     }
     if (pulse.current) {
       const t = reducedMotion() ? 0 : clock.elapsedTime % 4;
@@ -449,7 +504,7 @@ function MembranePatch() {
   });
   const c = dynamics.TYPICAL_MAMMALIAN_CONC;
   return (
-    <group ref={group}>
+    <group ref={group} rotation={[-0.34, 0, 0]}>
       <Lipids />
       <mesh visible={false} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[18, 18]} />
@@ -462,58 +517,95 @@ function MembranePatch() {
           side={THREE.DoubleSide}
         />
       </mesh>
-      <Pump />
-      <Channel phase={phase} active={variant === 'canales'} id="nav" x={-4} color="#7ab6ff" />
-      <Channel phase={phase} active={variant === 'canales'} id="kv" x={4} color="#5ca4ff" />
-      <Channel phase={phase} active={variant === 'canales'} id="fuga" x={7} color="#86d6ff" />
+      <Pump channels={variant === 'canales'} />
+      <Channel
+        phase={phase}
+        manual={manual}
+        active={variant === 'canales'}
+        id="nav"
+        x={-4}
+        color="#7ab6ff"
+      />
+      <Channel
+        phase={phase}
+        manual={manual}
+        active={variant === 'canales'}
+        id="kv"
+        x={4}
+        color="#5ca4ff"
+      />
+      <Channel
+        phase={phase}
+        manual={manual}
+        active={variant === 'canales'}
+        id="fuga"
+        x={7}
+        color="#86d6ff"
+      />
       {variant === 'canales' && (
-        <Html zIndexRange={[5, 0]} position={[-7, -3.5, 2]} className="na-scene-tag">
-          <div style={{ background: '#07152b', padding: 8, width: 220 }}>
-            <div>Potencial de acción · ciclo ilustrativo de 6 s</div>
+        <Html portal={panelPortal} wrapperClass="na-ap-screen" zIndexRange={[20, 20]}>
+          <section className="na-ap-panel" aria-label="Potencial de acción esquemático">
+            <div className="na-ap-legend">
+              <span>● Na⁺</span> · <span>● K⁺</span>
+            </div>
+            <div className="na-ap-heading">
+              Potencial de acción <span ref={traceLabel}>· ciclo ilustrativo de 6 s</span>
+            </div>
             <svg
-              width="200"
-              height="45"
-              viewBox="0 0 200 45"
-              aria-label="Traza esquemática del potencial"
+              viewBox="0 0 240 70"
+              role="img"
+              aria-label="Voltaje aproximado entre menos 80 y más 40 milivoltios"
             >
+              <text x="0" y="12">
+                +40
+              </text>
+              <text x="0" y="60">
+                −80
+              </text>
+              <text x="0" y="36">
+                mV
+              </text>
+              <path d="M30 8V58H230" fill="none" stroke="currentColor" opacity=".4" />
               <polyline
                 ref={trace}
-                points="0,36 45,36 60,34 75,4 85,13 105,34 125,42 150,36 200,36"
+                points="30,52 75,52 90,50 105,10 115,22 135,50 155,58 180,52 230,52"
                 fill="none"
                 stroke="#75caff"
+                strokeWidth="1.5"
               />
-              <line ref={cursor} x1="0" x2="0" y1="0" y2="45" stroke="#fff" />
+              <line ref={cursor} x1="30" x2="30" y1="8" y2="58" stroke="#fff" />
             </svg>
-            <label>
-              Fase{' '}
-              <select value={phase} onChange={(e) => setPhase(Number(e.target.value))}>
-                {[
-                  'Reposo',
-                  'Despolarización · Nav abre',
-                  'Repolarización · Nav inactiva, Kv abre',
-                  'Hiperpolarización',
-                  'Período refractario',
-                ].map((label, i) => (
-                  <option key={label} value={i}>
-                    {label}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <div>Movimiento reducido: seleccionar fase</div>
-          </div>
+            <div className="na-ap-caption">Voltaje aproximado · esquema</div>
+            <div className="na-ap-phases" aria-label="Fases del potencial de acción">
+              {[
+                'Reposo',
+                'Despolarización',
+                'Repolarización',
+                'Hiperpolarización',
+                'Refractario',
+              ].map((name, i) => (
+                <button
+                  key={name}
+                  type="button"
+                  aria-pressed={phase === i}
+                  onClick={() => {
+                    setPhase(i);
+                    setManual(true);
+                  }}
+                >
+                  {name}
+                </button>
+              ))}
+            </div>
+          </section>
         </Html>
       )}
       <Ions id="na" color="#ffb057" />
       <Ions id="k" color="#5ee6ff" />
-      <Html zIndexRange={[5, 0]} position={[5, 4.5, 0]} className="na-scene-tag">
-        <span style={{ color: '#ffb057' }}>● Na⁺</span> ·{' '}
-        <span style={{ color: '#5ee6ff' }}>● K⁺</span>
-      </Html>
-      <Html zIndexRange={[5, 0]} position={[-8, 4.5, 0]} className="na-scene-tag">
+      <Html zIndexRange={[5, 0]} position={[-7.5, 3.4, 0]} className="na-scene-tag">
         Medio extracelular
       </Html>
-      <Html zIndexRange={[5, 0]} position={[-8, -4.5, 0]} className="na-scene-tag">
+      <Html zIndexRange={[5, 0]} position={[-7.5, -3.4, 0]} className="na-scene-tag">
         Citosol
       </Html>
       <Html zIndexRange={[5, 0]} position={[-8, -5.5, 0]} className="na-scene-tag">
