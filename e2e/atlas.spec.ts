@@ -199,3 +199,14 @@ test('abre la conducción saltatoria', async ({ page }) => {
     timeout: 20_000,
   });
 });
+
+test('la retina permite iluminar la periferia', async ({ page }) => {
+  await page.goto('/?n=circuito&var=retina');
+  await expect(page.getByText('Capa plexiforme interna', { exact: false })).toBeVisible();
+  await page.getByRole('button', { name: 'Luz periferia' }).click();
+  await expect(page.getByRole('button', { name: 'Luz periferia' })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
+  await expect(page.getByText('Periferia iluminada · ON inhibida, OFF excitada')).toBeVisible();
+});
