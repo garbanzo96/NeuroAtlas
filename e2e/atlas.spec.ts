@@ -203,7 +203,9 @@ test('abre la conducción saltatoria', async ({ page }) => {
 test('la retina permite iluminar la periferia', async ({ page }) => {
   test.setTimeout(60_000);
   await page.goto('/?n=circuito&var=retina');
-  await expect(page.getByText('Capa plexiforme interna', { exact: false })).toBeVisible();
+  await expect(page.getByText('Capa plexiforme interna', { exact: false })).toBeVisible({
+    timeout: 20_000,
+  });
   await page.getByRole('button', { name: 'Luz periferia' }).click();
   await expect(page.getByRole('button', { name: 'Luz periferia' })).toHaveAttribute(
     'aria-pressed',

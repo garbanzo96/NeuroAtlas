@@ -2247,3 +2247,8 @@ body,
     font-size: 9px;
   }
 }
+@media (max-width: 900px) {
+  .na-atlas:has(.na-sheet[data-open]:not([data-full])) .na-transmitter {
+    bottom: calc(84px + 36vh + 60px);
+  }
+}
