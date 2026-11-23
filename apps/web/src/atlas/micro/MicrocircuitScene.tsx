@@ -6,6 +6,7 @@ import * as THREE from 'three';
 import { assetUrl, loadMicrocircuits, type Microcircuit } from '../data';
 import { useAtlas } from '../store';
 import { useReducedMotion } from './geom2';
+import RetinaScene from './RetinaScene';
 
 type GeometryMap = Record<string, THREE.BufferGeometry>;
 function morphologyGeometry(points: number[]) {
@@ -402,5 +403,9 @@ export default function MicrocircuitScene() {
     void loadMicrocircuits().then(setCircuits);
   }, []);
   const circuit = circuits.find((c) => c.id === variant);
-  return circuit ? <Circuit key={circuit.id} circuit={circuit} /> : null;
+  return variant === 'retina' ? (
+    <RetinaScene />
+  ) : circuit ? (
+    <Circuit key={circuit.id} circuit={circuit} />
+  ) : null;
 }
