@@ -174,10 +174,9 @@ function CameraRig({
     const c = ref.current;
     if (!c || intro.current) return;
     intro.current = true;
-    if (useAtlas.getState().camera) return;
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     // con una vista en la URL la intro no pasa por «sistema»: en equipos lentos ese nivel pisaba al pedido
-    if (reduced || /[?&](n|e|cam|via|circ)=/.test(location.search)) {
+    if (reduced || useAtlas.getState().camera || /[?&](n|e|cam|via|circ)=/.test(location.search)) {
       void c.setLookAt(...VIEWS.encefalo.pos, ...VIEWS.encefalo.target, false);
       return;
     }
@@ -214,10 +213,14 @@ function CameraRig({
       const center = box.getCenter(new THREE.Vector3());
       const size = box.getSize(new THREE.Vector3()).length();
       const dir = c.camera.position.clone().sub(c.getTarget(new THREE.Vector3())).normalize();
+      // una estructura de la corteza se mira desde afuera; si no, la cámara atraviesa el cerebro
+      const out = center.clone().sub(new THREE.Vector3(...VIEWS.encefalo.target));
+      if (cmd.type === 'mesh' && out.length() > 2)
+        dir.multiplyScalar(0.35).add(out.normalize()).normalize();
       const dist =
         cmd.type === 'box'
           ? THREE.MathUtils.clamp(size * 2.4, 12, 280)
-          : THREE.MathUtils.clamp(size * 2.5, 9, 26);
+          : THREE.MathUtils.clamp(size * 3, 14, 25);
       const pos = center.clone().addScaledVector(dir, dist);
       void c.setLookAt(pos.x, pos.y, pos.z, center.x, center.y, center.z, smooth);
     }
