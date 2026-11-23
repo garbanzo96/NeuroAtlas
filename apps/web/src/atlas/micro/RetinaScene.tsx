@@ -311,9 +311,10 @@ export default function RetinaScene() {
         <mesh position={[light === 'centro' ? 0 : -2.85, 0.65, -0.45]}>
           <coneGeometry args={[1.05, 8.7, 32, 1, true]} />
           <meshBasicMaterial
-            color="#fff5bc"
+            color="#cfe9ff"
             transparent
-            opacity={0.1}
+            opacity={0.018}
+            blending={THREE.AdditiveBlending}
             side={THREE.DoubleSide}
             depthWrite={false}
           />
@@ -355,7 +356,7 @@ export default function RetinaScene() {
         ]}
         color={magenta}
       />
-      <Html position={[-3.5, 1.7, 0]} className="na-ret-cell" zIndexRange={[5, 0]}>
+      <Html position={[-4.6, 1.45, 0]} className="na-ret-cell" zIndexRange={[5, 0]}>
         Horizontal · esquema
       </Html>
       {[-1.8, 1.8].map((x, i) => {

@@ -602,7 +602,7 @@ function MembranePatch() {
       )}
       <Ions id="na" color="#ffb057" />
       <Ions id="k" color="#5ee6ff" />
-      <Html zIndexRange={[5, 0]} position={[-7.5, 3.4, 0]} className="na-scene-tag">
+      <Html zIndexRange={[5, 0]} position={[-7.5, 4.6, 0]} className="na-scene-tag">
         Medio extracelular
       </Html>
       <Html zIndexRange={[5, 0]} position={[-7.5, -3.4, 0]} className="na-scene-tag">

@@ -2180,7 +2180,7 @@ body,
   left: calc((238px + 100vw - 448px) / 2);
   transform: translateX(-50%);
   bottom: 76px;
-  width: min(360px, calc(100vw - 702px));
+  width: min(480px, calc(100vw - 702px));
   padding: 12px;
   color: var(--na-fg2);
   background: var(--na-glass-hi);
