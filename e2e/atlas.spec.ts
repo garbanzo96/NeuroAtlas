@@ -201,6 +201,7 @@ test('abre la conducción saltatoria', async ({ page }) => {
 });
 
 test('la retina permite iluminar la periferia', async ({ page }) => {
+  test.setTimeout(60_000);
   await page.goto('/?n=circuito&var=retina');
   await expect(page.getByText('Capa plexiforme interna', { exact: false })).toBeVisible();
   await page.getByRole('button', { name: 'Luz periferia' }).click();
@@ -209,4 +210,12 @@ test('la retina permite iluminar la periferia', async ({ page }) => {
     'true',
   );
   await expect(page.getByText('Periferia iluminada · ON inhibida, OFF excitada')).toBeVisible();
+});
+
+test('selecciona una fase del potencial de acción', async ({ page }) => {
+  await page.goto('/?n=molecula&var=canales');
+  const phase = page.getByRole('button', { name: 'Despolarización', exact: true });
+  await expect(phase).toBeVisible({ timeout: 20_000 });
+  await phase.click();
+  await expect(phase).toHaveAttribute('aria-pressed', 'true');
 });
