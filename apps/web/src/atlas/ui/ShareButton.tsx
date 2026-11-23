@@ -35,6 +35,7 @@ export function ShareButton({
       <button
         type="button"
         onClick={copy}
+        aria-label="Copiar enlace"
         style={{
           borderColor: 'var(--na-line-hi)',
           background: 'var(--na-glass)',
@@ -44,7 +45,7 @@ export function ShareButton({
         <span aria-hidden="true" style={{ marginRight: 6 }}>
           ↗
         </span>
-        Copiar enlace
+        <span className="na-hide-sm">Copiar enlace</span>
       </button>
       <span
         aria-live="polite"

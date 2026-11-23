@@ -130,7 +130,7 @@ function Cell({ data, excitable }: { data: Morphology; excitable: boolean }) {
         <meshBasicMaterial color="#a9dcff" />
       </mesh>
       <Html position={[-6, -7.7, 0]} className="na-scene-tag" zIndexRange={[5, 0]}>
-        <span className="na-unit">100 µm</span>
+        <span className="na-nocaps">100 µm</span>
         {excitable && (
           <>
             <br />

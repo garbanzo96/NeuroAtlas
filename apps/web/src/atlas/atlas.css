@@ -1622,7 +1622,7 @@ body,
 }
 
 /* las unidades no se pasan a mayúsculas: «µm» se volvería «ΜM» */
-.na-unit {
+.na-nocaps {
   text-transform: none;
 }
 
@@ -2004,4 +2004,68 @@ body,
 .na-micro-controls button[aria-pressed='true'] {
   background: #244e75;
   color: #fff;
+}
+
+/* Celular: lámina a media altura con asa para desplegarla; cabecera compacta. */
+.na-sheet__grip {
+  display: none;
+}
+@media (max-width: 900px) {
+  .na-sheet__grip {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 72px;
+    height: 22px;
+    transform: translateX(-50%);
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+  .na-sheet__grip::after {
+    content: '';
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    top: 8px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--na-line-hi);
+  }
+  .na-sheet[data-open]:not([data-full]) {
+    height: 36vh;
+  }
+  .na-sheet[data-open][data-full] {
+    height: calc(100dvh - 180px);
+    max-height: none;
+  }
+}
+@media (max-width: 600px) {
+  .na-brand {
+    font-size: 0;
+    gap: 0;
+  }
+  .na-hide-sm {
+    display: none;
+  }
+}
+
+/* con la lámina abierta, la barra de variantes se centra en el hueco entre riel y lámina */
+@media (min-width: 901px) {
+  .na-atlas:has(.na-sheet[data-open]) .na-microbar:not(.na-microbar--circuits) {
+    left: calc(50vw - 105px);
+    max-width: calc(100vw - 700px);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+}
+@media (max-width: 900px) {
+  .na-atlas:has(.na-sheet[data-open]:not([data-full])) .na-microbar {
+    bottom: calc(84px + 36vh + 8px);
+  }
+  .na-microbar {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
 }

@@ -252,8 +252,8 @@ function LevelSheet() {
       <header className="na-level-header" style={stagger(i++)}>
         <div>
           <p className="na-kicker">
-            {doc.kicker} · <span className="na-unit">{meta.space}</span> ·{' '}
-            <span className="na-unit">{meta.time}</span>
+            {doc.kicker} · <span className="na-nocaps">{meta.space}</span> ·{' '}
+            <span className="na-nocaps">{meta.time}</span>
           </p>
           <h2 className="na-sheet__title">{doc.title}</h2>
         </div>
@@ -406,15 +406,26 @@ export function InfoSheet() {
     s.select(null);
   };
   const open = sheet === 'level' || (sheet === 'structure' && !!selected);
+  // en celular la lámina abre a media altura para no tapar la escena; el asa la despliega
+  const [full, setFull] = useState(false);
+  useEffect(() => setFull(false), [sheet, selected]);
   return (
     <aside
       className="na-sheet"
       data-open={open ? '' : undefined}
+      data-full={full ? '' : undefined}
       aria-label="Lámina informativa"
       aria-hidden={!open}
     >
       {open && (
         <>
+          <button
+            type="button"
+            className="na-sheet__grip"
+            aria-expanded={full}
+            aria-label={full ? 'Reducir lámina' : 'Desplegar lámina'}
+            onClick={() => setFull((f) => !f)}
+          />
           <button
             type="button"
             className="na-sheet__close"
