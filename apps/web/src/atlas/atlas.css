@@ -2252,10 +2252,10 @@ body,
 .na-quiz-panel {
   position: absolute;
   z-index: 21;
-  left: 92px;
-  bottom: 76px;
-  width: min(390px, calc(100vw - 110px));
-  max-height: min(68vh, 700px);
+  left: 238px;
+  top: 82px;
+  width: min(400px, calc(100vw - 260px));
+  max-height: calc(100vh - 110px);
   overflow-y: auto;
   padding: 22px;
   color: var(--na-fg2);
@@ -2267,8 +2267,12 @@ body,
 }
 .na-quiz-panel h2 {
   color: var(--na-fg);
-  font: 350 23px var(--na-font-display);
-  line-height: 1.25;
+  font: 350 20px var(--na-font-display);
+  line-height: 1.3;
+}
+.na-quiz-panel button:not(.na-sheet__close):not(:disabled):hover {
+  border-color: var(--na-line-hi);
+  background: rgba(140, 200, 255, 0.1);
 }
 .na-quiz-panel p {
   line-height: 1.5;
@@ -2330,10 +2334,12 @@ body,
 }
 @media (max-width: 700px) {
   .na-quiz-panel {
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    max-height: 48dvh;
+    left: 8px;
+    right: 8px;
+    top: auto;
+    bottom: 84px;
+    width: auto;
+    max-height: 52dvh;
     border-radius: var(--na-radius) var(--na-radius) 0 0;
     padding: 18px 20px max(18px, env(safe-area-inset-bottom));
   }

@@ -122,8 +122,12 @@ export function QuizPanel({ data, course }: { data: AtlasData; course: Course | 
       );
       const mesh =
         linked && meshNames.find((m) => m === linked || m === `${linked}_L` || m === `${linked}_R`);
-      if (question.view) applyView({ level: 'areas', ...question.view });
-      else if (mesh) applyView({ level: 'areas', select: mesh });
+      // cambiar de nivel lanza su propio vuelo, que pisa el de la estructura: solo si no hay anatomía en pantalla
+      const level = ['encefalo', 'areas'].includes(useAtlas.getState().level)
+        ? undefined
+        : ('encefalo' as const);
+      if (question.view) applyView({ level, ...question.view });
+      else if (mesh) applyView({ level, select: mesh });
     }
     if (path && passed) applyView({ pathway: path.id });
   };
