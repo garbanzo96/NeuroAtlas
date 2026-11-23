@@ -2067,6 +2067,8 @@ body,
   .na-microbar {
     overflow-x: auto;
     scrollbar-width: none;
+  }
+}
 
 /* Corte esquemático de retina */
 .na-ret-layer,
@@ -2142,6 +2144,7 @@ body,
   .na-ret-controls {
     font-size: 10px;
   }
+}
 
 .na-ap-protein-label {
   color: var(--na-fg2);
