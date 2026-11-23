@@ -14,11 +14,13 @@ export function TourIndex({
   tours,
   onStart,
   onCourse,
+  onQuiz,
   onClose,
 }: {
   tours: Tour[];
   onStart(tour: Tour): void;
   onCourse(): void;
+  onQuiz(): void;
   onClose(): void;
 }) {
   return (
@@ -51,6 +53,9 @@ export function TourIndex({
       </div>
       <button className="na-course-link" onClick={onCourse}>
         Explorar el curso completo <span>34 unidades →</span>
+      </button>
+      <button className="na-course-link" onClick={onQuiz}>
+        Evaluación <span>Comprueba lo aprendido →</span>
       </button>
       <p className="na-learn__draft">Borrador · sin revisión experta</p>
     </section>

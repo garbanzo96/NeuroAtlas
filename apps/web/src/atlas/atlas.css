@@ -2252,3 +2252,105 @@ body,
     bottom: calc(84px + 36vh + 60px);
   }
 }
+
+/* Evaluación: vidrio junto al modelo, sin cubrir la lámina. */
+.na-quiz-panel {
+  position: absolute;
+  z-index: 21;
+  left: 238px;
+  top: 82px;
+  width: min(400px, calc(100vw - 260px));
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  padding: 22px;
+  color: var(--na-fg2);
+  background: var(--na-glass);
+  border: 1px solid var(--na-line);
+  border-radius: var(--na-radius);
+  backdrop-filter: blur(18px) saturate(1.2);
+  box-shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.9);
+}
+.na-quiz-panel h2 {
+  color: var(--na-fg);
+  font: 350 20px var(--na-font-display);
+  line-height: 1.3;
+}
+.na-quiz-panel button:not(.na-sheet__close):not(:disabled):hover {
+  border-color: var(--na-line-hi);
+  background: rgba(140, 200, 255, 0.1);
+}
+.na-quiz-panel p {
+  line-height: 1.5;
+}
+.na-quiz-panel button:not(.na-sheet__close) {
+  color: var(--na-fg);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--na-line);
+  border-radius: 8px;
+  padding: 11px 14px;
+  cursor: pointer;
+}
+.na-quiz-panel button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+.na-quiz-panel button:focus-visible {
+  outline: 2px solid #cfb584;
+  outline-offset: 2px;
+}
+.na-quiz-options {
+  display: grid;
+  gap: 8px;
+  margin: 16px 0;
+}
+.na-quiz-options button {
+  text-align: left;
+  min-height: 44px;
+}
+.na-quiz-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+.na-quiz-order {
+  padding-left: 24px;
+}
+.na-quiz-order li {
+  padding: 4px 0;
+}
+.na-quiz-order li span {
+  display: inline-block;
+  margin-right: 8px;
+}
+.na-quiz-order button {
+  margin: 2px;
+}
+.na-quiz-feedback {
+  border-left: 3px solid #d5a95f;
+  padding: 8px 12px;
+  margin: 14px 0;
+  background: rgba(213, 169, 95, 0.1);
+  animation: na-in 0.25s ease both;
+}
+.na-quiz-feedback[data-correct='true'] {
+  border-color: #a6b9c9;
+  background: rgba(166, 185, 201, 0.1);
+}
+@media (max-width: 700px) {
+  .na-quiz-panel {
+    left: 8px;
+    right: 8px;
+    top: auto;
+    bottom: 84px;
+    width: auto;
+    max-height: 52dvh;
+    border-radius: var(--na-radius) var(--na-radius) 0 0;
+    padding: 18px 20px max(18px, env(safe-area-inset-bottom));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .na-quiz-feedback {
+    animation: none;
+  }
+}

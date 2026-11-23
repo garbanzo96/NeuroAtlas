@@ -92,9 +92,9 @@ Cada WP es un encargo acotado y verificable. Los marcados con 📄 tienen especi
 | WP-070 📄  | [Ciclo de vida de los neurotransmisores en la sinapsis](work-packages/WP-070.md)           | Codex    | WP-068         | hecho     |
 | WP-071 📄  | [Microcircuitos canónicos con células reales](work-packages/WP-071.md)                     | Codex    | WP-069         | hecho     |
 | WP-072 📄  | [El potencial de acción a escala molecular](work-packages/WP-072.md)                       | Codex    | WP-067         | hecho     |
-| WP-072b    | Pulido del potencial de acción molecular                                                   | Codex    | WP-072         | en curso  |
-| WP-073     | Escena micro: retina                                                                       | Codex    | WP-069, 071    | en curso  |
-| WP-066     | Modo de evaluación sobre el modelo                                                         | Codex    | WP-063–065     | pendiente |
+| WP-072b    | Pulido del potencial de acción molecular                                                   | Codex    | WP-072         | hecho     |
+| WP-073     | Escena micro: retina                                                                       | Codex    | WP-069, 071    | hecho     |
+| WP-066     | Modo de evaluación sobre el modelo                                                         | Codex    | WP-063–065     | hecho     |
 | WP-074–084 | Evaluación, moléculas, arte (ver plan §8.3)                                                | varios   | —              | pendiente |
 
 ## Expansión (fase 4, tras el piloto)

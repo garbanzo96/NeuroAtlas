@@ -270,7 +270,7 @@ export function Anatomy({ data, onIndex }: { data: AtlasData; onIndex(i: HoverIn
   };
 
   const onMove = (e: ThreeEvent<PointerEvent>) => {
-    if (e.pointerType === 'touch') return;
+    if (e.pointerType === 'touch' || useAtlas.getState().quiz?.mode === 'localizar') return;
     const key = pick(e);
     if (key === hoverKey.current) return;
     hoverKey.current = key;
@@ -286,6 +286,10 @@ export function Anatomy({ data, onIndex }: { data: AtlasData; onIndex(i: HoverIn
     const key = pick(e);
     const s = useAtlas.getState();
     if (!key) return;
+    if (s.quiz?.mode === 'localizar') {
+      window.dispatchEvent(new CustomEvent('na:quiz-pick', { detail: key }));
+      return;
+    }
     if (key === 'g:encefalo') return s.command({ type: 'level', level: 'encefalo' });
     if (key.startsWith('g:')) return s.command({ type: 'mesh', name: key });
     s.select(key);

@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import type { AtlasView } from './view';
 
 export interface MeshMeta {
   c: [number, number, number];
@@ -237,3 +238,19 @@ export function loadMicrocircuits(): Promise<Microcircuit[]> {
     .then((data) => data.circuits);
   return microcircuitsPromise;
 }
+
+export interface QuizQuestion {
+  id: string;
+  unit: string;
+  q: string;
+  options: string[];
+  answer: number;
+  why: string;
+  view?: AtlasView;
+}
+export interface QuizData {
+  status: string;
+  questions: QuizQuestion[];
+  cases: QuizQuestion[];
+}
+export const loadQuiz = () => getJson<QuizData>('quiz.json');
