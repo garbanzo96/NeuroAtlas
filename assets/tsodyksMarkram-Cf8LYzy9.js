@@ -1,0 +1,2 @@
+var e={depressing:{U:.5,tauRec:800,tauFacil:0},facilitating:{U:.04,tauRec:100,tauFacil:1e3}};function t(e,t){let n=0,r=1,i=0;return e.map((e,a)=>{if(a>0&&e<i)throw Error(`Los tiempos deben estar ordenados.`);let o=a?e-i:1/0;r=1-(1-r)*Math.exp(-o/t.tauRec),n=t.tauFacil>0?n*Math.exp(-o/t.tauFacil):0,n+=t.U*(1-n);let s=n*r;return r-=s,i=e,s})}export{t as n,e as t};
+//# sourceMappingURL=tsodyksMarkram-Cf8LYzy9.js.map

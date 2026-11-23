@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1",
+  "currentRelease": "2026.10.0-dev",
+  "releases": [
+    {
+      "id": "2026.10.0-dev",
+      "knowledge": {
+        "path": "2026.10.0-dev/knowledge.json",
+        "sha256": "b1e88e3aa987489abe55d8ba68b32cbe3876f521654078dfafe552467b26609e",
+        "bytes": 95231
+      },
+      "assets": [
+        {
+          "assetId": "asset.schematic.visual_pathway",
+          "path": "2026.10.0-dev/assets/visual-pathway.schematic.json",
+          "sha256": "e4c3212eff512876037eae2763bcd3176d048eb4901df9f1081ca89bf5874bbe",
+          "bytes": 9532
+        },
+        {
+          "assetId": "asset.schematic.laminar_circuit",
+          "path": "2026.10.0-dev/assets/laminar-circuit.schematic.json",
+          "sha256": "05cad1d2f65b1f6de952d78da4eb1da5e3462098593cd06ebb66669b384146dd",
+          "bytes": 7106
+        },
+        {
+          "assetId": "asset.schematic.pyramidal_neuron",
+          "path": "2026.10.0-dev/assets/pyramidal-neuron.schematic.json",
+          "sha256": "c4e00f3866d28dc87cee7543cb80d8e8adbb3e7b2bac9cec04dda6c2d6a24045",
+          "bytes": 4415
+        },
+        {
+          "assetId": "asset.schematic.membrane_patch",
+          "path": "2026.10.0-dev/assets/membrane-patch.schematic.json",
+          "sha256": "94c134f1eca880efaaf1c82a5be803db3885c438c3c359663d7368dcb8fb85cc",
+          "bytes": 669
+        }
+      ]
+    }
+  ]
+}

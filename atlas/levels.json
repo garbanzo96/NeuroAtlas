@@ -1,0 +1,815 @@
+{
+  "version": 1,
+  "status": "borrador — sin revisión experta",
+  "levels": [
+    {
+      "id": "sistema",
+      "title": "Sistema nervioso y cuerpo",
+      "kicker": "Nivel de sistema",
+      "space": "≈ 1 m",
+      "time": "ms–años",
+      "lead": "El sistema nervioso conecta el organismo con su medio y coordina sus órganos. Su organización combina vías sensoriales, circuitos centrales y vías motoras que operan en escalas de tiempo muy distintas.",
+      "sections": [
+        {
+          "h": "Organización general",
+          "p": "El sistema nervioso central comprende el encéfalo y la médula espinal; el periférico incluye nervios y ganglios situados fuera de ellos. Las fibras aferentes conducen información hacia el sistema central y las eferentes conducen señales desde él. Esta distinción describe el sentido de conducción con respecto al centro, no una propiedad exclusiva de un nervio completo. Muchos nervios periféricos son mixtos y contienen fibras de ambas clases. Los circuitos distribuidos entre periferia y centro permiten detectar cambios, integrar información y actuar sobre músculos y órganos."
+        },
+        {
+          "h": "Vías somáticas y autónomas",
+          "p": "El componente somático participa en la sensibilidad corporal y el control de la musculatura esquelética. El sistema autónomo regula, entre otras funciones, músculo liso, músculo cardíaco y glándulas. Sus divisiones simpática y parasimpática tienen organizaciones y efectos que dependen del órgano. La vía autónoma periférica suele incluir una neurona preganglionar y otra posganglionar; la vía motora somática hacia músculo esquelético utiliza una motoneurona desde el sistema central. Estas categorías son útiles para estudiar la anatomía, aunque la regulación real requiere interacción entre sistemas."
+        },
+        {
+          "h": "Médula, nervios y reflejos",
+          "p": "La médula espinal contiene circuitos locales y vías ascendentes y descendentes. Las raíces dorsales llevan principalmente fibras sensitivas hacia la médula y las ventrales contienen fibras motoras eferentes; ambas se unen en los nervios espinales. En un arco reflejo, un receptor detecta un estímulo y una vía aferente llega a circuitos centrales que activan una respuesta eferente. El reflejo de estiramiento incluye una conexión excitadora entre aferentes del huso muscular y motoneuronas, junto con otros circuitos que modulan la respuesta. Los reflejos no requieren necesariamente una decisión consciente."
+        },
+        {
+          "h": "Mapas corporales",
+          "p": "Los dermatomas son territorios cutáneos asociados principalmente con raíces sensitivas espinales; sus límites se superponen y varían entre personas. Los miotomas agrupan músculos o movimientos asociados principalmente con segmentos medulares, también con solapamiento. En corteza somatosensorial y motora existen representaciones ordenadas del cuerpo, ilustradas mediante homúnculos. Su tamaño esquemático representa la extensión cortical relativa y no el tamaño anatómico de cada parte. Estos mapas son instrumentos didácticos y clínicos: una lesión concreta debe interpretarse con la exploración y con el trayecto completo de las vías."
+        }
+      ],
+      "concepts": [
+        {
+          "term": "Aferencia",
+          "def": "Conducción de información hacia el sistema nervioso central."
+        },
+        {
+          "term": "Eferencia",
+          "def": "Conducción de señales desde el sistema nervioso central."
+        },
+        {
+          "term": "Dermatoma",
+          "def": "Territorio cutáneo asociado principalmente a una raíz sensitiva espinal."
+        },
+        {
+          "term": "Miotoma",
+          "def": "Grupo muscular o movimiento asociado principalmente a un segmento medular."
+        },
+        {
+          "term": "Arco reflejo",
+          "def": "Circuito que vincula una entrada sensorial con una respuesta mediante vías aferentes y eferentes."
+        },
+        {
+          "term": "Somatotopía",
+          "def": "Organización espacial de una representación neural según partes del cuerpo."
+        }
+      ],
+      "equations": [],
+      "models": [],
+      "numbers": [
+        {
+          "label": "Pares de nervios espinales humanos",
+          "value": "31",
+          "source": "Purves et al., Neuroscience, 6.ª ed."
+        },
+        {
+          "label": "Divisiones principales del sistema nervioso autónomo",
+          "value": "2: simpática y parasimpática",
+          "source": "Kandel et al., Principles of Neural Science, 6.ª ed. (2021)"
+        },
+        {
+          "label": "Raíces de un nervio espinal",
+          "value": "2: dorsal y ventral",
+          "source": "Purves et al., Neuroscience, 6.ª ed."
+        }
+      ],
+      "readings": [
+        "Kandel et al., Principles of Neural Science, 6.ª ed. (2021)",
+        "Purves et al., Neuroscience, 6.ª ed."
+      ],
+      "questions": [
+        "¿Qué distingue una vía aferente de una eferente?",
+        "¿Cómo se relacionan las raíces espinales con un reflejo?",
+        "¿Por qué los límites de un dermatoma no son fronteras absolutas?"
+      ]
+    },
+    {
+      "id": "encefalo",
+      "title": "El encéfalo",
+      "kicker": "Nivel de órgano",
+      "space": "≈ 10 cm",
+      "time": "ms–años",
+      "lead": "El encéfalo reúne estructuras con distinta historia de desarrollo y conectividad. Su organización anatómica sirve para estudiar funciones distribuidas y sus relaciones con el cuerpo.",
+      "sections": [
+        {
+          "h": "Desarrollo y divisiones",
+          "p": "Durante el desarrollo, el tubo neural anterior forma prosencéfalo, mesencéfalo y rombencéfalo. El prosencéfalo da lugar al telencéfalo y al diencéfalo; el rombencéfalo se subdivide en metencéfalo y mielencéfalo. En el adulto, el telencéfalo incluye los hemisferios cerebrales y el diencéfalo incluye tálamo e hipotálamo. El tronco encefálico comprende mesencéfalo, puente y bulbo raquídeo, mientras que el cerebelo se sitúa dorsalmente al tronco. Estas divisiones describen procedencia y anatomía, no módulos funcionales aislados. El cerebelo se desarrolla a partir del metencéfalo, junto con el puente."
+        },
+        {
+          "h": "Superficie y sistemas",
+          "p": "Los hemisferios presentan giros y surcos que aumentan la superficie cortical plegada. Entre los lóbulos se distinguen frontal, parietal, temporal, occipital e ínsula; sus límites anatómicos no coinciden siempre con fronteras funcionales exactas. El surco central separa regiones frontales y parietales, y el surco lateral delimita buena parte del lóbulo temporal. Los sistemas sensoriales, motores y asociativos atraviesan estas divisiones y se conectan con estructuras subcorticales. Una función compleja depende de interacciones entre regiones, de manera que un lóbulo no equivale a una capacidad única."
+        },
+        {
+          "h": "Meninges y líquido cefalorraquídeo",
+          "p": "El sistema nervioso central está rodeado por duramadre, aracnoides y piamadre. El líquido cefalorraquídeo circula por los ventrículos y el espacio subaracnoideo, y contribuye a la protección mecánica y al intercambio con el entorno del tejido nervioso. Los plexos coroideos producen gran parte de este líquido. Los ventrículos laterales se comunican con el tercero y, por el acueducto cerebral, con el cuarto. El flujo y la reabsorción dependen de múltiples rutas; la descripción ventricular es un esquema anatómico, no una explicación completa de su dinámica."
+        },
+        {
+          "h": "Irrigación",
+          "p": "Las arterias carótidas internas y vertebrales aportan sangre al encéfalo mediante sistemas que se comunican en la región del círculo arterial cerebral. Las arterias cerebrales anterior, media y posterior irrigan territorios parcialmente diferentes, con variaciones individuales y zonas limítrofes. El drenaje venoso utiliza venas y senos durales. Como el tejido nervioso depende de un aporte continuo de oxígeno y nutrientes, la interrupción del flujo puede producir daño. La ubicación y extensión de una lesión vascular dependen del vaso, las conexiones colaterales y el tiempo transcurrido."
+        }
+      ],
+      "concepts": [
+        {
+          "term": "Telencéfalo",
+          "def": "División del prosencéfalo que origina los hemisferios cerebrales."
+        },
+        {
+          "term": "Diencéfalo",
+          "def": "División que incluye el tálamo y el hipotálamo."
+        },
+        {
+          "term": "Tronco encefálico",
+          "def": "Conjunto formado por mesencéfalo, puente y bulbo raquídeo."
+        },
+        {
+          "term": "Surco",
+          "def": "Depresión de la superficie cerebral que separa giros."
+        },
+        {
+          "term": "Meninges",
+          "def": "Membranas que rodean el encéfalo y la médula espinal."
+        },
+        {
+          "term": "Ventrículo cerebral",
+          "def": "Cavidad del encéfalo que contiene líquido cefalorraquídeo."
+        }
+      ],
+      "equations": [],
+      "models": [],
+      "numbers": [
+        {
+          "label": "Meninges",
+          "value": "3",
+          "source": "Purves et al., Neuroscience, 6.ª ed."
+        },
+        {
+          "label": "Ventrículos laterales",
+          "value": "2",
+          "source": "Purves et al., Neuroscience, 6.ª ed."
+        },
+        {
+          "label": "Divisiones primarias del encéfalo embrionario",
+          "value": "3",
+          "source": "Purves et al., Neuroscience, 6.ª ed."
+        }
+      ],
+      "readings": [
+        "Kandel et al., Principles of Neural Science, 6.ª ed. (2021)",
+        "Purves et al., Neuroscience, 6.ª ed."
+      ],
+      "questions": [
+        "¿Cómo se relacionan las divisiones embrionarias con las estructuras adultas?",
+        "¿Por qué un lóbulo no equivale a una función única?",
+        "¿Qué trayecto ventricular sigue el líquido cefalorraquídeo?"
+      ]
+    },
+    {
+      "id": "areas",
+      "title": "Áreas y núcleos",
+      "kicker": "Nivel regional",
+      "space": "≈ 1 cm",
+      "time": "ms–años",
+      "lead": "Las regiones cerebrales se distinguen por su organización celular, conexiones y propiedades funcionales. Sus contribuciones se comprenden en redes y no solo por su ubicación.",
+      "sections": [
+        {
+          "h": "Cortezas y áreas",
+          "p": "Brodmann dividió la corteza cerebral en áreas según diferencias de arquitectura celular. Esa clasificación es una referencia histórica útil, pero sus fronteras no son mapas funcionales exactos ni universales. Las cortezas sensoriales primarias reciben información por vías específicas y las áreas motoras participan en la producción de movimientos; las cortezas de asociación integran información en circuitos distribuidos. Cada región contiene distintos tipos celulares y conexiones recurrentes. La especialización regional coexiste con variación individual y con la participación de una misma región en diferentes tareas."
+        },
+        {
+          "h": "Tálamo y ganglios basales",
+          "p": "El tálamo contiene núcleos con patrones de conexión diferenciados con corteza y otras estructuras. Sus circuitos participan en la transmisión y regulación de información, por lo que describirlo solo como estación de relevo es insuficiente. Los ganglios basales incluyen estriado, globo pálido, núcleo subtalámico y sustancia negra, conectados con tálamo y corteza mediante circuitos. Sus vías contribuyen a la selección y regulación de acciones y al aprendizaje. Las vías directas e indirectas son esquemas útiles, pero no agotan la diversidad de conexiones ni su dinámica."
+        },
+        {
+          "h": "Memoria, emoción y cerebelo",
+          "p": "El hipocampo participa en la formación y organización de ciertos recuerdos, en interacción con otras regiones corticales y subcorticales. La amígdala interviene en el aprendizaje y procesamiento de la relevancia de estímulos, sin reducirse a una sola emoción. El cerebelo contiene circuitos repetidos que contribuyen a la coordinación y aprendizaje motor, y también participa en procesos no motores mediante conexiones con otras regiones. Estas descripciones resumen contribuciones establecidas; no implican que cada estructura trabaje sola ni que una activación observada identifique por sí misma un estado mental."
+        },
+        {
+          "h": "Conectividad y redes",
+          "p": "La conectividad estructural describe conexiones anatómicas; la funcional describe covariación estadística entre señales. Esta última no demuestra por sí sola una conexión directa ni causal. Entre las redes de gran escala descritas en humanos están la red por defecto, la de saliencia y la frontoparietal. Sus patrones dependen del método y del contexto experimental, y sus nombres resumen conjuntos de regiones, no funciones exclusivas. Los gradientes de conectividad representan variaciones continuas entre perfiles regionales y complementan las particiones discretas en áreas o redes."
+        }
+      ],
+      "concepts": [
+        {
+          "term": "Área de Brodmann",
+          "def": "Región cortical definida originalmente por criterios citoarquitectónicos."
+        },
+        {
+          "term": "Núcleo",
+          "def": "Conjunto de somas neuronales en el sistema nervioso central."
+        },
+        {
+          "term": "Conectividad estructural",
+          "def": "Descripción de conexiones anatómicas entre elementos del sistema nervioso."
+        },
+        {
+          "term": "Conectividad funcional",
+          "def": "Dependencia estadística entre señales, sin dirección causal implícita."
+        },
+        {
+          "term": "Red por defecto",
+          "def": "Conjunto de regiones con patrones de actividad y conectividad relacionados con estados y tareas diversos."
+        },
+        {
+          "term": "Gradiente",
+          "def": "Representación continua de diferencias entre perfiles regionales."
+        }
+      ],
+      "equations": [
+        {
+          "name": "Correlación de señales",
+          "eq": "rₓᵧ = cov(x, y) / (σₓ · σᵧ)",
+          "vars": "cov: covarianza; σ: desviaciones estándar.",
+          "note": "Resume asociación lineal; no establece causalidad ni conexión anatómica directa."
+        }
+      ],
+      "models": ["network"],
+      "numbers": [
+        {
+          "label": "Área motora primaria en el mapa de Brodmann",
+          "value": "Área 4",
+          "source": "Kandel et al., Principles of Neural Science, 6.ª ed. (2021)"
+        },
+        {
+          "label": "Corteza visual primaria en el mapa de Brodmann",
+          "value": "Área 17",
+          "source": "Kandel et al., Principles of Neural Science, 6.ª ed. (2021)"
+        },
+        {
+          "label": "Corteza somatosensorial primaria en el mapa de Brodmann",
+          "value": "Áreas 3, 1 y 2",
+          "source": "Kandel et al., Principles of Neural Science, 6.ª ed. (2021)"
+        }
+      ],
+      "readings": [
+        "Kandel et al., Principles of Neural Science, 6.ª ed. (2021)",
+        "Purves et al., Neuroscience, 6.ª ed."
+      ],
+      "questions": [
+        "¿Qué diferencia una clasificación citoarquitectónica de una funcional?",
+        "¿Qué puede y qué no puede inferirse de la conectividad funcional?",
+        "¿Cómo complementan los gradientes a las redes discretas?"
+      ]
+    },
+    {
+      "id": "circuito",
+      "title": "Circuitos y poblaciones",
+      "kicker": "Nivel de circuito",
+      "space": "≈ 1 mm",
+      "time": "ms–s",
+      "lead": "Los circuitos locales combinan células excitadoras e inhibidoras con conexiones específicas. Los modelos de población describen regularidades colectivas sin representar cada célula por separado.",
+      "sections": [
+        {
+          "h": "Capas y columnas",
+          "p": "La neocorteza suele describirse mediante seis capas, de I a VI, con composición y conexiones que varían entre áreas. Las células piramidales son una clase principal de proyección excitadora, mientras que numerosas interneuronas locales son inhibitorias. Mountcastle describió organización columnar en corteza somatosensorial; Hubel y Wiesel estudiaron la organización de propiedades visuales en corteza. Una columna es una herramienta para describir regularidades verticales, no una unidad idéntica y universal en todas las áreas. Las capas y conexiones horizontales también son esenciales para entender la organización cortical."
+        },
+        {
+          "h": "Microcircuito y balance",
+          "p": "El microcircuito cortical canónico de Douglas y Martin es un modelo de conexiones recurrentes entre poblaciones y capas. Su valor reside en hacer explícita una organización hipotética susceptible de contrastación, no en afirmar que todos los circuitos sean idénticos. La excitación y la inhibición interactúan en múltiples escalas y pueden mantener actividad estable o generar cambios transitorios. El llamado balance E/I depende de cómo se midan corrientes, conductancias y tiempos. No significa necesariamente igualdad exacta ni excluye variación entre neuronas, estados y regiones."
+        },
+        {
+          "h": "Oscilaciones y sincronía",
+          "p": "Una oscilación es una variación temporal aproximadamente rítmica de una señal. Los ritmos gamma pueden surgir mediante mecanismos de red distintos: PING combina interacciones entre poblaciones piramidales e interneuronas, mientras que ING involucra redes inhibitorias. Estas son explicaciones mecanísticas de modelos y preparaciones particulares, no una identificación automática de mecanismo a partir de una frecuencia. La sincronía describe relaciones temporales entre señales o eventos. Puede cuantificarse con medidas de fase, pero una coincidencia de fase no demuestra por sí sola comunicación causal entre áreas."
+        },
+        {
+          "h": "Modelos de población",
+          "p": "Wilson y Cowan formularon modelos de poblaciones excitadoras e inhibidoras cuya actividad cambia según entradas y acoplamientos. Un modelo de campo medio resume muchas células mediante variables colectivas y aproxima sus interacciones; pierde detalles individuales. El modelo de Kuramoto, por su parte, estudia la sincronización de osciladores acoplados mediante sus fases. Ambas familias permiten explorar mecanismos y predicciones bajo supuestos explícitos. Sus parámetros y variables deben interpretarse en relación con el experimento, y un ajuste a datos no demuestra que el mecanismo sea único."
+        }
+      ],
+      "concepts": [
+        {
+          "term": "Capa cortical",
+          "def": "Estrato de corteza distinguible por sus células y conexiones."
+        },
+        {
+          "term": "Columna cortical",
+          "def": "Organización local descrita mediante propiedades que se extienden a través de capas."
+        },
+        {
+          "term": "Microcircuito canónico",
+          "def": "Modelo simplificado de conexiones recurrentes entre poblaciones corticales."
+        },
+        {
+          "term": "Balance E/I",
+          "def": "Relación dinámica entre influencias excitadoras e inhibitorias."
+        },
+        {
+          "term": "PING",
+          "def": "Mecanismo de oscilación que combina poblaciones excitadoras e inhibitorias."
+        },
+        {
+          "term": "ING",
+          "def": "Mecanismo de oscilación que involucra una red inhibitoria."
+        },
+        {
+          "term": "Campo medio",
+          "def": "Aproximación que describe propiedades agregadas de una población."
+        },
+        {
+          "term": "Sincronía",
+          "def": "Relación temporal consistente entre actividades o fases."
+        }
+      ],
+      "equations": [
+        {
+          "name": "Wilson–Cowan, forma simplificada",
+          "eq": "τₑ · dE/dt = −E + Sₑ(wₑₑE − wₑᵢI + P)",
+          "vars": "E, I: actividad de poblaciones; τₑ: escala temporal; w: acoplamientos; P: entrada; Sₑ: respuesta.",
+          "note": "Una de las dos ecuaciones de un modelo de tasas; la población inhibitoria tiene su propia ecuación."
+        },
+        {
+          "name": "Kuramoto",
+          "eq": "dθᵢ/dt = ωᵢ + (K/N) · Σⱼ sin(θⱼ − θᵢ)",
+          "vars": "θᵢ: fase; ωᵢ: frecuencia natural; K: acoplamiento; N: número de osciladores.",
+          "note": "Modelo idealizado de osciladores acoplados globalmente."
+        }
+      ],
+      "models": ["wilson-cowan", "kuramoto", "network"],
+      "numbers": [
+        {
+          "label": "Capas de la neocorteza típica",
+          "value": "6",
+          "source": "Kandel et al., Principles of Neural Science, 6.ª ed. (2021)"
+        },
+        {
+          "label": "Año de la propuesta de Wilson y Cowan",
+          "value": "1972",
+          "source": "Wilson y Cowan (1972)"
+        },
+        {
+          "label": "Poblaciones en la formulación E/I mínima",
+          "value": "2",
+          "source": "Wilson y Cowan (1972)"
+        }
+      ],
+      "readings": [
+        "Kandel et al., Principles of Neural Science, 6.ª ed. (2021)",
+        "Gerstner, Kistler, Naud y Paninski, Neuronal Dynamics (2014)",
+        "Wilson y Cowan, Excitatory and Inhibitory Interactions in Localized Populations of Model Neurons (1972)"
+      ],
+      "questions": [
+        "¿Qué limita la idea de una columna cortical universal?",
+        "¿En qué difieren PING e ING?",
+        "¿Qué información pierde un modelo de campo medio?"
+      ]
+    },
+    {
+      "id": "neurona",
+      "title": "La neurona",
+      "kicker": "Nivel celular",
+      "space": "10–100 µm",
+      "time": "0,1–100 ms",
+      "lead": "Las neuronas integran señales y pueden transmitirlas mediante potenciales de acción. Su forma y sus propiedades eléctricas varían según el tipo celular y el circuito.",
+      "sections": [
+        {
+          "h": "Compartimentos",
+          "p": "El soma contiene el núcleo y gran parte de la maquinaria celular; las dendritas reciben y procesan entradas, a menudo en espinas dendríticas. El axón conduce señales hacia terminales presinápticas. En muchas neuronas el potencial de acción se inicia cerca del segmento inicial del axón, donde la distribución de canales favorece su generación. La mielina, producida por oligodendrocitos en el sistema central y células de Schwann en el periférico, envuelve segmentos axónicos; los nodos de Ranvier interrumpen esa cubierta. La geometría influye en el procesamiento eléctrico y difiere entre clases neuronales."
+        },
+        {
+          "h": "Reposo y potencial de acción",
+          "p": "El potencial de membrana es la diferencia de voltaje entre interior y exterior celular. En reposo depende de gradientes iónicos y permeabilidades, mantenidos mediante procesos que incluyen la bomba de sodio y potasio. En muchas neuronas la apertura regenerativa de canales de sodio dependientes de voltaje contribuye a la fase ascendente del potencial de acción; su inactivación y la activación de canales de potasio contribuyen a la repolarización. La propagación depende de corrientes locales. En axones mielinizados, la regeneración se concentra en los nodos y permite conducción saltatoria."
+        },
+        {
+          "h": "Cable e integración",
+          "p": "Las dendritas y los axones tienen resistencia interna y una membrana con propiedades resistivas y capacitivas. La teoría del cable describe cómo el voltaje se propaga y atenúa a lo largo de una estructura extendida bajo supuestos sobre geometría y propiedades eléctricas. Las entradas sinápticas se integran en el espacio y el tiempo; su efecto depende de ubicación, conductancia y estado de la membrana. La aproximación pasiva no incluye por sí sola todos los canales activos ni las ramificaciones reales, por lo que puede ampliarse mediante modelos de múltiples compartimentos."
+        },
+        {
+          "h": "Glía y modelos",
+          "p": "La glía incluye astrocitos, oligodendrocitos, microglía y células de Schwann, con funciones distintas de soporte, mielinización, defensa y regulación del entorno. Los modelos neuronales simplifican diferentes aspectos de la excitabilidad. Hodgkin–Huxley describe corrientes y compuertas del axón gigante de calamar; no es una descripción directa de una neurona cortical humana. El modelo de integración y disparo con fuga representa el voltaje subumbral y un evento de disparo con reinicio. Izhikevich utiliza una dinámica reducida capaz de reproducir diversos patrones de disparo con parámetros apropiados."
+        }
+      ],
+      "types": [
+        {
+          "name": "Piramidal",
+          "where": "Corteza cerebral",
+          "traits": "Soma piramidal y dendrita apical.",
+          "role": "Proyección excitadora frecuente."
+        },
+        {
+          "name": "Estrellada espinosa",
+          "where": "Corteza",
+          "traits": "Dendritas con espinas.",
+          "role": "Procesamiento excitador local."
+        },
+        {
+          "name": "Célula en cesta",
+          "where": "Corteza y cerebelo",
+          "traits": "Interneurona inhibitoria con contactos perisomáticos.",
+          "role": "Modula la salida neuronal."
+        },
+        {
+          "name": "Célula en candelabro",
+          "where": "Neocorteza",
+          "traits": "Axones que contactan segmentos iniciales.",
+          "role": "Modula el inicio de disparos."
+        },
+        {
+          "name": "Martinotti",
+          "where": "Neocorteza",
+          "traits": "Interneurona con axón que asciende hacia la capa I.",
+          "role": "Inhibición dendrítica."
+        },
+        {
+          "name": "Purkinje",
+          "where": "Corteza cerebelosa",
+          "traits": "Árbol dendrítico extenso.",
+          "role": "Salida inhibitoria de la corteza cerebelosa."
+        },
+        {
+          "name": "Granular",
+          "where": "Cerebelo",
+          "traits": "Neurona pequeña excitadora.",
+          "role": "Transmite información a circuitos cerebelosos."
+        },
+        {
+          "name": "Motoneurona α",
+          "where": "Médula espinal y tronco encefálico",
+          "traits": "Axón hacia fibras musculares extrafusales.",
+          "role": "Activa músculo esquelético."
+        },
+        {
+          "name": "Bipolar",
+          "where": "Retina y sistemas sensoriales",
+          "traits": "Una prolongación dendrítica y una axónica.",
+          "role": "Transmite información sensorial."
+        },
+        {
+          "name": "Pseudounipolar",
+          "where": "Ganglios sensitivos",
+          "traits": "Una prolongación se bifurca.",
+          "role": "Conduce información sensitiva periférica."
+        }
+      ],
+      "concepts": [
+        {
+          "term": "Soma",
+          "def": "Cuerpo celular que contiene el núcleo."
+        },
+        {
+          "term": "Dendrita",
+          "def": "Prolongación neuronal que recibe y procesa señales."
+        },
+        {
+          "term": "Segmento inicial",
+          "def": "Región axónica donde frecuentemente se inicia el potencial de acción."
+        },
+        {
+          "term": "Mielina",
+          "def": "Cubierta aislante que rodea segmentos de algunos axones."
+        },
+        {
+          "term": "Nodo de Ranvier",
+          "def": "Interrupción de la mielina con alta densidad de canales iónicos."
+        },
+        {
+          "term": "Potencial de reposo",
+          "def": "Voltaje transmembrana en una condición de reposo definida."
+        },
+        {
+          "term": "Potencial de acción",
+          "def": "Cambio regenerativo y transitorio del voltaje de membrana."
+        },
+        {
+          "term": "Constante de tiempo",
+          "def": "Escala temporal característica de respuesta de un sistema."
+        }
+      ],
+      "equations": [
+        {
+          "name": "Membrana con fuga",
+          "eq": "C · dV/dt = −gₗ(V − Eₗ) + I",
+          "vars": "C: capacitancia; V: voltaje; gₗ: conductancia de fuga; Eₗ: reversión de fuga; I: corriente.",
+          "note": "Dinámica subumbral LIF; requiere además umbral y reinicio."
+        },
+        {
+          "name": "Corriente Hodgkin–Huxley",
+          "eq": "Cₘ · dV/dt = I − ḡNa m³h(V − ENa) − ḡK n⁴(V − EK) − gₗ(V − Eₗ)",
+          "vars": "Cₘ: capacitancia; m, h, n: variables de compuerta; ḡ: conductancias máximas; E: potenciales de reversión.",
+          "note": "Modelo del axón gigante de calamar; las compuertas obedecen ecuaciones adicionales."
+        },
+        {
+          "name": "Izhikevich",
+          "eq": "dv/dt = 0,04v² + 5v + 140 − u + I; du/dt = a(bv − u)",
+          "vars": "v: voltaje del modelo; u: recuperación; a, b: parámetros; I: entrada.",
+          "note": "Modelo reducido con condición de disparo y reinicio adicionales."
+        }
+      ],
+      "models": ["hh", "izhikevich", "lif", "axon"],
+      "numbers": [
+        {
+          "label": "Neuronas en el encéfalo humano adulto",
+          "value": "≈ 86 000 millones",
+          "source": "Azevedo et al. (2009)"
+        },
+        {
+          "label": "Capas de la neocorteza típica",
+          "value": "6",
+          "source": "Kandel et al., Principles of Neural Science, 6.ª ed. (2021)"
+        },
+        {
+          "label": "Tipos de células mielinizantes principales",
+          "value": "2: oligodendrocitos y células de Schwann",
+          "source": "Purves et al., Neuroscience, 6.ª ed."
+        }
+      ],
+      "readings": [
+        "Kandel et al., Principles of Neural Science, 6.ª ed. (2021)",
+        "Purves et al., Neuroscience, 6.ª ed.",
+        "Gerstner, Kistler, Naud y Paninski, Neuronal Dynamics (2014)",
+        "Izhikevich, Dynamical Systems in Neuroscience (2007)"
+      ],
+      "questions": [
+        "¿Cómo influye la mielina en la propagación?",
+        "¿Qué omite un modelo LIF respecto de Hodgkin–Huxley?",
+        "¿Por qué el modelo HH original no equivale a una neurona cortical humana?"
+      ]
+    },
+    {
+      "id": "sinapsis",
+      "title": "La sinapsis",
+      "kicker": "Nivel sináptico",
+      "space": "≈ 1 µm",
+      "time": "ms–horas",
+      "lead": "Las sinapsis permiten que las células nerviosas influyan en otras células. La transmisión y su plasticidad dependen de mecanismos presinápticos y postsinápticos.",
+      "sections": [
+        {
+          "h": "Transmisión química y eléctrica",
+          "p": "En una sinapsis química, la llegada de un potencial de acción favorece la entrada presináptica de calcio y la fusión de vesículas con la membrana. El neurotransmisor liberado se une a receptores de la célula postsináptica y modifica su estado. En una sinapsis eléctrica, canales de unión comunicante permiten el paso directo de corriente entre células. Las sinapsis eléctricas pueden tener propiedades direccionales, aunque suelen permitir acoplamiento en ambos sentidos. Las dos formas difieren en velocidad, posibilidad de modulación y mecanismos, y pueden coexistir en un circuito."
+        },
+        {
+          "h": "Vesículas y liberación",
+          "p": "Katz y colaboradores interpretaron la liberación de neurotransmisor en unidades discretas o cuantos, asociados a la liberación vesicular. Las vesículas se cargan, se movilizan hacia zonas activas, se acoplan y pueden fusionarse tras la entrada de calcio. Las proteínas SNARE participan en la fusión de membranas y sensores de calcio coordinan su desencadenamiento. Luego, componentes vesiculares se recuperan y reutilizan mediante rutas de reciclaje. La probabilidad de liberación y la disponibilidad de vesículas varían entre sinapsis y estados; un cuanto no equivale necesariamente a una respuesta idéntica en toda condición."
+        },
+        {
+          "h": "Receptores e integración",
+          "p": "Los receptores ionotrópicos forman canales cuya apertura cambia la conductancia de membrana; los metabotrópicos activan rutas de señalización intracelular mediante proteínas G. Un potencial postsináptico excitador aumenta la probabilidad de disparo en determinadas condiciones, mientras uno inhibidor la reduce. El efecto depende del potencial de reversión, la conductancia, el voltaje y la ubicación, no solo del nombre del transmisor. Las señales se suman temporal y espacialmente, pero su combinación puede ser no lineal. La inhibición también puede reducir la respuesta mediante derivación de corriente sin una gran hiperpolarización."
+        },
+        {
+          "h": "Plasticidad",
+          "p": "La plasticidad sináptica es un cambio de eficacia de la transmisión. A corto plazo, facilitación y depresión pueden surgir de cambios en probabilidad de liberación y disponibilidad de recursos; Tsodyks–Markram es un modelo simplificado de esos procesos. LTP y LTD designan aumentos o disminuciones persistentes de eficacia bajo protocolos definidos y tienen mecanismos diversos. En algunas sinapsis, el receptor NMDA combina unión de ligando con alivio del bloqueo por magnesio dependiente de voltaje, actuando como detector de coincidencia. La STDP describe dependencia respecto del tiempo relativo de actividad; sus reglas varían según preparación y protocolo."
+        }
+      ],
+      "types": [
+        {
+          "name": "Sinapsis química",
+          "where": "Contactos entre neuronas o con efectores",
+          "traits": "Liberación vesicular y receptores.",
+          "role": "Transmisión modulable."
+        },
+        {
+          "name": "Sinapsis eléctrica",
+          "where": "Células acopladas por uniones comunicantes",
+          "traits": "Paso directo de corriente.",
+          "role": "Acoplamiento rápido."
+        },
+        {
+          "name": "Receptor ionotrópico",
+          "where": "Membrana postsináptica",
+          "traits": "Canal regulado por ligando.",
+          "role": "Cambia la conductancia."
+        },
+        {
+          "name": "Receptor metabotrópico",
+          "where": "Membrana celular",
+          "traits": "Acoplado a señalización intracelular.",
+          "role": "Modula canales y otras rutas."
+        }
+      ],
+      "concepts": [
+        {
+          "term": "Cuanto",
+          "def": "Unidad discreta de liberación de neurotransmisor en el modelo cuántico."
+        },
+        {
+          "term": "SNARE",
+          "def": "Familia de proteínas implicadas en la fusión de membranas."
+        },
+        {
+          "term": "PEPS",
+          "def": "Cambio postsináptico que favorece la excitación bajo condiciones determinadas."
+        },
+        {
+          "term": "PIPS",
+          "def": "Cambio postsináptico que reduce la probabilidad de disparo."
+        },
+        {
+          "term": "LTP",
+          "def": "Aumento persistente de eficacia sináptica inducido bajo condiciones determinadas."
+        },
+        {
+          "term": "LTD",
+          "def": "Disminución persistente de eficacia sináptica inducida bajo condiciones determinadas."
+        },
+        {
+          "term": "STDP",
+          "def": "Plasticidad dependiente del tiempo relativo de actividad pre y postsináptica."
+        },
+        {
+          "term": "Regla de Hebb",
+          "def": "Principio de fortalecimiento asociado a actividad correlacionada, formulado como regla conceptual."
+        }
+      ],
+      "equations": [
+        {
+          "name": "Corriente sináptica",
+          "eq": "Iₛᵧₙ = gₛᵧₙ · (V − Eₛᵧₙ)",
+          "vars": "gₛᵧₙ: conductancia; V: voltaje; Eₛᵧₙ: potencial de reversión.",
+          "note": "Convención de corriente saliente positiva; el efecto depende de la fuerza impulsora."
+        },
+        {
+          "name": "STDP, ventana exponencial",
+          "eq": "Δw = A₊ · exp(−Δt/τ₊), si Δt > 0; Δw = −A₋ · exp(Δt/τ₋), si Δt < 0",
+          "vars": "Δt = tpost − tpre; A: amplitudes; τ: escalas temporales.",
+          "note": "Regla fenomenológica habitual; no universal para todas las sinapsis."
+        }
+      ],
+      "models": ["tsodyks-markram", "stdp"],
+      "numbers": [
+        {
+          "label": "Clases generales de transmisión sináptica",
+          "value": "2: química y eléctrica",
+          "source": "Purves et al., Neuroscience, 6.ª ed."
+        },
+        {
+          "label": "Tiempos en la definición de Δt para STDP",
+          "value": "2: pre y postsináptico",
+          "source": "Gerstner et al. (2014)"
+        },
+        {
+          "label": "Direcciones clásicas de plasticidad a largo plazo",
+          "value": "2: potenciación y depresión",
+          "source": "Kandel et al., Principles of Neural Science, 6.ª ed. (2021)"
+        }
+      ],
+      "readings": [
+        "Kandel et al., Principles of Neural Science, 6.ª ed. (2021)",
+        "Purves et al., Neuroscience, 6.ª ed.",
+        "Gerstner, Kistler, Naud y Paninski, Neuronal Dynamics (2014)",
+        "Dayan y Abbott, Theoretical Neuroscience (2001)"
+      ],
+      "questions": [
+        "¿Cómo interviene el calcio en la liberación?",
+        "¿Por qué el efecto sináptico depende del potencial de reversión?",
+        "¿Qué expresa una regla STDP y cuáles son sus límites?"
+      ]
+    },
+    {
+      "id": "molecula",
+      "title": "Membrana y moléculas",
+      "kicker": "Nivel molecular",
+      "space": "≈ 1–10 nm",
+      "time": "µs–ms",
+      "lead": "La membrana y sus proteínas controlan el intercambio de iones y señales. Los gradientes electroquímicos conectan procesos moleculares con el voltaje celular.",
+      "sections": [
+        {
+          "h": "Bicapa y gradientes",
+          "p": "La membrana celular es una bicapa lipídica con proteínas y otros componentes. Su interior hidrofóbico dificulta el paso libre de iones, mientras canales y transportadores proporcionan vías selectivas. Las concentraciones iónicas difieren entre el interior y el exterior; junto con el voltaje, esa diferencia determina la fuerza electroquímica. Un canal abierto permite flujo según esa fuerza, sin consumir ATP directamente. Las permeabilidades relativas y los gradientes determinan el potencial de membrana bajo supuestos específicos. La composición y las propiedades de la membrana varían entre células y compartimentos."
+        },
+        {
+          "h": "Canales y compuertas",
+          "p": "Los canales Nav, Kv y Cav son familias de canales selectivos para sodio, potasio y calcio, respectivamente. Su probabilidad de apertura depende del voltaje y de propiedades moleculares que varían entre subtipos. Algunos también presentan inactivación: dejan de conducir durante una despolarización sostenida aunque el estímulo persista. Las variables de compuerta de Hodgkin–Huxley son una descripción cinética efectiva, no una identificación literal de todas las piezas moleculares. La dirección de corriente depende del voltaje y del potencial de reversión, mientras la selectividad determina qué iones contribuyen."
+        },
+        {
+          "h": "Bomba de sodio y potasio",
+          "p": "La Na⁺/K⁺-ATPasa utiliza energía de la hidrólisis de ATP para sostener gradientes iónicos. En su ciclo de Post–Albers alterna estados conformacionales con afinidades distintas para sodio y potasio. Por ciclo transporta tres Na⁺ hacia fuera y dos K⁺ hacia dentro, acoplados a la hidrólisis de una molécula de ATP en el esquema clásico. El transporte neto de una carga positiva hacia el exterior hace que la bomba sea electrogénica. Su contribución directa al voltaje es distinta de su función de mantener gradientes que alimentan las corrientes por canales."
+        },
+        {
+          "h": "Receptores y transmisores",
+          "p": "AMPA y NMDA son receptores ionotrópicos de glutamato con propiedades de permeabilidad y cinética diferentes; el receptor GABA_A es un canal activado por GABA. El receptor nicotínico de acetilcolina también es ionotrópico. Los receptores acoplados a proteína G actúan mediante señalización intracelular, que puede modificar canales y otras funciones. Glutamato, GABA, acetilcolina y monoaminas son ejemplos de neurotransmisores, pero su efecto depende del receptor y del contexto celular. Las ecuaciones de Nernst y Goldman–Hodgkin–Katz describen potenciales bajo supuestos diferentes y no sustituyen una descripción completa de la célula."
+        }
+      ],
+      "types": [
+        {
+          "name": "Nav",
+          "where": "Membrana excitable",
+          "traits": "Canal de sodio dependiente de voltaje.",
+          "role": "Contribuye a la excitabilidad."
+        },
+        {
+          "name": "Kv",
+          "where": "Membrana excitable",
+          "traits": "Canal de potasio dependiente de voltaje.",
+          "role": "Contribuye a la repolarización."
+        },
+        {
+          "name": "Cav",
+          "where": "Membrana excitable y terminales",
+          "traits": "Canal de calcio dependiente de voltaje.",
+          "role": "Acopla voltaje y señalización por calcio."
+        },
+        {
+          "name": "Na⁺/K⁺-ATPasa",
+          "where": "Membrana plasmática",
+          "traits": "Transportador dependiente de ATP.",
+          "role": "Mantiene gradientes de sodio y potasio."
+        },
+        {
+          "name": "AMPA",
+          "where": "Membrana postsináptica",
+          "traits": "Receptor ionotrópico de glutamato.",
+          "role": "Transmisión excitadora rápida frecuente."
+        },
+        {
+          "name": "NMDA",
+          "where": "Membrana postsináptica",
+          "traits": "Receptor de glutamato con bloqueo por magnesio dependiente de voltaje.",
+          "role": "Integra ligando y despolarización."
+        },
+        {
+          "name": "GABA_A",
+          "where": "Membrana neuronal",
+          "traits": "Receptor ionotrópico de GABA.",
+          "role": "Modifica conductancia aniónica."
+        },
+        {
+          "name": "Nicotínico",
+          "where": "Membrana postsináptica",
+          "traits": "Receptor ionotrópico de acetilcolina.",
+          "role": "Transmisión colinérgica rápida."
+        },
+        {
+          "name": "Receptor acoplado a proteína G",
+          "where": "Membrana celular",
+          "traits": "Activa proteínas G.",
+          "role": "Modula rutas intracelulares."
+        }
+      ],
+      "concepts": [
+        {
+          "term": "Bicapa lipídica",
+          "def": "Estructura de dos capas de lípidos que forma la base de la membrana."
+        },
+        {
+          "term": "Gradiente electroquímico",
+          "def": "Diferencia combinada de concentración y potencial eléctrico que impulsa el movimiento iónico."
+        },
+        {
+          "term": "Potencial de equilibrio",
+          "def": "Voltaje en que la fuerza electroquímica neta para un ion es cero."
+        },
+        {
+          "term": "Permeabilidad",
+          "def": "Medida de la facilidad de paso de una especie a través de una membrana."
+        },
+        {
+          "term": "Compuerta",
+          "def": "Mecanismo que modifica la probabilidad de conducción de un canal."
+        },
+        {
+          "term": "Electrogenicidad",
+          "def": "Producción de una corriente neta por transporte de carga."
+        },
+        {
+          "term": "Neurotransmisor",
+          "def": "Señal química liberada por una célula que actúa sobre receptores de otra."
+        }
+      ],
+      "equations": [
+        {
+          "name": "Nernst",
+          "eq": "Eₓ = (RT / zF) · ln([X]ₑ / [X]ᵢ)",
+          "vars": "R: constante de los gases; T: temperatura absoluta; z: valencia; F: constante de Faraday; [X]: concentración exterior e interior.",
+          "note": "Potencial de equilibrio de un ion ideal; no determina por sí solo el potencial de una membrana con varios iones."
+        },
+        {
+          "name": "Goldman–Hodgkin–Katz",
+          "eq": "V = (RT/F) · ln((Pₖ[K⁺]ₑ + PNa[Na⁺]ₑ + PCl[Cl⁻]ᵢ) / (Pₖ[K⁺]ᵢ + PNa[Na⁺]ᵢ + PCl[Cl⁻]ₑ))",
+          "vars": "P: permeabilidades; subíndices e e i: exterior e interior.",
+          "note": "Voltaje bajo la aproximación de campo constante para estos iones monovalentes."
+        },
+        {
+          "name": "Balance de la bomba",
+          "eq": "3 Na⁺ᵢ + 2 K⁺ₑ + ATP → 3 Na⁺ₑ + 2 K⁺ᵢ + ADP + Pᵢ",
+          "vars": "Subíndices i y e: interior y exterior; Pᵢ: fosfato inorgánico.",
+          "note": "Estequiometría neta del ciclo clásico; omite estados intermedios."
+        }
+      ],
+      "models": ["nernst", "ghk", "nak-pump"],
+      "numbers": [
+        {
+          "label": "Sodio transportado por ciclo",
+          "value": "3 Na⁺ hacia fuera",
+          "source": "Kandel et al., Principles of Neural Science, 6.ª ed. (2021)"
+        },
+        {
+          "label": "Potasio transportado por ciclo",
+          "value": "2 K⁺ hacia dentro",
+          "source": "Kandel et al., Principles of Neural Science, 6.ª ed. (2021)"
+        },
+        {
+          "label": "ATP hidrolizado por ciclo",
+          "value": "1 ATP",
+          "source": "Kandel et al., Principles of Neural Science, 6.ª ed. (2021)"
+        }
+      ],
+      "readings": [
+        "Kandel et al., Principles of Neural Science, 6.ª ed. (2021)",
+        "Purves et al., Neuroscience, 6.ª ed.",
+        "Gerstner, Kistler, Naud y Paninski, Neuronal Dynamics (2014)"
+      ],
+      "questions": [
+        "¿En qué se distinguen Nernst y Goldman–Hodgkin–Katz?",
+        "¿Por qué la bomba de sodio y potasio es electrogénica?",
+        "¿Cómo cambia el efecto de un neurotransmisor según el receptor?"
+      ]
+    }
+  ]
+}

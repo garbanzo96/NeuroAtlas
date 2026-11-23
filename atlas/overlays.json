@@ -1,0 +1,126 @@
+{
+  "status": "borrador — sin revisión experta",
+  "overlays": [
+    {
+      "id": "neurotransmisores",
+      "n": "Sistemas de neurotransmisores",
+      "kind": "categorical",
+      "source": {
+        "cite": "ontoterrorist/neuroanatomia y selección didáctica de autor",
+        "license": "CC BY-SA 4.0",
+        "method": "Trayectos esquemáticos y dianas seleccionadas"
+      },
+      "note": "Borrador sin revisión experta. Posiciones y proyecciones esquemáticas; no son tractografía.",
+      "modes": [
+        {
+          "id": "dopamina",
+          "n": "Dopamina",
+          "col": "#b58cf0",
+          "pathway": "dopamina",
+          "tramos": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "targets": [
+            "putamen_L",
+            "head_of_caudate_L",
+            "nucleus_accumbens_L",
+            "amygdaloid_complex_L",
+            "middle_frontal_gyrus_L",
+            "hipofisis"
+          ]
+        },
+        {
+          "id": "noradrenalina",
+          "n": "Noradrenalina",
+          "col": "#5db7e8",
+          "pathway": "moduladores",
+          "tramos": [
+            0,
+            1
+          ],
+          "targets": [
+            "precuneus_L",
+            "thalamus_L",
+            "cerebellar_vermis_L",
+            "me_C3"
+          ]
+        },
+        {
+          "id": "serotonina",
+          "n": "Serotonina",
+          "col": "#f2c14e",
+          "pathway": "moduladores",
+          "tramos": [
+            2,
+            3
+          ],
+          "targets": [
+            "superior_frontal_gyrus_L",
+            "putamen_L",
+            "me_C5"
+          ]
+        },
+        {
+          "id": "acetilcolina",
+          "n": "Acetilcolina",
+          "col": "#f08fc0",
+          "pathway": "moduladores",
+          "tramos": [
+            4,
+            5,
+            6
+          ],
+          "targets": [
+            "middle_temporal_gyrus_L",
+            "body_of_hippocampus_L",
+            "centromedian_nucleus_of_thalamus_L"
+          ]
+        },
+        {
+          "id": "histamina",
+          "n": "Histamina",
+          "col": "#6fd08c",
+          "pathway": "moduladores",
+          "tramos": [
+            7
+          ],
+          "targets": [
+            "superior_frontal_gyrus_L",
+            "thalamus_L"
+          ]
+        },
+        {
+          "id": "orexina",
+          "n": "Orexina",
+          "col": "#ff9a5c",
+          "pathway": "moduladores",
+          "tramos": [],
+          "targets": [
+            "pontine_tegmentum_L",
+            "mammillary_region_of_HTH_L",
+            "midbrain_tegmentum_L",
+            "basal_forebrain_L",
+            "superior_frontal_gyrus_L"
+          ],
+          "origin": {
+            "n": "Hipotálamo lateral",
+            "at": {
+              "en": "tuberal_region_of_HTH_L",
+              "f": [
+                0.8,
+                0.5,
+                0.5
+              ]
+            },
+            "marker": true
+          }
+        }
+      ]
+    }
+  ]
+}
