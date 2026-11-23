@@ -174,9 +174,12 @@ function CameraRig({
     const c = ref.current;
     if (!c || intro.current) return;
     intro.current = true;
+    const pending = useAtlas.getState().camera?.command;
+    // un vuelo a estructura parte del encéfalo; otras órdenes (nivel, pose) fijan su propia vista
+    if (pending && pending.type !== 'mesh') return;
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     // con una vista en la URL la intro no pasa por «sistema»: en equipos lentos ese nivel pisaba al pedido
-    if (reduced || useAtlas.getState().camera || /[?&](n|e|cam|via|circ)=/.test(location.search)) {
+    if (reduced || pending || /[?&](n|e|cam|via|circ)=/.test(location.search)) {
       void c.setLookAt(...VIEWS.encefalo.pos, ...VIEWS.encefalo.target, false);
       return;
     }
