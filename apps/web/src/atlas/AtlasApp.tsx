@@ -5,6 +5,7 @@ import { useAtlas, type CameraCommand } from './store';
 import { applyView, currentView, queryToView, viewToQuery, viewUrl } from './view';
 import { TourIndex, type Tour } from './ui/TourIndex';
 import { TourPlayer } from './ui/TourPlayer';
+import { QuizPanel } from './quiz/QuizPanel';
 import { CourseReader, type Course } from './ui/CourseReader';
 import { ShareButton } from './ui/ShareButton';
 import { Credits } from './ui/Credits';
@@ -98,6 +99,7 @@ export function AtlasApp() {
   const [lab, setLab] = useState<string | null>(null);
   const [touched, setTouched] = useState(false);
   const tourState = useAtlas((s) => s.tour);
+  const quiz = useAtlas((s) => s.quiz);
   const [tours, setTours] = useState<Tour[]>([]);
   const [course, setCourse] = useState<Course | null>(null);
   const [learn, setLearn] = useState<'index' | 'course' | null>(null);
@@ -110,6 +112,8 @@ export function AtlasApp() {
   }, [lab]);
 
   useEffect(() => {
+    const exam = new URLSearchParams(location.search).get('examen');
+    if (exam) useAtlas.getState().setQuiz({ mode: 'examen', target: exam });
     let unsubscribe = () => {};
     let timer: number | undefined;
     let cancelled = false;
@@ -197,7 +201,7 @@ export function AtlasApp() {
         </div>
       )}
       <Warp />
-      <HoverLabel />
+      {quiz?.mode !== 'localizar' && <HoverLabel />}
       <div id="na-dive" className="na-dive" aria-hidden="true">
         <svg viewBox="0 0 44 44">
           <circle cx="22" cy="22" r="19" pathLength="1" />
@@ -267,6 +271,11 @@ export function AtlasApp() {
           tours={tours}
           onClose={() => setLearn(null)}
           onCourse={() => setLearn('course')}
+          onQuiz={() => {
+            setLearn(null);
+            useAtlas.getState().setTour(null);
+            useAtlas.getState().setQuiz({ mode: 'menu' });
+          }}
           onStart={(tour) => {
             setLearn(null);
             useAtlas.getState().setTour({ id: tour.id, step: 0 });
@@ -287,6 +296,7 @@ export function AtlasApp() {
           onExplore={setExploring}
         />
       )}
+      {data && quiz && <QuizPanel data={data} course={course} />}
       {credits && <Credits onClose={() => setCredits(false)} />}
       {lab && (
         <Suspense fallback={null}>

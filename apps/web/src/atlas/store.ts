@@ -101,6 +101,8 @@ interface AtlasState {
   circuit: string | null;
   circuitRun: CircuitRun | null;
   tour: { id: string; step: number } | null;
+  quiz: { mode: string; target?: string } | null;
+  setQuiz(quiz: { mode: string; target?: string } | null): void;
   setOverlay(id: string | null): void;
   setOverlaySolo(c: string | null): void;
   setCircuit(id: string | null): void;
@@ -140,6 +142,8 @@ export const useAtlas = create<AtlasState>((set) => ({
   circuit: null,
   circuitRun: null,
   tour: null,
+  quiz: null,
+  setQuiz: (quiz) => set({ quiz, hover: null }),
   setOverlay: (overlay) => set({ overlay, overlaySolo: null }),
   setOverlaySolo: (overlaySolo) => set({ overlaySolo }),
   setCircuit: (circuit) => set({ circuit, circuitRun: null }),

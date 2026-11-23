@@ -219,3 +219,21 @@ test('selecciona una fase del potencial de acción', async ({ page }) => {
   await phase.click();
   await expect(phase).toHaveAttribute('aria-pressed', 'true');
 });
+
+test('abre evaluación y explica una respuesta', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Aprender', exact: true }).click();
+  await page.getByRole('button', { name: /Evaluación/ }).click();
+  await page.getByRole('button', { name: /Opción múltiple/ }).click();
+  const panel = page.getByRole('region', { name: 'Evaluación' });
+  await expect(panel.locator('.na-quiz-options button').first()).toBeVisible();
+  await panel.locator('.na-quiz-options button').first().click();
+  await expect(panel.locator('.na-quiz-feedback p')).not.toBeEmpty();
+});
+
+test('abre las preguntas de un examen compartido en orden', async ({ page }) => {
+  await page.goto('/?examen=q001');
+  await expect(
+    page.getByRole('heading', { name: '¿Cuál de estas estructuras deriva del diencéfalo?' }),
+  ).toBeVisible();
+});
