@@ -94,7 +94,8 @@ Cada WP es un encargo acotado y verificable. Los marcados con 📄 tienen especi
 | WP-072 📄       | [El potencial de acción a escala molecular](work-packages/WP-072.md)                       | Codex    | WP-067         | hecho     |
 | WP-072b         | Pulido del potencial de acción molecular                                                   | Codex    | WP-072         | en curso  |
 | WP-073          | Escena micro: retina                                                                       | Codex    | WP-069, 071    | en curso  |
-| WP-066, 074–084 | Evaluación, moléculas, arte (ver plan §8.3)                                                | varios   | —              | pendiente |
+| WP-066          | Modo de evaluación sobre el modelo                                                         | Codex    | WP-063–065     | pendiente |
+| WP-074–084      | Evaluación, moléculas, arte (ver plan §8.3)                                                | varios   | —              | pendiente |
 
 ## Expansión (fase 4, tras el piloto)
 
